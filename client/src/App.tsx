@@ -15,6 +15,7 @@ import StrategyBuilder from './pages/StrategyBuilder';
 import Backtest from './pages/Backtest';
 import Trades from './pages/Trades';
 import Billing from './pages/Billing';
+import Settings from './pages/Settings';
 import AuthenticatedLayout from './components/AuthenticatedLayout';
 
 function Router() {
@@ -62,6 +63,20 @@ function Router() {
         {() => (
           <AuthenticatedLayout>
             <Billing />
+          </AuthenticatedLayout>
+        )}
+      </Route>
+      <Route path="/settings">
+        {() => (
+          <AuthenticatedLayout>
+            <Settings />
+          </AuthenticatedLayout>
+        )}
+      </Route>
+      <Route path="/settings/:tab">
+        {() => (
+          <AuthenticatedLayout>
+            <Settings />
           </AuthenticatedLayout>
         )}
       </Route>
