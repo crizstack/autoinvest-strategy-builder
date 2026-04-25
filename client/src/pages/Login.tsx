@@ -16,7 +16,11 @@ export default function Login() {
   const [, setLocation] = useLocation();
 
   const loginMutation = trpc.auth.login.useMutation({
-    onSuccess: () => {
+    onSuccess: (data: any) => {
+      if (data.token) {
+        localStorage.setItem('auth_token', data.token);
+        localStorage.setItem('user', JSON.stringify(data.user));
+      }
       toast.success('Login realizado com sucesso!');
       setTimeout(() => {
         setLocation('/dashboard');

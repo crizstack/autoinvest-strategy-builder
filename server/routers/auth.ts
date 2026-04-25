@@ -15,9 +15,11 @@ export const authRouter = router({
     .mutation(async ({ input }) => {
       try {
         const user = await AuthService.register(input.email, input.password, input.name);
+        const token = AuthService.generateToken(user);
         return {
           success: true,
           message: 'Usuário registrado com sucesso',
+          token,
           email: user.email,
         };
       } catch (error) {
@@ -37,9 +39,11 @@ export const authRouter = router({
     .mutation(async ({ input }) => {
       try {
         const user = await AuthService.login(input.email, input.password);
+        const token = AuthService.generateToken(user);
         return {
           success: true,
           message: 'Login realizado com sucesso',
+          token,
           user: {
             id: user.id,
             email: user.email,

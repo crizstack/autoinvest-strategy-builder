@@ -1,9 +1,19 @@
 import { Button } from '@/components/ui/button';
 import { ArrowRight, TrendingUp, Zap, Shield, BarChart3, Cpu, Lock } from 'lucide-react';
 import { getLoginUrl } from '@/const';
-import { Link } from 'wouter';
+import { Link, useLocation } from 'wouter';
+import { useAuthToken } from '@/_core/hooks/useAuthToken';
+import { useEffect } from 'react';
 
 export default function Landing() {
+  const { isAuthenticated, loading } = useAuthToken();
+  const [, setLocation] = useLocation();
+
+  useEffect(() => {
+    if (!loading && isAuthenticated) {
+      setLocation('/dashboard');
+    }
+  }, [loading, isAuthenticated, setLocation]);
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950">
       {/* Navigation */}
@@ -25,12 +35,11 @@ export default function Landing() {
             <a href="#faq" className="text-slate-300 hover:text-white transition-colors">
               FAQ
             </a>
-            <Button
-              onClick={() => window.location.href = getLoginUrl()}
-              className="bg-blue-600 hover:bg-blue-700"
-            >
-              Entrar
-            </Button>
+            <Link href="/login">
+              <Button className="bg-blue-600 hover:bg-blue-700">
+                Entrar
+              </Button>
+            </Link>
           </div>
         </div>
       </nav>

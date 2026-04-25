@@ -185,4 +185,35 @@ export class AuthService {
       return false;
     }
   }
+
+  /**
+   * Generate JWT token for user
+   */
+  static generateToken(user: any): string {
+    const token = Buffer.from(JSON.stringify({
+      id: user.id,
+      email: user.email,
+      openId: user.openId,
+      name: user.name,
+      role: user.role,
+      iat: Date.now(),
+      exp: Date.now() + 30 * 24 * 60 * 60 * 1000, // 30 days
+    })).toString('base64');
+    return token;
+  }
+
+  /**
+   * Verify JWT token
+   */
+  static verifyToken(token: string): any {
+    try {
+      const decoded = JSON.parse(Buffer.from(token, 'base64').toString('utf-8'));
+      if (decoded.exp < Date.now()) {
+        return null;
+      }
+      return decoded;
+    } catch {
+      return null;
+    }
+  }
 }

@@ -19,12 +19,21 @@ export default function Register() {
   const [, setLocation] = useLocation();
 
   const registerMutation = trpc.auth.register.useMutation({
-    onSuccess: () => {
-      setSuccess(true);
-      toast.success('Conta criada com sucesso! Redirecionando para login...');
-      setTimeout(() => {
-        setLocation('/login');
-      }, 2000);
+    onSuccess: (data: any) => {
+      if (data.token) {
+        localStorage.setItem('auth_token', data.token);
+        localStorage.setItem('user', JSON.stringify({ email: data.email }));
+        toast.success('Conta criada com sucesso!');
+        setTimeout(() => {
+          setLocation('/dashboard');
+        }, 500);
+      } else {
+        setSuccess(true);
+        toast.success('Conta criada com sucesso! Redirecionando para login...');
+        setTimeout(() => {
+          setLocation('/login');
+        }, 2000);
+      }
     },
     onError: (error) => {
       setError(error.message || 'Erro ao criar conta');

@@ -1,5 +1,5 @@
 import { ReactNode, useState } from 'react';
-import { useAuth } from '@/_core/hooks/useAuth';
+import { useAuthToken } from '@/_core/hooks/useAuthToken';
 import { Button } from '@/components/ui/button';
 import { Menu, X, LogOut, Settings, BarChart3, TrendingUp, Zap, DollarSign, Cpu, ChevronDown } from 'lucide-react';
 import { useLocation } from 'wouter';
@@ -10,21 +10,31 @@ interface AuthenticatedLayoutProps {
 }
 
 export default function AuthenticatedLayout({ children }: AuthenticatedLayoutProps) {
-  const { user, logout } = useAuth({ redirectOnUnauthenticated: true });
+  const { user, logout, isAuthenticated, loading } = useAuthToken();
   const [, setLocation] = useLocation();
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [currentPath] = useLocation();
 
-  const handleLogout = async () => {
-    try {
-      await logout();
-      toast.success('Logout realizado com sucesso');
-      setLocation('/login');
-    } catch (error) {
-      toast.error('Erro ao fazer logout');
-    }
+  const handleLogout = () => {
+    logout();
+    toast.success('Logout realizado com sucesso');
   };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950">
+        <div className="text-center">
+          <p className="text-slate-400">Carregando...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!isAuthenticated) {
+    setLocation('/login');
+    return null;
+  }
 
   const navItems = [
     { label: 'Dashboard', href: '/dashboard', icon: BarChart3 },
