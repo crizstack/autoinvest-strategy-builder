@@ -9,6 +9,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import Strategies from "./pages/Strategies";
+import StrategyBuilder from "./pages/StrategyBuilder";
 import AuthenticatedLayout from "./components/AuthenticatedLayout";
 import Home from "./pages/Home";
 
@@ -34,6 +35,9 @@ function Router() {
             <Strategies />
           </AuthenticatedLayout>
         )}
+      </Route>
+      <Route path="/estrategias/builder">
+        {() => <StrategyBuilder />}
       </Route>
 
       {/* Fallback */}
