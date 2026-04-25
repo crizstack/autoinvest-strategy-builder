@@ -4,14 +4,15 @@ import NotFound from "@/pages/NotFound";
 import { Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
-import Landing from "./pages/Landing";
-import Login from "./pages/Login";
-import Register from "./pages/Register";
-import Dashboard from "./pages/Dashboard";
-import Strategies from "./pages/Strategies";
-import StrategyBuilder from "./pages/StrategyBuilder";
-import AuthenticatedLayout from "./components/AuthenticatedLayout";
-import Home from "./pages/Home";
+import Landing from './pages/Landing';
+import Home from './pages/Home';
+import Login from './pages/Login';
+import Register from './pages/Register';
+import ForgotPassword from './pages/ForgotPassword';
+import Dashboard from './pages/Dashboard';
+import Strategies from './pages/Strategies';
+import StrategyBuilder from './pages/StrategyBuilder';
+import AuthenticatedLayout from './components/AuthenticatedLayout';
 
 function Router() {
   return (
@@ -20,6 +21,7 @@ function Router() {
       <Route path={"/"} component={Landing} />
       <Route path={"/login"} component={Login} />
       <Route path={"/register"} component={Register} />
+      <Route path={"/forgot-password"} component={ForgotPassword} />
 
       {/* Authenticated Routes */}
       <Route path="/dashboard">
