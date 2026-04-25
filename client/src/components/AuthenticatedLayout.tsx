@@ -1,5 +1,5 @@
 import { ReactNode, useState } from 'react';
-import { useAuthToken } from '@/_core/hooks/useAuthToken';
+import { useAuth } from '@/_core/hooks/useAuth';
 import { Button } from '@/components/ui/button';
 import { Menu, X, LogOut, Settings, BarChart3, TrendingUp, Zap, DollarSign, Cpu, ChevronDown } from 'lucide-react';
 import { useLocation } from 'wouter';
@@ -10,15 +10,20 @@ interface AuthenticatedLayoutProps {
 }
 
 export default function AuthenticatedLayout({ children }: AuthenticatedLayoutProps) {
-  const { user, logout, isAuthenticated, loading } = useAuthToken();
+  const { user, logout, isAuthenticated, loading } = useAuth({ redirectOnUnauthenticated: true });
   const [, setLocation] = useLocation();
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [currentPath] = useLocation();
 
-  const handleLogout = () => {
-    logout();
-    toast.success('Logout realizado com sucesso');
+  const handleLogout = async () => {
+    try {
+      await logout();
+      toast.success('Logout realizado com sucesso');
+      setLocation('/login');
+    } catch (error) {
+      toast.error('Erro ao fazer logout');
+    }
   };
 
   if (loading) {
@@ -31,8 +36,7 @@ export default function AuthenticatedLayout({ children }: AuthenticatedLayoutPro
     );
   }
 
-  if (!isAuthenticated) {
-    setLocation('/login');
+  if (!user) {
     return null;
   }
 

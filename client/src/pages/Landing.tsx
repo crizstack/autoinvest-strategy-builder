@@ -2,18 +2,18 @@ import { Button } from '@/components/ui/button';
 import { ArrowRight, TrendingUp, Zap, Shield, BarChart3, Cpu, Lock } from 'lucide-react';
 import { getLoginUrl } from '@/const';
 import { Link, useLocation } from 'wouter';
-import { useAuthToken } from '@/_core/hooks/useAuthToken';
+import { useAuth } from '@/_core/hooks/useAuth';
 import { useEffect } from 'react';
 
 export default function Landing() {
-  const { isAuthenticated, loading } = useAuthToken();
+  const { user, loading } = useAuth();
   const [, setLocation] = useLocation();
 
   useEffect(() => {
-    if (!loading && isAuthenticated) {
+    if (!loading && user) {
       setLocation('/dashboard');
     }
-  }, [loading, isAuthenticated, setLocation]);
+  }, [loading, user, setLocation]);
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950">
       {/* Navigation */}
