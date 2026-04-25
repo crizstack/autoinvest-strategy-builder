@@ -12,6 +12,9 @@ import ForgotPassword from './pages/ForgotPassword';
 import Dashboard from './pages/Dashboard';
 import Strategies from './pages/Strategies';
 import StrategyBuilder from './pages/StrategyBuilder';
+import Backtest from './pages/Backtest';
+import Trades from './pages/Trades';
+import Billing from './pages/Billing';
 import AuthenticatedLayout from './components/AuthenticatedLayout';
 
 function Router() {
@@ -40,6 +43,27 @@ function Router() {
       </Route>
       <Route path="/estrategias/builder">
         {() => <StrategyBuilder />}
+      </Route>
+      <Route path="/backtest">
+        {() => (
+          <AuthenticatedLayout>
+            <Backtest />
+          </AuthenticatedLayout>
+        )}
+      </Route>
+      <Route path="/trades">
+        {() => (
+          <AuthenticatedLayout>
+            <Trades />
+          </AuthenticatedLayout>
+        )}
+      </Route>
+      <Route path="/billing">
+        {() => (
+          <AuthenticatedLayout>
+            <Billing />
+          </AuthenticatedLayout>
+        )}
       </Route>
 
       {/* Fallback */}
