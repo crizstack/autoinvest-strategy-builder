@@ -6,19 +6,38 @@ import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import Landing from "./pages/Landing";
 import Login from "./pages/Login";
+import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
+import Strategies from "./pages/Strategies";
+import AuthenticatedLayout from "./components/AuthenticatedLayout";
 import Home from "./pages/Home";
 
 function Router() {
-  // make sure to consider if you need authentication for certain routes
   return (
     <Switch>
+      {/* Public Routes */}
       <Route path={"/"} component={Landing} />
       <Route path={"/login"} component={Login} />
-      <Route path={"/dashboard"} component={Dashboard} />
-      <Route path={"/home"} component={Home} />
+      <Route path={"/register"} component={Register} />
+
+      {/* Authenticated Routes */}
+      <Route path="/dashboard">
+        {() => (
+          <AuthenticatedLayout>
+            <Dashboard />
+          </AuthenticatedLayout>
+        )}
+      </Route>
+      <Route path="/estrategias">
+        {() => (
+          <AuthenticatedLayout>
+            <Strategies />
+          </AuthenticatedLayout>
+        )}
+      </Route>
+
+      {/* Fallback */}
       <Route path={"/404"} component={NotFound} />
-      {/* Final fallback route */}
       <Route component={NotFound} />
     </Switch>
   );
