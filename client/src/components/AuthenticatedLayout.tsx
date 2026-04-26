@@ -1,7 +1,7 @@
 import { ReactNode, useState } from 'react';
 import { useAuth } from '@/_core/hooks/useAuth';
 import { Button } from '@/components/ui/button';
-import { Menu, X, LogOut, Settings, BarChart3, TrendingUp, Zap, DollarSign, Cpu, ChevronDown } from 'lucide-react';
+import { Menu, X, LogOut, Settings, BarChart3, TrendingUp, Zap, DollarSign, Cpu, ChevronDown, LineChart } from 'lucide-react';
 import { useLocation } from 'wouter';
 import { toast } from 'sonner';
 
@@ -42,6 +42,7 @@ export default function AuthenticatedLayout({ children }: AuthenticatedLayoutPro
 
   const navItems = [
     { label: 'Dashboard', href: '/dashboard', icon: BarChart3 },
+    { label: 'Mercado', href: '/mercado', icon: LineChart },
     { label: 'Estratégias', href: '/estrategias', icon: Zap },
     { label: 'Backtest', href: '/backtest', icon: TrendingUp },
     { label: 'Trades', href: '/trades', icon: DollarSign },

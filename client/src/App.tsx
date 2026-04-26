@@ -16,6 +16,8 @@ import Backtest from './pages/Backtest';
 import Trades from './pages/Trades';
 import Billing from './pages/Billing';
 import Settings from './pages/Settings';
+import Market from './pages/Market';
+import AssetDetail from './pages/AssetDetail';
 import AuthenticatedLayout from './components/AuthenticatedLayout';
 
 function Router() {
@@ -77,6 +79,20 @@ function Router() {
         {() => (
           <AuthenticatedLayout>
             <Settings />
+          </AuthenticatedLayout>
+        )}
+      </Route>
+      <Route path="/mercado">
+        {() => (
+          <AuthenticatedLayout>
+            <Market />
+          </AuthenticatedLayout>
+        )}
+      </Route>
+      <Route path="/mercado/:code">
+        {() => (
+          <AuthenticatedLayout>
+            <AssetDetail />
           </AuthenticatedLayout>
         )}
       </Route>
