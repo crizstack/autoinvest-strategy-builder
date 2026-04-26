@@ -35,10 +35,12 @@ export const useQuote = (symbol: string, autoRefreshInterval = 15000) => {
   const [quote, setQuote] = useState<QuoteResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [isRefreshing, setIsRefreshing] = useState(false);
 
-  const fetchQuote = useCallback(async () => {
+  const fetchQuote = useCallback(async (isManualRefresh = false) => {
     try {
-      setLoading(true);
+      if (!isManualRefresh) setLoading(true);
+      if (isManualRefresh) setIsRefreshing(true);
       setError(null);
       const data = await getQuote(symbol);
       if (data) {
@@ -50,24 +52,25 @@ export const useQuote = (symbol: string, autoRefreshInterval = 15000) => {
       setError('Erro ao carregar dados');
       console.error(err);
     } finally {
-      setLoading(false);
+      if (!isManualRefresh) setLoading(false);
+      if (isManualRefresh) setIsRefreshing(false);
     }
   }, [symbol]);
 
   useEffect(() => {
-    fetchQuote();
+    fetchQuote(false);
 
     // Auto-refresh
-    const interval = setInterval(fetchQuote, autoRefreshInterval);
+    const interval = setInterval(() => fetchQuote(false), autoRefreshInterval);
     return () => clearInterval(interval);
   }, [fetchQuote, autoRefreshInterval]);
 
   const refresh = useCallback(() => {
     clearSymbolCache(symbol);
-    fetchQuote();
+    fetchQuote(true);
   }, [symbol, fetchQuote]);
 
-  return { quote, loading, error, refresh };
+  return { quote, loading, error, refresh, isRefreshing };
 };
 
 /**
@@ -77,10 +80,12 @@ export const useMultipleQuotes = (symbols: string[], autoRefreshInterval = 15000
   const [quotes, setQuotes] = useState<QuoteResponse[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [isRefreshing, setIsRefreshing] = useState(false);
 
-  const fetchQuotes = useCallback(async () => {
+  const fetchQuotes = useCallback(async (isManualRefresh = false) => {
     try {
-      setLoading(true);
+      if (!isManualRefresh) setLoading(true);
+      if (isManualRefresh) setIsRefreshing(true);
       setError(null);
       const data = await getMultipleQuotes(symbols);
       setQuotes(data);
@@ -88,7 +93,8 @@ export const useMultipleQuotes = (symbols: string[], autoRefreshInterval = 15000
       setError('Erro ao carregar dados');
       console.error(err);
     } finally {
-      setLoading(false);
+      if (!isManualRefresh) setLoading(false);
+      if (isManualRefresh) setIsRefreshing(false);
     }
   }, [symbols]);
 
@@ -98,19 +104,19 @@ export const useMultipleQuotes = (symbols: string[], autoRefreshInterval = 15000
       return;
     }
 
-    fetchQuotes();
+    fetchQuotes(false);
 
     // Auto-refresh
-    const interval = setInterval(fetchQuotes, autoRefreshInterval);
+    const interval = setInterval(() => fetchQuotes(false), autoRefreshInterval);
     return () => clearInterval(interval);
   }, [fetchQuotes, symbols, autoRefreshInterval]);
 
   const refresh = useCallback(() => {
     symbols.forEach((symbol) => clearSymbolCache(symbol));
-    fetchQuotes();
+    fetchQuotes(true);
   }, [symbols, fetchQuotes]);
 
-  return { quotes, loading, error, refresh };
+  return { quotes, loading, error, refresh, isRefreshing };
 };
 
 /**
@@ -120,10 +126,12 @@ export const useHistory = (symbol: string, range: '1d' | '5d' | '1mo' | '6mo' | 
   const [history, setHistory] = useState<HistoryResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [isRefreshing, setIsRefreshing] = useState(false);
 
-  const fetchHistory = useCallback(async () => {
+  const fetchHistory = useCallback(async (isManualRefresh = false) => {
     try {
-      setLoading(true);
+      if (!isManualRefresh) setLoading(true);
+      if (isManualRefresh) setIsRefreshing(true);
       setError(null);
       const data = await getHistory(symbol, range);
       if (data) {
@@ -135,18 +143,19 @@ export const useHistory = (symbol: string, range: '1d' | '5d' | '1mo' | '6mo' | 
       setError('Erro ao carregar dados');
       console.error(err);
     } finally {
-      setLoading(false);
+      if (!isManualRefresh) setLoading(false);
+      if (isManualRefresh) setIsRefreshing(false);
     }
   }, [symbol, range]);
 
   useEffect(() => {
-    fetchHistory();
+    fetchHistory(false);
   }, [fetchHistory]);
 
   const refresh = useCallback(() => {
     clearSymbolCache(symbol);
-    fetchHistory();
+    fetchHistory(true);
   }, [symbol, fetchHistory]);
 
-  return { history, loading, error, refresh };
+  return { history, loading, error, refresh, isRefreshing };
 };

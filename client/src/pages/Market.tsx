@@ -16,7 +16,7 @@ export default function Market() {
   const [sortBy, setSortBy] = useState<'code' | 'variation' | 'volume'>('code');
   const [customSymbols, setCustomSymbols] = useState<string[]>([]);
 
-  const { quotes, loading, error, refresh } = useMultipleQuotes([...MAIN_ASSETS, ...customSymbols]);
+  const { quotes, loading, error, refresh, isRefreshing } = useMultipleQuotes([...MAIN_ASSETS, ...customSymbols]);
 
   const formatCurrency = (value: number): string => {
     return new Intl.NumberFormat('pt-BR', {
@@ -78,10 +78,10 @@ export default function Market() {
         </div>
         <Button
           onClick={refresh}
-          disabled={loading}
+          disabled={isRefreshing}
           className="bg-blue-600 hover:bg-blue-700 flex items-center gap-2"
         >
-          <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
+          <RefreshCw className={`w-4 h-4 ${isRefreshing ? 'animate-spin' : ''}`} />
           Atualizar
         </Button>
       </div>

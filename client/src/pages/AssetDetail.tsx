@@ -13,8 +13,8 @@ export default function AssetDetail() {
 
   // Extrair código do ativo da URL
   const assetCode = window.location.pathname.split('/').pop()?.toUpperCase() || '';
-  const { quote, loading: quoteLoading, error: quoteError, refresh: refreshQuote } = useQuote(assetCode);
-  const { history, loading: historyLoading, error: historyError, refresh: refreshHistory } = useHistory(assetCode, period);
+  const { quote, loading: quoteLoading, error: quoteError, refresh: refreshQuote, isRefreshing: quoteRefreshing } = useQuote(assetCode);
+  const { history, loading: historyLoading, error: historyError, refresh: refreshHistory, isRefreshing: historyRefreshing } = useHistory(assetCode, period);
 
   const formatCurrency = (value: number): string => {
     return new Intl.NumberFormat('pt-BR', {
@@ -88,9 +88,10 @@ export default function AssetDetail() {
             refreshQuote();
             refreshHistory();
           }}
+          disabled={quoteRefreshing || historyRefreshing}
           className="bg-blue-600 hover:bg-blue-700 flex items-center gap-2"
         >
-          <RefreshCw className="w-4 h-4" />
+          <RefreshCw className={`w-4 h-4 ${quoteRefreshing || historyRefreshing ? 'animate-spin' : ''}`} />
           Atualizar
         </Button>
       </div>
