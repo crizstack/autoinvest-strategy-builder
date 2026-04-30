@@ -182,7 +182,7 @@ export default function StrategyBuilder() {
             <Button
               onClick={handleSave}
               disabled={isSaving}
-              className="bg-blue-600 hover:bg-blue-700 flex items-center gap-2"
+              className="bg-green-600 hover:bg-green-700 flex items-center gap-2"
             >
               <Save className="w-4 h-4" />
               {isSaving ? 'Salvando...' : 'Salvar Estratégia'}

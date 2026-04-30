@@ -90,7 +90,7 @@ export default function Billing() {
       </div>
 
       {/* Current Plan */}
-      <Card className="p-6 bg-gradient-to-r from-blue-600/20 to-purple-600/20 border-blue-600/30">
+      <Card className="p-6 bg-gradient-to-r from-blue-600/20 to-purple-600/20 border-green-600/30">
         <div className="flex items-center justify-between">
           <div>
             <p className="text-slate-400 text-sm mb-1">Plano Atual</p>
@@ -114,13 +114,13 @@ export default function Billing() {
             key={plan.id}
             className={`p-6 border transition-all ${
               plan.popular
-                ? 'bg-slate-900/80 border-blue-600/50 ring-2 ring-blue-600/30 relative'
+                ? 'bg-slate-900/80 border-green-600/50 ring-2 ring-blue-600/30 relative'
                 : 'bg-slate-900/50 border-slate-800 hover:border-slate-700'
             }`}
           >
             {plan.popular && (
               <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                <span className="bg-blue-600 text-white text-xs font-bold px-3 py-1 rounded-full">
+                <span className="bg-green-600 text-white text-xs font-bold px-3 py-1 rounded-full">
                   MAIS POPULAR
                 </span>
               </div>
@@ -141,7 +141,7 @@ export default function Billing() {
               variant={plan.ctaVariant}
               className={`w-full mb-6 ${
                 plan.ctaVariant === 'default'
-                  ? 'bg-blue-600 hover:bg-blue-700'
+                  ? 'bg-green-600 hover:bg-green-700'
                   : 'border-slate-700 hover:bg-slate-800'
               }`}
               disabled={plan.id === currentPlan}

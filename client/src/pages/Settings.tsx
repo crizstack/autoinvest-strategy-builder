@@ -75,7 +75,7 @@ export default function Settings() {
               onClick={() => setActiveTab(tab.id)}
               className={`flex items-center gap-2 px-4 py-3 border-b-2 transition-colors ${
                 activeTab === tab.id
-                  ? 'border-blue-600 text-blue-400'
+                  ? 'border-green-600 text-green-400'
                   : 'border-transparent text-slate-400 hover:text-white'
               }`}
             >
@@ -92,7 +92,7 @@ export default function Settings() {
           <div className="space-y-6">
             {/* Avatar */}
             <div className="flex items-center gap-4">
-              <div className="w-16 h-16 rounded-full bg-blue-600 flex items-center justify-center text-white text-2xl font-bold">
+              <div className="w-16 h-16 rounded-full bg-green-600 flex items-center justify-center text-white text-2xl font-bold">
                 {(user?.name || user?.email || 'U')[0].toUpperCase()}
               </div>
               <div>
@@ -147,7 +147,7 @@ export default function Settings() {
             {/* Buttons */}
             <div className="flex gap-3">
               {!isEditing ? (
-                <Button onClick={() => setIsEditing(true)} className="bg-blue-600 hover:bg-blue-700">
+                <Button onClick={() => setIsEditing(true)} className="bg-green-600 hover:bg-green-700">
                   Editar Perfil
                 </Button>
               ) : (
@@ -209,7 +209,7 @@ export default function Settings() {
               />
             </div>
 
-            <Button onClick={handleChangePassword} className="bg-blue-600 hover:bg-blue-700 w-full">
+            <Button onClick={handleChangePassword} className="bg-green-600 hover:bg-green-700 w-full">
               Alterar Senha
             </Button>
           </div>
@@ -252,7 +252,7 @@ export default function Settings() {
               <input type="checkbox" className="w-5 h-5 rounded" />
             </div>
 
-            <Button onClick={() => toast.success('Preferências salvas!')} className="bg-blue-600 hover:bg-blue-700 w-full mt-6">
+            <Button onClick={() => toast.success('Preferências salvas!')} className="bg-green-600 hover:bg-green-700 w-full mt-6">
               Salvar Preferências
             </Button>
           </div>
@@ -268,7 +268,7 @@ export default function Settings() {
               <p className="text-slate-400 mb-4">
                 Adicione uma camada extra de segurança à sua conta
               </p>
-              <Button className="bg-blue-600 hover:bg-blue-700">
+              <Button className="bg-green-600 hover:bg-green-700">
                 Ativar 2FA
               </Button>
             </div>

@@ -218,7 +218,7 @@ export default function Trades() {
                     <td className="py-4 px-4 text-white">{trade.date}</td>
                     <td className="py-4 px-4 text-white">{trade.strategy}</td>
                     <td className="py-4 px-4">
-                      <span className="px-2 py-1 rounded bg-blue-600/20 text-blue-400 text-xs font-medium">
+                      <span className="px-2 py-1 rounded bg-green-600/20 text-green-400 text-xs font-medium">
                         {trade.asset}
                       </span>
                     </td>
@@ -251,7 +251,7 @@ export default function Trades() {
                       </div>
                     </td>
                     <td className="py-4 px-4">
-                      <span className="px-2 py-1 rounded bg-blue-600/20 text-blue-400 text-xs font-medium">
+                      <span className="px-2 py-1 rounded bg-green-600/20 text-green-400 text-xs font-medium">
                         {trade.status}
                       </span>
                     </td>

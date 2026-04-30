@@ -20,8 +20,8 @@ export default function Landing() {
       <nav className="fixed top-0 w-full bg-slate-950/80 backdrop-blur-md border-b border-slate-800 z-50">
         <div className="container flex items-center justify-between h-16">
           <div className="flex items-center gap-2">
-            <img src="/manus-storage/joven-invest-logo_07fcc62c.png" alt="Joven Invest" className="w-8 h-8" />
-            <span className="text-xl font-bold text-white">Joven Invest</span>
+             <img src="/manus-storage/joven-invest-logo_07fcc62c.png" alt="Auto Invest" className="w-8 h-8" />
+            <span className="text-xl font-bold text-white">Auto Invest</span>
           </div>
           <div className="flex items-center gap-4">
             <a href="#features" className="text-slate-300 hover:text-white transition-colors">
@@ -100,7 +100,7 @@ export default function Landing() {
           <div className="grid md:grid-cols-3 gap-8">
             {/* Feature 1 */}
             <div className="p-6 rounded-xl border border-slate-800 bg-slate-900/50 hover:bg-slate-800/50 transition-colors">
-              <Zap className="w-8 h-8 text-blue-400 mb-4" />
+              <Zap className="w-8 h-8 text-green-400 mb-4" />
               <h3 className="text-lg font-semibold text-white mb-2">Builder Visual</h3>
               <p className="text-slate-400">
                 Crie estratégias com drag-and-drop. Sem código necessário.
@@ -170,7 +170,7 @@ export default function Landing() {
               { step: '4', title: 'Executar', desc: 'Operações automatizadas' },
             ].map((item, idx) => (
               <div key={idx} className="text-center">
-                <div className="w-12 h-12 rounded-full bg-blue-600 text-white font-bold flex items-center justify-center mx-auto mb-4 text-lg">
+                <div className="w-12 h-12 rounded-full bg-green-600 text-white font-bold flex items-center justify-center mx-auto mb-4 text-lg">
                   {item.step}
                 </div>
                 <h3 className="text-lg font-semibold text-white mb-2">{item.title}</h3>
@@ -214,8 +214,8 @@ export default function Landing() {
             </div>
 
             {/* Pro Plan */}
-            <div className="p-8 rounded-xl border-2 border-blue-600 bg-slate-900/50 relative">
-              <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-blue-600 text-white text-sm font-semibold rounded-full">
+            <div className="p-8 rounded-xl border-2 border-green-600 bg-slate-900/50 relative">
+              <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-green-600 text-white text-sm font-semibold rounded-full">
                 Mais Popular
               </div>
               <h3 className="text-2xl font-bold text-white mb-2">Pro</h3>
@@ -235,7 +235,7 @@ export default function Landing() {
                   <span className="text-green-400">✓</span> Suporte prioritário
                 </li>
               </ul>
-              <Button className="w-full bg-blue-600 hover:bg-blue-700">
+              <Button className="w-full bg-green-600 hover:bg-green-700">
                 Começar
               </Button>
             </div>
@@ -313,7 +313,7 @@ export default function Landing() {
           </p>
           <Button
             onClick={() => window.location.href = getLoginUrl()}
-            className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 text-lg"
+            className="bg-green-600 hover:bg-green-700 text-white px-8 py-3 text-lg"
           >
             Começar Grátis Agora
           </Button>

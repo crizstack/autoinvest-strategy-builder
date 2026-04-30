@@ -70,7 +70,7 @@ export default function ForgotPassword() {
             </p>
             <Button
               onClick={() => setLocation('/login')}
-              className="bg-blue-600 hover:bg-blue-700 w-full"
+              className="bg-green-600 hover:bg-green-700 w-full"
             >
               Voltar para Login
             </Button>
@@ -94,7 +94,7 @@ export default function ForgotPassword() {
         {/* Header */}
         <div className="text-center mb-8">
           <div className="flex items-center justify-center gap-2 mb-4">
-            <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
+            <div className="w-10 h-10 bg-green-600 rounded-lg flex items-center justify-center">
               <Cpu className="w-6 h-6 text-white" />
             </div>
             <span className="text-2xl font-bold text-white">AutoInvest</span>
@@ -137,7 +137,7 @@ export default function ForgotPassword() {
             <Button
               type="submit"
               disabled={isLoading}
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2"
+              className="w-full bg-green-600 hover:bg-green-700 text-white font-medium py-2"
             >
               {isLoading ? 'Enviando...' : 'Enviar Link de Recuperação'}
             </Button>
@@ -146,7 +146,7 @@ export default function ForgotPassword() {
           {/* Back to Login */}
           <button
             onClick={() => setLocation('/login')}
-            className="w-full mt-6 flex items-center justify-center gap-2 text-blue-400 hover:text-blue-300 transition-colors"
+            className="w-full mt-6 flex items-center justify-center gap-2 text-green-400 hover:text-green-300 transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
             Voltar para Login

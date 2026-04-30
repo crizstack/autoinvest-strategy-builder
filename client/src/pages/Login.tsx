@@ -57,7 +57,7 @@ export default function Login() {
         {/* Header */}
         <div className="text-center mb-8">
           <div className="flex items-center justify-center gap-2 mb-4">
-            <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
+            <div className="w-10 h-10 bg-green-600 rounded-lg flex items-center justify-center">
               <Cpu className="w-6 h-6 text-white" />
             </div>
             <span className="text-2xl font-bold text-white">AutoInvest</span>
@@ -102,7 +102,7 @@ export default function Login() {
                 <Label htmlFor="password" className="text-slate-300">
                   Senha
                 </Label>
-                <a href="/forgot-password" className="text-sm text-blue-400 hover:text-blue-300">
+                <a href="/forgot-password" className="text-sm text-green-400 hover:text-green-300">
                   Esqueceu?
                 </a>
               </div>
@@ -124,7 +124,7 @@ export default function Login() {
             <Button
               type="submit"
               disabled={isLoading}
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 flex items-center justify-center gap-2"
+              className="w-full bg-green-600 hover:bg-green-700 text-white font-medium py-2 flex items-center justify-center gap-2"
             >
               <LogIn className="w-5 h-5" />
               {isLoading ? 'Entrando...' : 'Entrar'}
@@ -157,7 +157,7 @@ export default function Login() {
           {/* Sign Up Link */}
           <p className="text-center text-slate-400 text-sm mt-6">
             Não tem conta?{' '}
-            <a href="/register" className="text-blue-400 hover:text-blue-300 font-medium">
+            <a href="/register" className="text-green-400 hover:text-green-300 font-medium">
               Criar conta
             </a>
           </p>

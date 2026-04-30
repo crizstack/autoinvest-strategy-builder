@@ -79,7 +79,7 @@ export default function Market() {
         <Button
           onClick={refresh}
           disabled={isRefreshing}
-          className="bg-blue-600 hover:bg-blue-700 flex items-center gap-2"
+          className="bg-green-600 hover:bg-green-700 flex items-center gap-2"
         >
           <RefreshCw className={`w-4 h-4 ${isRefreshing ? 'animate-spin' : ''}`} />
           Atualizar
@@ -239,7 +239,7 @@ export default function Market() {
                       <td className="py-3 px-4 text-center">
                         <button
                           onClick={() => setLocation(`/mercado/${asset.symbol}`)}
-                          className="inline-flex items-center gap-2 px-3 py-1 bg-blue-600/20 hover:bg-blue-600/30 text-blue-400 rounded transition-colors"
+                          className="inline-flex items-center gap-2 px-3 py-1 bg-green-600/20 hover:bg-green-600/30 text-green-400 rounded transition-colors"
                           title="Ver detalhes"
                         >
                           <Eye className="w-4 h-4" />

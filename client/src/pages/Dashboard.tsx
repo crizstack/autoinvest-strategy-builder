@@ -16,7 +16,7 @@ export default function Dashboard() {
           Bem-vindo, {user?.name || user?.email}!
         </h1>
         <p className="text-slate-400">
-          Plano: <span className="text-blue-400 font-semibold">{user?.planId ? 'Pro' : 'Free'}</span>
+          Plano: <span className="text-green-400 font-semibold">{user?.planId ? 'Pro' : 'Free'}</span>
         </p>
       </div>
 
@@ -26,8 +26,8 @@ export default function Dashboard() {
         <Card className="p-6 bg-slate-900/50 border-slate-800">
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-slate-400 text-sm font-medium">Saldo Simulado</h3>
-            <div className="w-10 h-10 rounded-lg bg-blue-600/20 flex items-center justify-center">
-              <BarChart3 className="w-5 h-5 text-blue-400" />
+            <div className="w-10 h-10 rounded-lg bg-green-600/20 flex items-center justify-center">
+              <BarChart3 className="w-5 h-5 text-green-400" />
             </div>
           </div>
           <p className="text-2xl font-bold text-white">R$ 10.000,00</p>
@@ -74,17 +74,17 @@ export default function Dashboard() {
       {/* Quick Actions */}
       <div className="grid md:grid-cols-2 gap-6 mb-8">
         {/* Create Strategy */}
-        <Card className="p-8 bg-gradient-to-br from-blue-600/20 to-blue-600/5 border-blue-600/30 hover:border-blue-600/50 transition-colors cursor-pointer">
+        <Card className="p-8 bg-gradient-to-br from-blue-600/20 to-blue-600/5 border-green-600/30 hover:border-green-600/50 transition-colors cursor-pointer">
           <div className="flex items-center gap-4">
-            <div className="w-12 h-12 rounded-lg bg-blue-600/30 flex items-center justify-center">
-              <Zap className="w-6 h-6 text-blue-400" />
+            <div className="w-12 h-12 rounded-lg bg-green-600/30 flex items-center justify-center">
+              <Zap className="w-6 h-6 text-green-400" />
             </div>
             <div className="flex-1">
               <h3 className="text-lg font-semibold text-white mb-1">Criar Estratégia</h3>
               <p className="text-sm text-slate-400">Comece com o builder visual</p>
             </div>
             <Button 
-              className="bg-blue-600 hover:bg-blue-700"
+              className="bg-green-600 hover:bg-green-700"
               onClick={() => setLocation('/estrategias')}
             >
               Criar

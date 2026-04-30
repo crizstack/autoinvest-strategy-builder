@@ -31,7 +31,7 @@ export default function AssetDetail() {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen">
         <p className="text-slate-400 mb-4">Ativo não encontrado</p>
-        <Button onClick={() => setLocation('/mercado')} className="bg-blue-600 hover:bg-blue-700">
+        <Button onClick={() => setLocation('/mercado')} className="bg-green-600 hover:bg-green-700">
           Voltar para Mercado
         </Button>
       </div>
@@ -89,7 +89,7 @@ export default function AssetDetail() {
             refreshHistory();
           }}
           disabled={quoteRefreshing || historyRefreshing}
-          className="bg-blue-600 hover:bg-blue-700 flex items-center gap-2"
+          className="bg-green-600 hover:bg-green-700 flex items-center gap-2"
         >
           <RefreshCw className={`w-4 h-4 ${quoteRefreshing || historyRefreshing ? 'animate-spin' : ''}`} />
           Atualizar
@@ -155,7 +155,7 @@ export default function AssetDetail() {
           {/* Botão Criar Estratégia */}
           <Button
             onClick={() => setLocation(`/estrategias/builder?asset=${quote.symbol}`)}
-            className="mt-6 bg-blue-600 hover:bg-blue-700 w-full flex items-center justify-center gap-2"
+            className="mt-6 bg-green-600 hover:bg-green-700 w-full flex items-center justify-center gap-2"
           >
             <Zap className="w-4 h-4" />
             Criar Estratégia com {quote.symbol}
@@ -174,7 +174,7 @@ export default function AssetDetail() {
                 onClick={() => setPeriod(p)}
                 className={`px-3 py-1 rounded text-sm font-medium transition-colors ${
                   period === p
-                    ? 'bg-blue-600 text-white'
+                    ? 'bg-green-600 text-white'
                     : 'bg-slate-800 text-slate-400 hover:text-white'
                 }`}
               >

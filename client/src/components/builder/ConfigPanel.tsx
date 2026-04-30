@@ -156,8 +156,8 @@ export default function ConfigPanel({ selectedNode }: ConfigPanelProps) {
         </div>
 
         {/* Help */}
-        <div className="p-3 rounded-lg bg-blue-600/10 border border-blue-600/20">
-          <p className="text-xs text-blue-400">
+        <div className="p-3 rounded-lg bg-green-600/10 border border-green-600/20">
+          <p className="text-xs text-green-400">
             💡 Dica: Arraste blocos do painel esquerdo para criar sua estratégia
           </p>
         </div>

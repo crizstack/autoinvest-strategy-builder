@@ -175,7 +175,7 @@ export default function Strategies() {
                 setNewStrategyDescription('');
                 setShowCreateModal(true);
               }}
-              className="bg-blue-600 hover:bg-blue-700 flex items-center gap-2"
+              className="bg-green-600 hover:bg-green-700 flex items-center gap-2"
             >
               <Plus className="w-5 h-5" />
               Nova Estratégia
@@ -214,7 +214,7 @@ export default function Strategies() {
       {/* Content */}
       {strategiesQuery.isLoading ? (
         <div className="flex items-center justify-center py-12">
-          <Loader2 className="w-8 h-8 text-blue-600 animate-spin" />
+          <Loader2 className="w-8 h-8 text-green-600 animate-spin" />
         </div>
       ) : filteredStrategies.length === 0 ? (
         <Card className="p-12 bg-slate-900/50 border-slate-800 text-center">
@@ -226,7 +226,7 @@ export default function Strategies() {
           {!searchTerm && (
             <Button
               onClick={() => setShowCreateModal(true)}
-              className="bg-blue-600 hover:bg-blue-700"
+              className="bg-green-600 hover:bg-green-700"
             >
               Criar Estratégia
             </Button>
@@ -251,7 +251,7 @@ export default function Strategies() {
                     </div>
                     <div className="flex items-center gap-4 mb-4">
                       <span className="text-sm text-slate-400">
-                        Ativo: <span className="text-blue-400 font-medium">{strategy.asset}</span>
+                        Ativo: <span className="text-green-400 font-medium">{strategy.asset}</span>
                       </span>
                       {strategy.description && (
                         <span className="text-sm text-slate-400">{strategy.description}</span>
@@ -392,7 +392,7 @@ export default function Strategies() {
                 Cancelar
               </Button>
               <Button
-                className="flex-1 bg-blue-600 hover:bg-blue-700"
+                className="flex-1 bg-green-600 hover:bg-green-700"
                 onClick={handleCreateStrategy}
                 disabled={createMutation.isPending}
               >
@@ -446,7 +446,7 @@ export default function Strategies() {
                 Cancelar
               </Button>
               <Button
-                className="flex-1 bg-blue-600 hover:bg-blue-700"
+                className="flex-1 bg-green-600 hover:bg-green-700"
                 onClick={handleEditStrategy}
                 disabled={updateMutation.isPending}
               >

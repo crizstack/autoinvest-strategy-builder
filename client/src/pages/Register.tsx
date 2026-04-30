@@ -115,7 +115,7 @@ export default function Register() {
         {/* Header */}
         <div className="text-center mb-8">
           <div className="flex items-center justify-center gap-2 mb-4">
-            <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
+            <div className="w-10 h-10 bg-green-600 rounded-lg flex items-center justify-center">
               <Cpu className="w-6 h-6 text-white" />
             </div>
             <span className="text-2xl font-bold text-white">AutoInvest</span>
@@ -215,7 +215,7 @@ export default function Register() {
             <Button
               type="submit"
               disabled={isLoading}
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 flex items-center justify-center gap-2 mt-6"
+              className="w-full bg-green-600 hover:bg-green-700 text-white font-medium py-2 flex items-center justify-center gap-2 mt-6"
             >
               <LogIn className="w-5 h-5" />
               {isLoading ? 'Criando conta...' : 'Criar Conta'}
@@ -248,7 +248,7 @@ export default function Register() {
           {/* Login Link */}
           <p className="text-center text-slate-400 text-sm mt-6">
             Já tem conta?{' '}
-            <a href="/login" className="text-blue-400 hover:text-blue-300 font-medium">
+            <a href="/login" className="text-green-400 hover:text-green-300 font-medium">
               Fazer login
             </a>
           </p>

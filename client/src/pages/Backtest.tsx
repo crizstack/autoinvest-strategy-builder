@@ -162,7 +162,7 @@ export default function Backtest() {
           <Button
             onClick={handleRunBacktest}
             disabled={!selectedStrategy || isRunning}
-            className="bg-blue-600 hover:bg-blue-700 flex items-center gap-2"
+            className="bg-green-600 hover:bg-green-700 flex items-center gap-2"
           >
             <Play className="w-4 h-4" />
             {isRunning ? 'Executando...' : 'Executar Backtest'}
@@ -189,9 +189,9 @@ export default function Backtest() {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-slate-400 text-sm">Taxa de Acerto</p>
-                  <p className="text-2xl font-bold text-blue-400">{backTestResult.winRate}%</p>
+                  <p className="text-2xl font-bold text-green-400">{backTestResult.winRate}%</p>
                 </div>
-                <Target className="w-8 h-8 text-blue-500 opacity-50" />
+                <Target className="w-8 h-8 text-green-500 opacity-50" />
               </div>
             </Card>
 
@@ -294,7 +294,7 @@ export default function Backtest() {
                         {trade.result > 0 ? '+' : ''}R$ {trade.result.toLocaleString('pt-BR')}
                       </td>
                       <td className="py-3 px-4">
-                        <span className="px-2 py-1 rounded text-xs font-medium bg-blue-600/20 text-blue-400">
+                        <span className="px-2 py-1 rounded text-xs font-medium bg-green-600/20 text-green-400">
                           {trade.status}
                         </span>
                       </td>
