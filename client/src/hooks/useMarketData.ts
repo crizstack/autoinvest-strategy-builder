@@ -59,11 +59,7 @@ export const useQuote = (symbol: string, autoRefreshInterval = 15000) => {
 
   useEffect(() => {
     fetchQuote(false);
-
-    // Auto-refresh
-    const interval = setInterval(() => fetchQuote(false), autoRefreshInterval);
-    return () => clearInterval(interval);
-  }, [fetchQuote, autoRefreshInterval]);
+  }, [fetchQuote]);
 
   const refresh = useCallback(() => {
     clearSymbolCache(symbol);
@@ -105,11 +101,7 @@ export const useMultipleQuotes = (symbols: string[], autoRefreshInterval = 15000
     }
 
     fetchQuotes(false);
-
-    // Auto-refresh
-    const interval = setInterval(() => fetchQuotes(false), autoRefreshInterval);
-    return () => clearInterval(interval);
-  }, [fetchQuotes, symbols, autoRefreshInterval]);
+  }, [fetchQuotes, symbols]);
 
   const refresh = useCallback(() => {
     symbols.forEach((symbol) => clearSymbolCache(symbol));
