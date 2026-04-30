@@ -61,10 +61,8 @@ export default function AuthenticatedLayout({ children }: AuthenticatedLayoutPro
         <div className="h-16 flex items-center justify-between px-4 border-b border-slate-800">
           {sidebarOpen && (
             <div className="flex items-center gap-2">
-              <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-                <Cpu className="w-5 h-5 text-white" />
-              </div>
-              <span className="text-lg font-bold text-white">AutoInvest</span>
+              <img src="/manus-storage/joven-invest-logo_07fcc62c.png" alt="Joven Invest" className="w-8 h-8" />
+              <span className="text-lg font-bold text-white">Joven Invest</span>
             </div>
           )}
           <Button
