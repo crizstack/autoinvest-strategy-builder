@@ -3,81 +3,81 @@
 ## FASE 1: Setup e Banco de Dados
 
 ### Backend Setup
-- [ ] Instalar dependências (NestJS/Express, Drizzle, PostgreSQL)
-- [ ] Configurar variáveis de ambiente (.env)
-- [ ] Criar conexão com PostgreSQL
-- [ ] Configurar Drizzle ORM
+- [x] Instalar dependências (NestJS/Express, Drizzle, PostgreSQL)
+- [x] Configurar variáveis de ambiente (.env)
+- [x] Criar conexão com PostgreSQL
+- [x] Configurar Drizzle ORM
 
 ### Schema de Banco de Dados
-- [ ] Criar tabela `users` com autenticação
-- [ ] Criar tabela `plans` (Free, Pro, Premium)
-- [ ] Criar tabela `strategies` com JSONB para blocos
-- [ ] Criar tabela `backtests` com resultados
-- [ ] Criar tabela `paperTrades` para simulação
-- [ ] Criar tabela `portfolios` para agregação
+- [x] Criar tabela `users` com autenticação
+- [x] Criar tabela `plans` (Free, Pro, Premium)
+- [x] Criar tabela `strategies` com JSONB para blocos
+- [x] Criar tabela `backtests` com resultados
+- [x] Criar tabela `paperTrades` para simulação
+- [x] Criar tabela `portfolios` para agregação
 - [ ] Criar tabela `assets` com ativos B3
 - [ ] Criar tabela `assetPrices` com série temporal
-- [ ] Criar tabela `transactions` para billing
+- [x] Criar tabela `transactions` para billing
 - [ ] Criar tabela `auditLogs` para conformidade
-- [ ] Gerar migrations com Drizzle Kit
+- [x] Gerar migrations com Drizzle Kit
 
 ### Autenticação
-- [ ] Implementar hash de senha com bcrypt
-- [ ] Implementar geração de JWT
-- [ ] Implementar validação de JWT
-- [ ] Configurar cookies HttpOnly, Secure, SameSite
-- [ ] Implementar middleware de autenticação
+- [x] Implementar hash de senha com bcrypt
+- [x] Implementar geração de JWT
+- [x] Implementar validação de JWT
+- [x] Configurar cookies HttpOnly, Secure, SameSite
+- [x] Implementar middleware de autenticação
 
 ---
 
 ## FASE 2: Backend Core
 
 ### Routers de Autenticação
-- [ ] `auth.register` - Registrar novo usuário
-- [ ] `auth.login` - Login com email/senha
+- [x] `auth.register` - Registrar novo usuário
+- [x] `auth.login` - Login com email/senha
 - [ ] `auth.requestPasswordReset` - Solicitar reset de senha
 - [ ] `auth.resetPassword` - Resetar senha com token
-- [ ] `auth.me` - Obter usuário atual
-- [ ] `auth.logout` - Logout
+- [x] `auth.me` - Obter usuário atual
+- [x] `auth.logout` - Logout
 
 ### Routers de Usuários
-- [ ] `users.getProfile` - Obter perfil
-- [ ] `users.updateProfile` - Atualizar perfil
-- [ ] `users.getCurrentPlan` - Obter plano atual
-- [ ] `users.listPlans` - Listar planos disponíveis
+- [x] `users.getProfile` - Obter perfil
+- [x] `users.updateProfile` - Atualizar perfil
+- [x] `users.getCurrentPlan` - Obter plano atual
+- [x] `users.listPlans` - Listar planos disponíveis
 
 ### Routers de Estratégias
-- [ ] `strategies.list` - Listar estratégias do usuário
-- [ ] `strategies.create` - Criar estratégia
-- [ ] `strategies.getById` - Obter estratégia detalhada
-- [ ] `strategies.update` - Atualizar blocos e configurações
-- [ ] `strategies.delete` - Deletar estratégia
-- [ ] `strategies.toggleStatus` - Ativar/pausar
+- [x] `strategies.list` - Listar estratégias do usuário
+- [x] `strategies.create` - Criar estratégia
+- [x] `strategies.getById` - Obter estratégia detalhada
+- [x] `strategies.update` - Atualizar blocos e configurações
+- [x] `strategies.delete` - Deletar estratégia
+- [x] `strategies.toggleStatus` - Ativar/pausar
 - [ ] `strategies.startPaperTrading` - Iniciar simulação
 - [ ] `strategies.stopPaperTrading` - Parar simulação
 
 ### Routers de Backtesting
-- [ ] `backtests.run` - Executar backtest
-- [ ] `backtests.getResult` - Obter resultado
-- [ ] `backtests.listByStrategy` - Listar backtests
+- [x] `backtests.run` - Executar backtest (mock)
+- [x] `backtests.getResult` - Obter resultado (mock)
+- [x] `backtests.listByStrategy` - Listar backtests (mock)
 - [ ] `backtests.export` - Exportar resultado (CSV/JSON)
 
 ### Routers de Paper Trading
-- [ ] `paperTrades.listOpen` - Listar trades abertos
-- [ ] `paperTrades.listClosed` - Listar histórico
-- [ ] `paperTrades.getById` - Obter detalhes
+- [x] `paperTrades.listOpen` - Listar trades abertos (mock)
+- [x] `paperTrades.listClosed` - Listar histórico (mock)
+- [x] `paperTrades.getById` - Obter detalhes (mock)
 - [ ] `paperTrades.close` - Fechar trade manualmente
 - [ ] `paperTrades.cancel` - Cancelar trade
 
 ### Routers de Portfólio
-- [ ] `portfolio.getSummary` - Resumo do portfólio
+- [x] `portfolio.getSummary` - Resumo do portfólio (mock)
 - [ ] `portfolio.getOpenPositions` - Posições abertas
 - [ ] `portfolio.getPerformanceHistory` - Histórico de performance
 
 ### Routers de Dados de Mercado
-- [ ] `market.listAssets` - Listar ativos B3
-- [ ] `market.getPriceHistory` - Obter preços históricos
-- [ ] `market.getCurrentPrice` - Obter preço atual
+- [x] `market.listAssets` - Listar ativos B3 (via BRAPI)
+- [x] `market.getPriceHistory` - Obter preços históricos (via BRAPI)
+- [x] `market.getCurrentPrice` - Obter preço atual (via BRAPI)
 - [ ] `market.calculateIndicators` - Calcular MA, RSI, MACD
 
 ### Motor de Backtesting (Python)
@@ -89,90 +89,103 @@
 - [ ] Integrar com fila de jobs (Bull Queue)
 
 ### Serviços
-- [ ] AuthService - Lógica de autenticação
-- [ ] StrategyService - Lógica de estratégias
+- [x] AuthService - Lógica de autenticação
+- [x] StrategyService - Lógica de estratégias
 - [ ] BacktestService - Orquestração de backtesting
-- [ ] BillingService - Lógica de billing
-- [ ] MarketDataService - Integração com dados de mercado
+- [x] BillingService - Lógica de billing (mock)
+- [x] MarketDataService - Integração com dados de mercado (BRAPI)
 
 ---
 
 ## FASE 3: Frontend Base
 
 ### Autenticação no Frontend
-- [ ] Criar página de Login
-- [ ] Criar página de Registro
+- [x] Criar página de Login
+- [x] Criar página de Registro
 - [ ] Criar página de Reset de Senha
-- [ ] Implementar hook `useAuth()`
-- [ ] Implementar proteção de rotas
+- [x] Implementar hook `useAuth()`
+- [x] Implementar proteção de rotas
 
 ### Layout Principal
-- [ ] Criar DashboardLayout com sidebar
-- [ ] Implementar navegação
-- [ ] Implementar logout
-- [ ] Implementar perfil do usuário
+- [x] Criar DashboardLayout com sidebar
+- [x] Implementar navegação
+- [x] Implementar logout
+- [x] Implementar perfil do usuário
 
 ### Dashboard Principal
-- [ ] Exibir saldo simulado
-- [ ] Exibir rentabilidade %
-- [ ] Exibir estratégias ativas
-- [ ] Exibir últimas execuções
-- [ ] Exibir performance por período (gráficos)
+- [x] Exibir saldo simulado
+- [x] Exibir rentabilidade %
+- [x] Exibir estratégias ativas
+- [x] Exibir últimas execuções
+- [x] Exibir performance por período (gráficos)
 
 ### Estética Blueprint
-- [ ] Aplicar fundo azul royal escuro
-- [ ] Adicionar grade fina sobreposta
-- [ ] Implementar linhas brancas para molduras
-- [ ] Usar tipografia sans-serif bold em branco
-- [ ] Aplicar hierarquia visual limpa
+- [x] Aplicar fundo verde escuro (Auto Invest)
+- [x] Adicionar grade fina sobreposta
+- [x] Implementar linhas brancas para molduras
+- [x] Usar tipografia sans-serif bold em branco
+- [x] Aplicar hierarquia visual limpa
 
 ---
 
 ## FASE 4: Builder Visual de Estratégias
 
 ### Componentes do Builder
-- [ ] Criar Canvas para desenho
-- [ ] Criar BlockPalette com blocos disponíveis
-- [ ] Criar BlockEditor para editar configurações
-- [ ] Implementar drag-and-drop de blocos
-- [ ] Implementar conexões entre blocos
+- [x] Criar Canvas para desenho (React Flow)
+- [x] Criar BlockPalette com blocos disponíveis
+- [x] Criar BlockEditor para editar configurações
+- [x] Implementar drag-and-drop de blocos
+- [x] Implementar conexões entre blocos
 
 ### Tipos de Blocos
-- [ ] Trigger Block (ativo + timeframe)
-- [ ] Condition Block (indicador + operador + valor)
-- [ ] Action Block (buy/sell + quantidade)
-- [ ] Risk Block (stop loss, take profit, drawdown)
+- [x] Trigger Block (ativo + timeframe)
+- [x] Condition Block (indicador + operador + valor)
+- [x] Action Block (buy/sell + quantidade)
+- [x] Risk Block (stop loss, take profit, drawdown)
 
 ### Funcionalidades
-- [ ] Salvar estratégia com blocos
-- [ ] Carregar estratégia existente
-- [ ] Deletar blocos
-- [ ] Editar configurações de blocos
-- [ ] Validar lógica da estratégia
+- [x] Salvar estratégia com blocos
+- [x] Carregar estratégia existente
+- [x] Deletar blocos
+- [x] Editar configurações de blocos
+- [x] Validar lógica da estratégia
 
 ---
 
 ## FASE 5: Paper Trading e Backtesting
 
 ### Paper Trading
-- [ ] Implementar engine de paper trading
-- [ ] Executar estratégia em tempo real (simulado)
-- [ ] Registrar trades abertos/fechados
-- [ ] Calcular P&L por trade
-- [ ] Atualizar portfólio em tempo real
+- [x] Implementar engine de paper trading (mock)
+- [x] Executar estratégia em tempo real (simulado)
+- [x] Registrar trades abertos/fechados (mock)
+- [x] Calcular P&L por trade (mock)
+- [x] Atualizar portfólio em tempo real (mock)
 
 ### Backtesting
-- [ ] Criar UI para executar backtest
-- [ ] Exibir resultados (lucro, drawdown, taxa de acerto)
-- [ ] Exibir lista de trades
-- [ ] Exibir gráficos (equity curve, drawdown)
+- [x] Criar UI para executar backtest (mock)
+- [x] Exibir resultados (lucro, drawdown, taxa de acerto) (mock)
+- [x] Exibir lista de trades (mock)
+- [x] Exibir gráficos (equity curve, drawdown) (mock)
 - [ ] Exportar resultados (CSV/JSON)
 
 ### Portfólio
-- [ ] Exibir saldo atual
-- [ ] Exibir posições abertas
-- [ ] Exibir histórico de trades
-- [ ] Exibir métricas (total return, win rate, etc)
+- [x] Exibir saldo atual (mock)
+- [x] Exibir posições abertas (mock)
+- [x] Exibir histórico de trades (mock)
+- [x] Exibir métricas (total return, win rate, etc) (mock)
+
+### Mercado (NOVO - Corrigido)
+- [x] Página /mercado com lista de ativos B3 (BRAPI)
+- [x] Página /mercado/:code com detalhe do ativo
+- [x] Gráficos de preço (linha e volume)
+- [x] Estatísticas de ativo
+- [x] Botão para criar estratégia a partir do ativo
+- [x] Busca e filtros de ativos
+- [x] Top gainers/losers
+- [x] Integração com BRAPI API
+- [x] Cache local com TTL de 15 segundos
+- [x] Hook useMarketData estabilizado (sem loops infinitos)
+- [x] Testes para Market Data Service
 
 ---
 
@@ -185,14 +198,14 @@
 - [ ] Atualizar status de assinatura
 
 ### Planos
-- [ ] Criar página de Planos
-- [ ] Implementar seleção de plano
+- [x] Criar página de Planos (mock)
+- [x] Implementar seleção de plano (mock)
 - [ ] Implementar upgrade de plano
 - [ ] Implementar cancelamento de assinatura
-- [ ] Exibir histórico de transações
+- [x] Exibir histórico de transações (mock)
 
 ### Limitações por Plano
-- [ ] Free: até 2 estratégias, paper trading apenas
+- [x] Free: até 2 estratégias, paper trading apenas (mock)
 - [ ] Pro: estratégias ilimitadas, backtest completo
 - [ ] Premium: execução real (futuro), dados em tempo real
 
@@ -201,12 +214,12 @@
 ## FASE 7: Landing Page e Admin
 
 ### Landing Page Pública
-- [ ] Criar seção Hero
-- [ ] Criar seção Benefícios
-- [ ] Criar seção Como Funciona
-- [ ] Criar seção Planos
-- [ ] Criar seção FAQ
-- [ ] Criar CTA final
+- [x] Criar seção Hero
+- [x] Criar seção Benefícios
+- [x] Criar seção Como Funciona
+- [x] Criar seção Planos
+- [x] Criar seção FAQ
+- [x] Criar CTA final
 - [ ] Implementar captura de leads
 
 ### Painel Admin
@@ -221,6 +234,7 @@
 ## FASE 8: Testes e Deploy
 
 ### Testes Unitários
+- [x] Testes de Market Data Service
 - [ ] Testes de autenticação
 - [ ] Testes de estratégias
 - [ ] Testes de backtesting
@@ -233,9 +247,9 @@
 - [ ] Testes de execução de backtest
 
 ### Segurança
-- [ ] Validação de entrada em todos os endpoints
+- [x] Validação de entrada em todos os endpoints
 - [ ] Rate limiting
-- [ ] CORS configurado
+- [x] CORS configurado
 - [ ] Proteção contra XSS
 - [ ] Proteção contra CSRF
 
@@ -268,4 +282,5 @@
 - Sem IA nesta fase
 - Conformidade CVM: plataforma é ferramenta de simulação, não consultoria
 - Estética blueprint profissional em toda a interface
-- Dados históricos B3 precisam ser carregados (fonte a definir)
+- Dados históricos B3 precisam ser carregados (fonte: BRAPI)
+- Módulo de Mercado corrigido: loops infinitos resolvidos, testes implementados

@@ -6,7 +6,6 @@ import { useLocation } from 'wouter';
 import { Search, TrendingUp, TrendingDown, Eye, RefreshCw } from 'lucide-react';
 import { useMultipleQuotes } from '@/hooks/useMarketData';
 import { Skeleton } from '@/components/ui/skeleton';
-import AuthenticatedLayout from '@/components/AuthenticatedLayout';
 
 const MAIN_ASSETS = ['PETR4', 'VALE3', 'ITUB4', 'BBDC4', 'ABEV3', 'BBAS3', 'WEGE3', 'MGLU3'];
 
@@ -58,195 +57,193 @@ export default function Market() {
   }, [quotes]);
 
   return (
-    <AuthenticatedLayout>
-      <div className="space-y-6">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-3xl font-bold text-white mb-2">Mercado</h1>
-            <p className="text-slate-400">Acompanhe os principais ativos da B3 em tempo real</p>
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-3xl font-bold text-white mb-2">Mercado</h1>
+          <p className="text-slate-400">Acompanhe os principais ativos da B3 em tempo real</p>
+        </div>
+        <Button
+          onClick={refresh}
+          disabled={isRefreshing}
+          className="bg-green-600 hover:bg-green-700 flex items-center gap-2"
+        >
+          <RefreshCw className={`w-4 h-4 ${isRefreshing ? 'animate-spin' : ''}`} />
+          Atualizar
+        </Button>
+      </div>
+
+      {error && (
+        <div className="p-4 bg-red-600/20 border border-red-600/50 rounded-lg text-red-400">
+          {error}
+        </div>
+      )}
+
+      {!loading && quotes.length > 0 && (
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <Card className="p-6 bg-slate-900/50 border-slate-800">
+            <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+              <TrendingUp className="w-5 h-5 text-green-500" />
+              Maiores Altas
+            </h3>
+            <div className="space-y-3">
+              {topMovers.gainers.map((asset) => (
+                <button
+                  key={asset.symbol}
+                  onClick={() => setLocation(`/mercado/${asset.symbol}`)}
+                  className="w-full flex items-center justify-between p-3 bg-slate-950/50 hover:bg-slate-800/50 rounded-lg transition-colors text-left"
+                >
+                  <div>
+                    <p className="text-white font-medium">{asset.symbol}</p>
+                    <p className="text-sm text-slate-400">{formatCurrency(asset.regularMarketPrice)}</p>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-green-400 font-semibold">+{asset.regularMarketChangePercent.toFixed(2)}%</p>
+                  </div>
+                </button>
+              ))}
+            </div>
+          </Card>
+
+          <Card className="p-6 bg-slate-900/50 border-slate-800">
+            <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+              <TrendingDown className="w-5 h-5 text-red-500" />
+              Maiores Quedas
+            </h3>
+            <div className="space-y-3">
+              {topMovers.losers.map((asset) => (
+                <button
+                  key={asset.symbol}
+                  onClick={() => setLocation(`/mercado/${asset.symbol}`)}
+                  className="w-full flex items-center justify-between p-3 bg-slate-950/50 hover:bg-slate-800/50 rounded-lg transition-colors text-left"
+                >
+                  <div>
+                    <p className="text-white font-medium">{asset.symbol}</p>
+                    <p className="text-sm text-slate-400">{formatCurrency(asset.regularMarketPrice)}</p>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-red-400 font-semibold">{asset.regularMarketChangePercent.toFixed(2)}%</p>
+                  </div>
+                </button>
+              ))}
+            </div>
+          </Card>
+        </div>
+      )}
+
+      <Card className="p-6 bg-slate-900/50 border-slate-800">
+        <div className="flex gap-4 mb-6">
+          <div className="flex-1 relative">
+            <Search className="absolute left-3 top-3 w-5 h-5 text-slate-400" />
+            <Input
+              type="text"
+              placeholder="Buscar ativo (ex: PETR4, Vale)"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="pl-10 bg-slate-950 border-slate-800 text-white"
+            />
           </div>
-          <Button
-            onClick={refresh}
-            disabled={isRefreshing}
-            className="bg-green-600 hover:bg-green-700 flex items-center gap-2"
+          <select
+            value={sortBy}
+            onChange={(e) => setSortBy(e.target.value as any)}
+            className="px-4 py-2 bg-slate-950 border border-slate-800 text-white rounded-lg"
           >
-            <RefreshCw className={`w-4 h-4 ${isRefreshing ? 'animate-spin' : ''}`} />
-            Atualizar
-          </Button>
+            <option value="code">Ordenar por: Código</option>
+            <option value="variation">Ordenar por: Variação</option>
+            <option value="volume">Ordenar por: Volume</option>
+          </select>
         </div>
 
-        {error && (
-          <div className="p-4 bg-red-600/20 border border-red-600/50 rounded-lg text-red-400">
-            {error}
-          </div>
-        )}
-
-        {!loading && quotes.length > 0 && (
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <Card className="p-6 bg-slate-900/50 border-slate-800">
-              <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-                <TrendingUp className="w-5 h-5 text-green-500" />
-                Maiores Altas
-              </h3>
-              <div className="space-y-3">
-                {topMovers.gainers.map((asset) => (
-                  <button
-                    key={asset.symbol}
-                    onClick={() => setLocation(`/mercado/${asset.symbol}`)}
-                    className="w-full flex items-center justify-between p-3 bg-slate-950/50 hover:bg-slate-800/50 rounded-lg transition-colors text-left"
-                  >
-                    <div>
-                      <p className="text-white font-medium">{asset.symbol}</p>
-                      <p className="text-sm text-slate-400">{formatCurrency(asset.regularMarketPrice)}</p>
-                    </div>
-                    <div className="text-right">
-                      <p className="text-green-400 font-semibold">+{asset.regularMarketChangePercent.toFixed(2)}%</p>
-                    </div>
-                  </button>
-                ))}
-              </div>
-            </Card>
-
-            <Card className="p-6 bg-slate-900/50 border-slate-800">
-              <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-                <TrendingDown className="w-5 h-5 text-red-500" />
-                Maiores Quedas
-              </h3>
-              <div className="space-y-3">
-                {topMovers.losers.map((asset) => (
-                  <button
-                    key={asset.symbol}
-                    onClick={() => setLocation(`/mercado/${asset.symbol}`)}
-                    className="w-full flex items-center justify-between p-3 bg-slate-950/50 hover:bg-slate-800/50 rounded-lg transition-colors text-left"
-                  >
-                    <div>
-                      <p className="text-white font-medium">{asset.symbol}</p>
-                      <p className="text-sm text-slate-400">{formatCurrency(asset.regularMarketPrice)}</p>
-                    </div>
-                    <div className="text-right">
-                      <p className="text-red-400 font-semibold">{asset.regularMarketChangePercent.toFixed(2)}%</p>
-                    </div>
-                  </button>
-                ))}
-              </div>
-            </Card>
-          </div>
-        )}
-
-        <Card className="p-6 bg-slate-900/50 border-slate-800">
-          <div className="flex gap-4 mb-6">
-            <div className="flex-1 relative">
-              <Search className="absolute left-3 top-3 w-5 h-5 text-slate-400" />
-              <Input
-                type="text"
-                placeholder="Buscar ativo (ex: PETR4, Vale)"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10 bg-slate-950 border-slate-800 text-white"
-              />
-            </div>
-            <select
-              value={sortBy}
-              onChange={(e) => setSortBy(e.target.value as any)}
-              className="px-4 py-2 bg-slate-950 border border-slate-800 text-white rounded-lg"
-            >
-              <option value="code">Ordenar por: Código</option>
-              <option value="variation">Ordenar por: Variação</option>
-              <option value="volume">Ordenar por: Volume</option>
-            </select>
-          </div>
-
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="border-b border-slate-800">
-                  <th className="text-left py-3 px-4 text-slate-400 font-medium">Código</th>
-                  <th className="text-left py-3 px-4 text-slate-400 font-medium">Nome</th>
-                  <th className="text-left py-3 px-4 text-slate-400 font-medium">Preço</th>
-                  <th className="text-left py-3 px-4 text-slate-400 font-medium">Variação</th>
-                  <th className="text-left py-3 px-4 text-slate-400 font-medium">Máxima</th>
-                  <th className="text-left py-3 px-4 text-slate-400 font-medium">Mínima</th>
-                  <th className="text-left py-3 px-4 text-slate-400 font-medium">Volume</th>
-                  <th className="text-center py-3 px-4 text-slate-400 font-medium">Ação</th>
-                </tr>
-              </thead>
-              <tbody>
-                {loading ? (
-                  Array.from({ length: 5 }).map((_, i) => (
-                    <tr key={i} className="border-b border-slate-800">
-                      <td className="py-3 px-4">
-                        <Skeleton className="h-4 w-12 bg-slate-800" />
-                      </td>
-                      <td className="py-3 px-4">
-                        <Skeleton className="h-4 w-24 bg-slate-800" />
-                      </td>
-                      <td className="py-3 px-4">
-                        <Skeleton className="h-4 w-16 bg-slate-800" />
-                      </td>
-                      <td className="py-3 px-4">
-                        <Skeleton className="h-4 w-12 bg-slate-800" />
-                      </td>
-                      <td className="py-3 px-4">
-                        <Skeleton className="h-4 w-16 bg-slate-800" />
-                      </td>
-                      <td className="py-3 px-4">
-                        <Skeleton className="h-4 w-16 bg-slate-800" />
-                      </td>
-                      <td className="py-3 px-4">
-                        <Skeleton className="h-4 w-20 bg-slate-800" />
-                      </td>
-                      <td className="py-3 px-4 text-center">
-                        <Skeleton className="h-8 w-8 bg-slate-800 mx-auto" />
-                      </td>
-                    </tr>
-                  ))
-                ) : filteredAssets.length > 0 ? (
-                  filteredAssets.map((asset) => {
-                    const isPositive = asset.regularMarketChangePercent >= 0;
-                    return (
-                      <tr
-                        key={asset.symbol}
-                        className="border-b border-slate-800 hover:bg-slate-800/30 transition-colors"
-                      >
-                        <td className="py-3 px-4 text-white font-semibold">{asset.symbol}</td>
-                        <td className="py-3 px-4 text-slate-300">{asset.name}</td>
-                        <td className="py-3 px-4 text-white">{formatCurrency(asset.regularMarketPrice)}</td>
-                        <td className={`py-3 px-4 font-semibold ${isPositive ? 'text-green-400' : 'text-red-400'}`}>
-                          {isPositive ? '+' : ''}{asset.regularMarketChangePercent.toFixed(2)}%
-                        </td>
-                        <td className="py-3 px-4 text-slate-300">{formatCurrency(asset.regularMarketDayHigh)}</td>
-                        <td className="py-3 px-4 text-slate-300">{formatCurrency(asset.regularMarketDayLow)}</td>
-                        <td className="py-3 px-4 text-slate-300">{formatNumber(asset.regularMarketVolume)}</td>
-                        <td className="py-3 px-4 text-center">
-                          <button
-                            onClick={() => setLocation(`/mercado/${asset.symbol}`)}
-                            className="inline-flex items-center gap-2 px-3 py-1 bg-green-600/20 hover:bg-green-600/30 text-green-400 rounded transition-colors"
-                            title="Ver detalhes"
-                          >
-                            <Eye className="w-4 h-4" />
-                          </button>
-                        </td>
-                      </tr>
-                    );
-                  })
-                ) : (
-                  <tr>
-                    <td colSpan={8} className="py-8 text-center text-slate-400">
-                      Nenhum ativo encontrado
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm">
+            <thead>
+              <tr className="border-b border-slate-800">
+                <th className="text-left py-3 px-4 text-slate-400 font-medium">Código</th>
+                <th className="text-left py-3 px-4 text-slate-400 font-medium">Nome</th>
+                <th className="text-left py-3 px-4 text-slate-400 font-medium">Preço</th>
+                <th className="text-left py-3 px-4 text-slate-400 font-medium">Variação</th>
+                <th className="text-left py-3 px-4 text-slate-400 font-medium">Máxima</th>
+                <th className="text-left py-3 px-4 text-slate-400 font-medium">Mínima</th>
+                <th className="text-left py-3 px-4 text-slate-400 font-medium">Volume</th>
+                <th className="text-center py-3 px-4 text-slate-400 font-medium">Ação</th>
+              </tr>
+            </thead>
+            <tbody>
+              {loading ? (
+                Array.from({ length: 5 }).map((_, i) => (
+                  <tr key={i} className="border-b border-slate-800">
+                    <td className="py-3 px-4">
+                      <Skeleton className="h-4 w-12 bg-slate-800" />
+                    </td>
+                    <td className="py-3 px-4">
+                      <Skeleton className="h-4 w-24 bg-slate-800" />
+                    </td>
+                    <td className="py-3 px-4">
+                      <Skeleton className="h-4 w-16 bg-slate-800" />
+                    </td>
+                    <td className="py-3 px-4">
+                      <Skeleton className="h-4 w-12 bg-slate-800" />
+                    </td>
+                    <td className="py-3 px-4">
+                      <Skeleton className="h-4 w-16 bg-slate-800" />
+                    </td>
+                    <td className="py-3 px-4">
+                      <Skeleton className="h-4 w-16 bg-slate-800" />
+                    </td>
+                    <td className="py-3 px-4">
+                      <Skeleton className="h-4 w-20 bg-slate-800" />
+                    </td>
+                    <td className="py-3 px-4 text-center">
+                      <Skeleton className="h-8 w-8 bg-slate-800 mx-auto" />
                     </td>
                   </tr>
-                )}
-              </tbody>
-            </table>
-          </div>
+                ))
+              ) : filteredAssets.length > 0 ? (
+                filteredAssets.map((asset) => {
+                  const isPositive = asset.regularMarketChangePercent >= 0;
+                  return (
+                    <tr
+                      key={asset.symbol}
+                      className="border-b border-slate-800 hover:bg-slate-800/30 transition-colors"
+                    >
+                      <td className="py-3 px-4 text-white font-semibold">{asset.symbol}</td>
+                      <td className="py-3 px-4 text-slate-300">{asset.name}</td>
+                      <td className="py-3 px-4 text-white">{formatCurrency(asset.regularMarketPrice)}</td>
+                      <td className={`py-3 px-4 font-semibold ${isPositive ? 'text-green-400' : 'text-red-400'}`}>
+                        {isPositive ? '+' : ''}{asset.regularMarketChangePercent.toFixed(2)}%
+                      </td>
+                      <td className="py-3 px-4 text-slate-300">{formatCurrency(asset.regularMarketDayHigh)}</td>
+                      <td className="py-3 px-4 text-slate-300">{formatCurrency(asset.regularMarketDayLow)}</td>
+                      <td className="py-3 px-4 text-slate-300">{formatNumber(asset.regularMarketVolume)}</td>
+                      <td className="py-3 px-4 text-center">
+                        <button
+                          onClick={() => setLocation(`/mercado/${asset.symbol}`)}
+                          className="inline-flex items-center gap-2 px-3 py-1 bg-green-600/20 hover:bg-green-600/30 text-green-400 rounded transition-colors"
+                          title="Ver detalhes"
+                        >
+                          <Eye className="w-4 h-4" />
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })
+              ) : (
+                <tr>
+                  <td colSpan={8} className="py-8 text-center text-slate-400">
+                    Nenhum ativo encontrado
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
 
-          {!loading && quotes.length > 0 && (
-            <p className="text-xs text-slate-500 mt-4">
-              Última atualização: {new Date().toLocaleTimeString('pt-BR')}
-            </p>
-          )}
-        </Card>
-      </div>
-    </AuthenticatedLayout>
+        {!loading && quotes.length > 0 && (
+          <p className="text-xs text-slate-500 mt-4">
+            Última atualização: {new Date().toLocaleTimeString('pt-BR')}
+          </p>
+        )}
+      </Card>
+    </div>
   );
 }

@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import { getQuote, getMultipleQuotes, getHistory, clearSymbolCache } from '@/services/marketDataService';
 
 interface QuoteResponse {
@@ -59,7 +59,7 @@ export const useQuote = (symbol: string, autoRefreshInterval = 15000) => {
 
   useEffect(() => {
     fetchQuote(false);
-  }, [fetchQuote]);
+  }, [symbol, fetchQuote]);
 
   const refresh = useCallback(() => {
     clearSymbolCache(symbol);
@@ -71,6 +71,7 @@ export const useQuote = (symbol: string, autoRefreshInterval = 15000) => {
 
 /**
  * Hook para buscar múltiplas cotações
+ * IMPORTANTE: Estabilizar symbols com useMemo para evitar re-renders infinitos
  */
 export const useMultipleQuotes = (symbols: string[], autoRefreshInterval = 15000) => {
   const [quotes, setQuotes] = useState<QuoteResponse[]>([]);
@@ -78,12 +79,15 @@ export const useMultipleQuotes = (symbols: string[], autoRefreshInterval = 15000
   const [error, setError] = useState<string | null>(null);
   const [isRefreshing, setIsRefreshing] = useState(false);
 
+  // Estabilizar symbols com useMemo para evitar re-renders infinitos
+  const stableSymbols = useMemo(() => symbols, [symbols.join(',')]);
+
   const fetchQuotes = useCallback(async (isManualRefresh = false) => {
     try {
       if (!isManualRefresh) setLoading(true);
       if (isManualRefresh) setIsRefreshing(true);
       setError(null);
-      const data = await getMultipleQuotes(symbols);
+      const data = await getMultipleQuotes(stableSymbols);
       setQuotes(data);
     } catch (err) {
       setError('Erro ao carregar dados');
@@ -92,21 +96,21 @@ export const useMultipleQuotes = (symbols: string[], autoRefreshInterval = 15000
       if (!isManualRefresh) setLoading(false);
       if (isManualRefresh) setIsRefreshing(false);
     }
-  }, [symbols]);
+  }, [stableSymbols]);
 
   useEffect(() => {
-    if (symbols.length === 0) {
+    if (stableSymbols.length === 0) {
       setQuotes([]);
       return;
     }
 
     fetchQuotes(false);
-  }, [fetchQuotes, symbols]);
+  }, [stableSymbols, fetchQuotes]);
 
   const refresh = useCallback(() => {
-    symbols.forEach((symbol) => clearSymbolCache(symbol));
+    stableSymbols.forEach((symbol) => clearSymbolCache(symbol));
     fetchQuotes(true);
-  }, [symbols, fetchQuotes]);
+  }, [stableSymbols, fetchQuotes]);
 
   return { quotes, loading, error, refresh, isRefreshing };
 };
@@ -142,7 +146,7 @@ export const useHistory = (symbol: string, range: '1d' | '5d' | '1mo' | '6mo' | 
 
   useEffect(() => {
     fetchHistory(false);
-  }, [fetchHistory]);
+  }, [symbol, range, fetchHistory]);
 
   const refresh = useCallback(() => {
     clearSymbolCache(symbol);

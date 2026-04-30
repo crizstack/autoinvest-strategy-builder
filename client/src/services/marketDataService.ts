@@ -7,6 +7,9 @@
 const BRAPI_BASE_URL = 'https://brapi.dev/api/quote';
 const CACHE_DURATION = 15 * 1000; // 15 segundos
 
+// Obter API key da variável de ambiente
+const BRAPI_API_KEY = import.meta.env.VITE_BRAPI_API_KEY || '';
+
 interface CacheEntry<T> {
   data: T;
   timestamp: number;
@@ -75,8 +78,10 @@ export const getQuote = async (symbol: string): Promise<QuoteResponse | null> =>
     const cached = getFromCache<QuoteResponse>(cacheKey);
     if (cached) return cached;
 
+    // Usar API key da variável de ambiente se disponível
+    const token = BRAPI_API_KEY ? `&token=${BRAPI_API_KEY}` : '';
     const response = await fetch(
-      `${BRAPI_BASE_URL}/${symbol}?token=YOUR_BRAPI_TOKEN&range=1d&interval=1d`
+      `${BRAPI_BASE_URL}/${symbol}?range=1d&interval=1d${token}`
     );
 
     if (!response.ok) {
@@ -141,8 +146,10 @@ export const getHistory = async (
     const cached = getFromCache<HistoryResponse>(cacheKey);
     if (cached) return cached;
 
+    // Usar API key da variável de ambiente se disponível
+    const token = BRAPI_API_KEY ? `&token=${BRAPI_API_KEY}` : '';
     const response = await fetch(
-      `${BRAPI_BASE_URL}/${symbol}?token=YOUR_BRAPI_TOKEN&range=${range}&interval=1d`
+      `${BRAPI_BASE_URL}/${symbol}?range=${range}&interval=1d${token}`
     );
 
     if (!response.ok) {
