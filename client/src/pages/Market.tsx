@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo } from 'react';
 import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -6,6 +6,7 @@ import { useLocation } from 'wouter';
 import { Search, TrendingUp, TrendingDown, Eye, RefreshCw } from 'lucide-react';
 import { useMultipleQuotes } from '@/hooks/useMarketData';
 import { Skeleton } from '@/components/ui/skeleton';
+import AuthenticatedLayout from '@/components/AuthenticatedLayout';
 
 // Lista de ativos B3 principais
 const MAIN_ASSETS = ['PETR4', 'VALE3', 'ITUB4', 'BBDC4', 'ABEV3', 'BBAS3', 'WEGE3', 'MGLU3'];
@@ -69,7 +70,8 @@ export default function Market() {
   };
 
   return (
-    <div className="space-y-6">
+    <AuthenticatedLayout>
+      <div className="space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
@@ -267,5 +269,6 @@ export default function Market() {
         )}
       </Card>
     </div>
+    </AuthenticatedLayout>
   );
 }
