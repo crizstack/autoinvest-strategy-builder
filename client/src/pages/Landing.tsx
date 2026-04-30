@@ -20,10 +20,8 @@ export default function Landing() {
       <nav className="fixed top-0 w-full bg-slate-950/80 backdrop-blur-md border-b border-slate-800 z-50">
         <div className="container flex items-center justify-between h-16">
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-              <Cpu className="w-5 h-5 text-white" />
-            </div>
-            <span className="text-xl font-bold text-white">AutoInvest</span>
+            <img src="/manus-storage/joven-invest-logo_07fcc62c.png" alt="Joven Invest" className="w-8 h-8" />
+            <span className="text-xl font-bold text-white">Joven Invest</span>
           </div>
           <div className="flex items-center gap-4">
             <a href="#features" className="text-slate-300 hover:text-white transition-colors">
@@ -36,7 +34,7 @@ export default function Landing() {
               FAQ
             </a>
             <Link href="/login">
-              <Button className="bg-blue-600 hover:bg-blue-700">
+              <Button className="bg-green-600 hover:bg-green-700">
                 Entrar
               </Button>
             </Link>
@@ -48,14 +46,14 @@ export default function Landing() {
       <section className="pt-32 pb-20 px-4">
         <div className="container max-w-4xl mx-auto text-center">
           <div className="mb-8 inline-block">
-            <span className="px-4 py-2 bg-blue-600/20 border border-blue-500/30 rounded-full text-blue-400 text-sm font-medium">
+            <span className="px-4 py-2 bg-green-600/20 border border-green-500/30 rounded-full text-green-400 text-sm font-medium">
               🚀 Plataforma de Trading Automatizado
             </span>
           </div>
 
           <h1 className="text-5xl md:text-6xl font-bold text-white mb-6 leading-tight">
             Crie estratégias de investimento
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-emerald-400">
               {' '}automatizadas
             </span>
           </h1>
@@ -68,7 +66,7 @@ export default function Landing() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
             <Button
               onClick={() => window.location.href = getLoginUrl()}
-              className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 text-lg flex items-center gap-2"
+              className="bg-green-600 hover:bg-green-700 text-white px-8 py-3 text-lg flex items-center gap-2"
             >
               Começar Grátis <ArrowRight className="w-5 h-5" />
             </Button>
@@ -82,9 +80,9 @@ export default function Landing() {
 
           {/* Hero Image/Chart */}
           <div className="relative rounded-xl overflow-hidden border border-slate-800 bg-slate-900/50 backdrop-blur-sm">
-            <div className="aspect-video bg-gradient-to-b from-blue-600/10 to-slate-900 flex items-center justify-center">
+            <div className="aspect-video bg-gradient-to-b from-green-600/10 to-slate-900 flex items-center justify-center">
               <div className="text-center">
-                <BarChart3 className="w-16 h-16 text-blue-600 mx-auto mb-4 opacity-50" />
+                <BarChart3 className="w-16 h-16 text-green-600 mx-auto mb-4 opacity-50" />
                 <p className="text-slate-400">Dashboard em tempo real</p>
               </div>
             </div>

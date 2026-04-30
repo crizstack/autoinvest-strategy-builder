@@ -125,7 +125,7 @@ export default function AuthenticatedLayout({ children }: AuthenticatedLayoutPro
                 <p className="text-sm font-medium text-white">{user?.name || user?.email}</p>
                 <p className="text-xs text-slate-400">{user?.role === 'admin' ? 'Admin' : 'Usuário'}</p>
               </div>
-              <div className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold">
+              <div className="w-8 h-8 rounded-full bg-green-600 flex items-center justify-center text-white font-bold">
                 {(user?.name || user?.email || 'U')[0].toUpperCase()}
               </div>
               <ChevronDown className="w-4 h-4 text-slate-400" />
