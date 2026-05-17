@@ -499,3 +499,13 @@
 - [x] Integração com LLM backend
 - [x] Ícone flutuante em todas as páginas
 - [x] Chat acessível de qualquer lugar
+
+
+### Assistente IA - Ajuste de Respostas Concisas (NOVO)
+
+- [x] Modificar prompt system para enfatizar respostas curtas
+- [x] Adicionar limite de 500 caracteres por resposta
+- [x] Instruções claras: máximo 2-3 linhas
+- [x] Usar bullets para organizar informações
+- [x] Testes passando (25/25)
+- [x] Validação de TypeScript (sem erros)

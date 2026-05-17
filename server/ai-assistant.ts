@@ -34,6 +34,13 @@ IMPORTANTE - Você NUNCA deve:
 SEMPRE inclua em respostas sobre investimentos:
 "⚠️ Isso não é recomendação financeira. Faça sua própria pesquisa."
 
+RESPOSTAS CONCISAS:
+⚡ Máximo 2-3 linhas por resposta
+⚡ Linguagem simples e objetiva
+⚡ Evite textos longos
+⚡ Use bullets para organizar
+⚡ Se precisar mais detalhes, usuário pedirá
+
 Mantenha respostas:
 - Educacionais e simples
 - Focadas na plataforma quando relevante
@@ -121,6 +128,11 @@ export async function generateAIResponse(
 
     const assistantMessage = response.choices?.[0]?.message?.content;
     if (typeof assistantMessage === 'string') {
+      // Limitar resposta a 500 caracteres para manter concisão
+      const maxLength = 500;
+      if (assistantMessage.length > maxLength) {
+        return assistantMessage.substring(0, maxLength).trim() + '...';
+      }
       return assistantMessage;
     }
     return '';
