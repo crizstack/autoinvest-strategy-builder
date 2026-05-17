@@ -548,3 +548,12 @@
 - [x] Implementar busca de ativos
 - [x] Implementar remoção de ativos
 - [x] Mock de preços em tempo real
+
+
+### Correção de Bugs - Watchlist
+
+- [x] Diagnosticar erro ao selecionar ativos
+- [x] Popular tabela assets com dados B3
+- [x] Criar procedure getAllAssets no router
+- [x] Corrigir Watchlist.tsx para buscar assets do servidor
+- [x] Implementar useEffect para sincronizar disponíveis

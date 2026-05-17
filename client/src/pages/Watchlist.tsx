@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import React from 'react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -6,16 +7,8 @@ import { TrendingUp, TrendingDown, Trash2, Plus } from 'lucide-react';
 import { trpc } from '@/lib/trpc';
 import { useAuth } from '@/_core/hooks/useAuth';
 
-const allAssets = [
-  { id: 1, symbol: 'PETR4', name: 'Petrobras', sector: 'Energia' },
-  { id: 2, symbol: 'VALE3', name: 'Vale', sector: 'Mineração' },
-  { id: 3, symbol: 'ITUB4', name: 'Itaú', sector: 'Financeiro' },
-  { id: 4, symbol: 'BBDC4', name: 'Bradesco', sector: 'Financeiro' },
-  { id: 5, symbol: 'WEGE3', name: 'WEG', sector: 'Industrial' },
-  { id: 6, symbol: 'MGLU3', name: 'Magazine Luiza', sector: 'Varejo' },
-  { id: 7, symbol: 'ABEV3', name: 'Ambev', sector: 'Bebidas' },
-  { id: 8, symbol: 'B3SA3', name: 'B3', sector: 'Financeiro' },
-];
+// Assets will be fetched from server
+const allAssets: any[] = [];
 
 const mockPrices: Record<string, { price: number; change: number; changePercent: number }> = {
   PETR4: { price: 28.45, change: 0.85, changePercent: 3.08 },
@@ -32,8 +25,11 @@ export default function Watchlist() {
   const { user } = useAuth({ redirectOnUnauthenticated: true });
   const [searchTerm, setSearchTerm] = useState('');
   const [showAddModal, setShowAddModal] = useState(false);
+  const [availableAssets, setAvailableAssets] = useState<any[]>([]);
 
   const { data: watchlistItems = [], isLoading, refetch } = trpc.watchlist.getAll.useQuery();
+  const { data: allAssetsFromServer = [] } = trpc.watchlist.getAllAssets.useQuery();
+  
   const removeMutation = trpc.watchlist.remove.useMutation({
     onSuccess: () => refetch(),
   });
@@ -41,6 +37,7 @@ export default function Watchlist() {
     onSuccess: () => {
       refetch();
       setShowAddModal(false);
+      setSearchTerm('');
     },
   });
 
@@ -52,8 +49,13 @@ export default function Watchlist() {
     addMutation.mutate({ assetId });
   };
 
-  const watchlistSymbols = new Set(watchlistItems.map((item: any) => item.symbol));
-  const availableAssets = allAssets.filter((asset) => !watchlistSymbols.has(asset.symbol));
+  // Update available assets when data changes
+  React.useEffect(() => {
+    const watchlistSymbols = new Set(watchlistItems.map((item: any) => item.symbol));
+    const filtered = allAssetsFromServer.filter((asset: any) => !watchlistSymbols.has(asset.symbol));
+    setAvailableAssets(filtered);
+  }, [watchlistItems, allAssetsFromServer]);
+
   const filteredAssets = availableAssets.filter(
     (asset) =>
       asset.symbol.toLowerCase().includes(searchTerm.toLowerCase()) ||

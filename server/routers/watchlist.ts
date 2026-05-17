@@ -117,4 +117,12 @@ export const watchlistRouter = router({
 
       return item.length > 0;
     }),
+
+  // Get all available assets
+  getAllAssets: protectedProcedure.query(async ({ ctx }) => {
+    const db = await getDb();
+    if (!db) throw new Error('Database not available');
+    const items = await db.select().from(assets);
+    return items;
+  }),
 });
