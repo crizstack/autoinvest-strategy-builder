@@ -1,5 +1,5 @@
 import { Handle, Position } from 'reactflow';
-import { X, Settings } from 'lucide-react';
+import { Trash2 } from 'lucide-react';
 import { BLOCK_COLORS, BLOCK_DESCRIPTIONS } from '@/types/builder';
 import { useBuilderStore } from '@/stores/builderStore';
 
@@ -11,7 +11,7 @@ export interface BlockNodeData {
 }
 
 export default function BlockNode({ data, id, isConnecting, selected }: any) {
-  const { removeNode, setSelectedNodeId } = useBuilderStore();
+  const { removeNode } = useBuilderStore();
   const blockType = data.type as keyof typeof BLOCK_COLORS;
   const color = BLOCK_COLORS[blockType] || '#6b7280';
 
@@ -20,44 +20,47 @@ export default function BlockNode({ data, id, isConnecting, selected }: any) {
     removeNode(id);
   };
 
-  const handleSelect = () => {
-    setSelectedNodeId(id);
+  const getBlockIcon = () => {
+    const icons: Record<string, string> = {
+      trigger: '🔔',
+      indicator: '📊',
+      operator: '⚙️',
+      action: '🎯',
+      risk: '🛡️',
+    };
+    return icons[data.type] || '📦';
   };
 
   return (
     <div
       className={`px-4 py-3 rounded-lg border-2 transition-all cursor-pointer ${
         selected
-          ? 'border-white shadow-lg shadow-white/20 bg-opacity-100'
-          : 'border-opacity-50 hover:border-opacity-100'
+          ? 'shadow-lg shadow-white/30 bg-opacity-100'
+          : 'hover:border-opacity-100'
       }`}
       style={{
         backgroundColor: `${color}15`,
-        borderColor: color,
+        borderColor: selected ? color : `${color}50`,
+        boxShadow: selected ? `0 0 20px ${color}40` : 'none',
       }}
-      onClick={handleSelect}
     >
-      {/* Input Handle */}
+      {/* Top Handle */}
       {data.type !== 'trigger' && (
         <Handle
           type="target"
           position={Position.Top}
           style={{
             background: color,
-            width: '8px',
-            height: '8px',
+            width: '10px',
+            height: '10px',
+            border: `2px solid ${color}`,
           }}
         />
       )}
 
       {/* Block Content */}
       <div className="flex items-center gap-3 min-w-max">
-        <div
-          className="w-8 h-8 rounded flex items-center justify-center text-white font-bold text-sm"
-          style={{ backgroundColor: color }}
-        >
-          {data.label.charAt(0).toUpperCase()}
-        </div>
+        <span className="text-lg">{getBlockIcon()}</span>
 
         <div className="flex-1">
           <p className="text-sm font-semibold text-white">{data.label}</p>
@@ -68,22 +71,23 @@ export default function BlockNode({ data, id, isConnecting, selected }: any) {
 
         <button
           onClick={handleDelete}
-          className="p-1 hover:bg-red-600/20 rounded transition-colors"
+          className="p-1 hover:bg-red-600/20 rounded transition-colors flex-shrink-0"
           title="Remover bloco"
         >
-          <X className="w-4 h-4 text-red-400" />
+          <Trash2 className="w-4 h-4 text-red-400" />
         </button>
       </div>
 
-      {/* Output Handle */}
+      {/* Bottom Handle */}
       {data.type !== 'action' && data.type !== 'risk' && (
         <Handle
           type="source"
           position={Position.Bottom}
           style={{
             background: color,
-            width: '8px',
-            height: '8px',
+            width: '10px',
+            height: '10px',
+            border: `2px solid ${color}`,
           }}
         />
       )}

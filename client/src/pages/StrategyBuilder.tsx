@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef } from 'react';
+import { useState, useRef, useCallback } from 'react';
 import ReactFlow, {
   Node,
   Edge,
@@ -13,12 +13,13 @@ import ReactFlow, {
 import 'reactflow/dist/style.css';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { ArrowLeft, Save, AlertCircle } from 'lucide-react';
+import { ArrowLeft, Save, AlertCircle, CheckCircle, Zap } from 'lucide-react';
 import { useLocation } from 'wouter';
 import { toast } from 'sonner';
 import BlockLibrary from '@/components/builder/BlockLibrary';
 import BlockNode from '@/components/builder/BlockNode';
 import ConfigPanel from '@/components/builder/ConfigPanel';
+import StrategyPreview from '@/components/builder/StrategyPreview';
 import { trpc } from '@/lib/trpc';
 import type { BlockType } from '@/types/builder';
 import { useBuilderStore } from '@/stores/builderStore';
@@ -27,6 +28,9 @@ const nodeTypes = {
   block: BlockNode,
 };
 
+// Ativos B3 principais
+const MAIN_ASSETS = ['PETR4', 'VALE3', 'ITUB4', 'BBDC4', 'ABEV3', 'BBAS3', 'WEGE3', 'MGLU3'];
+
 export default function StrategyBuilder() {
   const [, setLocation] = useLocation();
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
@@ -34,7 +38,9 @@ export default function StrategyBuilder() {
   const [selectedNodeId, setSelectedNodeId] = useState<string | null>(null);
   const [strategyName, setStrategyName] = useState('Nova Estratégia');
   const [strategyDescription, setStrategyDescription] = useState('');
+  const [selectedAsset, setSelectedAsset] = useState<string>('');
   const [isSaving, setIsSaving] = useState(false);
+  const [showPreview, setShowPreview] = useState(false);
   const reactFlowWrapper = useRef(null);
   const { setNodes: setStoreNodes, setEdges: setStoreEdges } = useBuilderStore();
 
@@ -97,41 +103,64 @@ export default function StrategyBuilder() {
     setNodes((nds) => [...nds, newNode]);
   };
 
-  const validateStrategy = () => {
+  const validateStrategy = (): { valid: boolean; errors: string[] } => {
+    const errors: string[] = [];
+
+    if (!selectedAsset) {
+      errors.push('Selecione um ativo para a estratégia');
+    }
+
     if (nodes.length === 0) {
-      toast.error('Adicione pelo menos um bloco');
-      return false;
+      errors.push('Adicione pelo menos um bloco');
     }
 
     const hasTrigger = nodes.some((n) => n.data.type === 'trigger');
-    const hasAction = nodes.some((n) => n.data.type === 'action');
-
     if (!hasTrigger) {
-      toast.error('Estratégia deve ter um Trigger');
-      return false;
+      errors.push('Estratégia deve ter um Trigger (início)');
     }
 
+    const hasAction = nodes.some((n) => n.data.type === 'action');
     if (!hasAction) {
-      toast.error('Estratégia deve ter uma Ação');
-      return false;
+      errors.push('Estratégia deve ter uma Ação (compra/venda)');
     }
 
-    return true;
+    // Validar que não há blocos isolados
+    const connectedNodeIds = new Set<string>();
+    edges.forEach((edge) => {
+      connectedNodeIds.add(edge.source);
+      connectedNodeIds.add(edge.target);
+    });
+
+    const isolatedNodes = nodes.filter((n) => !connectedNodeIds.has(n.id));
+    if (isolatedNodes.length > 0) {
+      errors.push(`${isolatedNodes.length} bloco(s) desconectado(s) - conecte todos os blocos`);
+    }
+
+    return {
+      valid: errors.length === 0,
+      errors,
+    };
   };
 
   const handleSave = async () => {
-    if (!validateStrategy()) return;
+    const validation = validateStrategy();
+
+    if (!validation.valid) {
+      validation.errors.forEach((error) => {
+        toast.error(error);
+      });
+      return;
+    }
 
     setIsSaving(true);
 
     try {
-      // Store strategy in Zustand
       setStoreNodes(nodes);
       setStoreEdges(edges);
-      
+
       await createStrategyMutation.mutateAsync({
         name: strategyName,
-        asset: 'PETR4',
+        asset: selectedAsset,
         description: strategyDescription,
       });
     } finally {
@@ -140,6 +169,7 @@ export default function StrategyBuilder() {
   };
 
   const selectedNode = nodes.find((n) => n.id === selectedNodeId);
+  const validation = validateStrategy();
 
   return (
     <div className="flex h-screen bg-slate-950">
@@ -149,49 +179,83 @@ export default function StrategyBuilder() {
       {/* Main Canvas */}
       <div className="flex-1 flex flex-col">
         {/* Header */}
-        <div className="bg-slate-900/50 border-b border-slate-800 p-4 flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <button
-              onClick={() => setLocation('/estrategias')}
-              className="p-2 hover:bg-slate-800 rounded transition-colors"
-            >
-              <ArrowLeft className="w-5 h-5 text-slate-400" />
-            </button>
-            <div>
-              <Input
-                type="text"
-                value={strategyName}
-                onChange={(e) => setStrategyName(e.target.value)}
-                className="bg-slate-950 border-slate-800 text-white font-semibold text-lg mb-1"
-                placeholder="Nome da estratégia"
-              />
-              <Input
-                type="text"
-                value={strategyDescription}
-                onChange={(e) => setStrategyDescription(e.target.value)}
-                className="bg-slate-950 border-slate-800 text-slate-400 text-sm"
-                placeholder="Descrição (opcional)"
-              />
+        <div className="bg-slate-900/50 border-b border-slate-800 p-4">
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-4">
+              <button
+                onClick={() => setLocation('/estrategias')}
+                className="p-2 hover:bg-slate-800 rounded transition-colors"
+              >
+                <ArrowLeft className="w-5 h-5 text-slate-400" />
+              </button>
+              <div className="flex-1">
+                <Input
+                  type="text"
+                  value={strategyName}
+                  onChange={(e) => setStrategyName(e.target.value)}
+                  className="bg-slate-950 border-slate-800 text-white font-semibold text-lg mb-1"
+                  placeholder="Nome da estratégia"
+                />
+                <Input
+                  type="text"
+                  value={strategyDescription}
+                  onChange={(e) => setStrategyDescription(e.target.value)}
+                  className="bg-slate-950 border-slate-800 text-slate-400 text-sm"
+                  placeholder="Descrição (opcional)"
+                />
+              </div>
+            </div>
+
+            <div className="flex items-center gap-3">
+              <Button
+                onClick={() => setShowPreview(!showPreview)}
+                variant="outline"
+                className="flex items-center gap-2"
+              >
+                <Zap className="w-4 h-4" />
+                Preview
+              </Button>
+              <Button
+                onClick={handleSave}
+                disabled={isSaving || !validation.valid}
+                className="bg-green-600 hover:bg-green-700 flex items-center gap-2"
+              >
+                <Save className="w-4 h-4" />
+                {isSaving ? 'Salvando...' : 'Salvar'}
+              </Button>
             </div>
           </div>
 
-          <div className="flex items-center gap-3">
-            <div className="text-sm text-slate-400">
-              {nodes.length} bloco{nodes.length !== 1 ? 's' : ''} • {edges.length} conexão{edges.length !== 1 ? 's' : ''}
-            </div>
-            <Button
-              onClick={handleSave}
-              disabled={isSaving}
-              className="bg-green-600 hover:bg-green-700 flex items-center gap-2"
+          {/* Asset Selection */}
+          <div className="flex items-center gap-4">
+            <label className="text-sm font-medium text-slate-300">Ativo:</label>
+            <select
+              value={selectedAsset}
+              onChange={(e) => setSelectedAsset(e.target.value)}
+              className={`px-4 py-2 rounded-lg border text-sm font-medium transition-colors ${
+                selectedAsset
+                  ? 'bg-green-600/20 border-green-600/50 text-green-400'
+                  : 'bg-slate-950 border-slate-800 text-slate-400'
+              }`}
             >
-              <Save className="w-4 h-4" />
-              {isSaving ? 'Salvando...' : 'Salvar Estratégia'}
-            </Button>
+              <option value="">Selecione um ativo...</option>
+              {MAIN_ASSETS.map((asset) => (
+                <option key={asset} value={asset}>
+                  {asset}
+                </option>
+              ))}
+            </select>
+            {selectedAsset && (
+              <div className="flex items-center gap-2 text-green-400 text-sm">
+                <CheckCircle className="w-4 h-4" />
+                {selectedAsset} selecionado
+              </div>
+            )}
           </div>
         </div>
 
         {/* Canvas Area */}
-        <div className="flex-1 flex gap-4">
+        <div className="flex-1 flex gap-4 overflow-hidden">
           {/* React Flow Canvas */}
           <div
             ref={reactFlowWrapper}
@@ -215,38 +279,101 @@ export default function StrategyBuilder() {
               <MiniMap />
             </ReactFlow>
 
-            {/* Empty State */}
+            {/* Empty State with Guide */}
             {nodes.length === 0 && (
               <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                <div className="text-center">
-                  <p className="text-slate-400 text-lg mb-2">Arraste blocos do painel esquerdo</p>
-                  <p className="text-slate-500 text-sm">para começar a construir sua estratégia</p>
+                <div className="text-center max-w-md">
+                  <div className="mb-4 text-6xl">🏗️</div>
+                  <h2 className="text-xl font-semibold text-white mb-2">Comece sua estratégia</h2>
+                  <p className="text-slate-400 mb-4">
+                    1. Selecione um ativo no topo
+                  </p>
+                  <p className="text-slate-400 mb-4">
+                    2. Arraste um <span className="text-blue-400 font-semibold">Trigger</span> para iniciar
+                  </p>
+                  <p className="text-slate-400 mb-4">
+                    3. Adicione <span className="text-purple-400 font-semibold">Indicadores</span> e <span className="text-green-400 font-semibold">Ações</span>
+                  </p>
+                  <p className="text-slate-500 text-sm italic">
+                    Exemplo: Preço acima de X → Comprar
+                  </p>
                 </div>
               </div>
             )}
           </div>
 
-          {/* Config Panel */}
-          <ConfigPanel selectedNode={selectedNode || null} />
+          {/* Right Panel - Config or Preview */}
+          {showPreview ? (
+            <StrategyPreview
+              nodes={nodes}
+              edges={edges}
+              selectedAsset={selectedAsset}
+              strategyName={strategyName}
+            />
+          ) : (
+            <ConfigPanel selectedNode={selectedNode || null} />
+          )}
         </div>
 
         {/* Validation Messages */}
-        {nodes.length > 0 && (
-          <div className="bg-slate-900/50 border-t border-slate-800 p-4 space-y-2">
-            {!nodes.some((n) => n.data.type === 'trigger') && (
+        <div className="bg-slate-900/50 border-t border-slate-800 p-4">
+          <div className="space-y-2">
+            {/* Asset validation */}
+            {!selectedAsset && (
+              <div className="flex items-center gap-2 text-amber-400 text-sm">
+                <AlertCircle className="w-4 h-4" />
+                Selecione um ativo para continuar
+              </div>
+            )}
+
+            {/* Trigger validation */}
+            {selectedAsset && !nodes.some((n) => n.data.type === 'trigger') && nodes.length > 0 && (
               <div className="flex items-center gap-2 text-amber-400 text-sm">
                 <AlertCircle className="w-4 h-4" />
                 Adicione um Trigger para iniciar a estratégia
               </div>
             )}
-            {!nodes.some((n) => n.data.type === 'action') && (
+
+            {/* Action validation */}
+            {selectedAsset && !nodes.some((n) => n.data.type === 'action') && nodes.length > 0 && (
               <div className="flex items-center gap-2 text-amber-400 text-sm">
                 <AlertCircle className="w-4 h-4" />
-                Adicione uma Ação para executar a estratégia
+                Adicione uma Ação (Comprar/Vender) para executar
+              </div>
+            )}
+
+            {/* Isolated nodes validation */}
+            {nodes.length > 0 && (() => {
+              const connectedNodeIds = new Set<string>();
+              edges.forEach((edge) => {
+                connectedNodeIds.add(edge.source);
+                connectedNodeIds.add(edge.target);
+              });
+              const isolatedNodes = nodes.filter((n) => !connectedNodeIds.has(n.id));
+              return isolatedNodes.length > 0 ? (
+                <div className="flex items-center gap-2 text-amber-400 text-sm">
+                  <AlertCircle className="w-4 h-4" />
+                  {isolatedNodes.length} bloco(s) desconectado(s) - conecte todos os blocos
+                </div>
+              ) : null;
+            })()}
+
+            {/* Success state */}
+            {validation.valid && nodes.length > 0 && (
+              <div className="flex items-center gap-2 text-green-400 text-sm">
+                <CheckCircle className="w-4 h-4" />
+                Estratégia válida! Pronto para salvar
+              </div>
+            )}
+
+            {/* Stats */}
+            {nodes.length > 0 && (
+              <div className="text-slate-400 text-xs mt-2">
+                {nodes.length} bloco{nodes.length !== 1 ? 's' : ''} • {edges.length} conexão{edges.length !== 1 ? 's' : ''}
               </div>
             )}
           </div>
-        )}
+        </div>
       </div>
     </div>
   );

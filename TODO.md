@@ -284,3 +284,50 @@
 - Estética blueprint profissional em toda a interface
 - Dados históricos B3 precisam ser carregados (fonte: BRAPI)
 - Módulo de Mercado corrigido: loops infinitos resolvidos, testes implementados
+
+
+---
+
+## FASE 4B: Builder Visual Refinado (NOVO)
+
+### Seleção de Ativo
+- [x] Campo obrigatório de seleção de ativo no topo
+- [x] Lista de ativos B3 principais (PETR4, VALE3, etc)
+- [x] Validação: não permitir salvar sem ativo
+- [x] Feedback visual quando ativo selecionado
+
+### Fluxo Estruturado
+- [x] Guia visual inicial com instruções
+- [x] Exemplo automático: "Preço acima de X → Comprar"
+- [x] Validação de fluxo completo
+- [x] Detecção de blocos desconectados
+
+### Melhorias de UX
+- [x] Ícones visuais para cada tipo de bloco (🔔 Trigger, 📊 Indicador, 🎯 Ação, 🛡️ Risco)
+- [x] Handles melhorados (10px, com borda)
+- [x] Seleção visual clara com glow effect
+- [x] Painel de preview da estratégia
+- [x] Resumo legível do fluxo
+- [x] Composição visual (contagem de blocos)
+- [x] Dicas contextuais
+
+### Validação Forte
+- [x] Validação de ativo obrigatório
+- [x] Validação de trigger obrigatório
+- [x] Validação de ação obrigatória
+- [x] Detecção de blocos isolados
+- [x] Mensagens de erro claras
+- [x] Status "Pronto para salvar" quando válido
+
+### Painel de Configuração
+- [x] Campos bem organizados
+- [x] Dicas de como usar cada bloco
+- [x] Suporte a múltiplos tipos de blocos
+- [x] Exibição de parâmetros configurados
+
+### Testes
+- [x] 18 testes passando para validação
+- [x] Testes de tipos de blocos
+- [x] Testes de parâmetros
+- [x] Testes de fluxo de estratégia
+- [x] Testes de seleção de ativo

@@ -1,0 +1,44 @@
+{
+  "build_command": "pnpm run build",
+  "capabilities": [
+    "db",
+    "server",
+    "user"
+  ],
+  "dev_command": "pnpm run dev",
+  "env_vars": {
+    "DATABASE_URL": "mysql://nabuXNBQDAzJqNC.root:3cmwA1Gbdjf038Y3uErP@gateway06.us-east-1.prod.aws.tidbcloud.com:4000/MibUnB9pVE8XB5NiFzoXDr?ssl={\"rejectUnauthorized\":true}"
+  },
+  "experiments": [
+    "no_db_push"
+  ],
+  "git_remote": {
+    "repo_url": "s3://vida-prod-gitrepo/webdev-git/310519663581078632/MibUnB9pVE8XB5NiFzoXDr",
+    "access_key_id": "ASIAZV3A2ECZAK23JIFL",
+    "secret_access_key": "o/5nGlBVfaQF/BhphZgI/EpY4SscUBu/SMpxYmV0",
+    "session_token": "IQoJb3JpZ2luX2VjENH//////////wEaCXVzLWVhc3QtMSJHMEUCIH84bqMgpChTwnIqfDFnZFAFUYl5vPv7xVYPeI6cntaiAiEA1F+q68SluwMqih7tMFtM0CnTdt5NqiLxO8CEVnjXAeYq/wMImf//////////ARAEGgw2NjUzODYwOTg4NjYiDPXGpb+U051IOi9PMCrTA5NYKWzTUzIsbweOrJJPSLvgSmBiuLg32PcnVDeka5MdL2nW0uywyFwT5V+xCz/6+AGaXoUB7vc182qSWEHd7wYAW1oMWY1vgPtA4kzebsAwVKOgsHLmWSm+msnQ0tbgbdFwON8HVihjnOMbN6KTS66lDe5KKFhyloMo8Wq17uFS0spH/F9GwIY9kmHyrnimtqQtaVg4YNaJpLg+GyuT2ZSCM4reEijlslS9l0eZHbVMJaUz70OxQWQ2GlEuampdpRkuHL+AVD0RlcoWi460v0KuZU9lKZTrM7MzDiNWGhYQFby0J7eHHsog85E7SWZhkmFhlqGZOLJ+ciSa0S1EQv7+GLm2MbH8Xwt3R02YTNBJnUdCREt3p2sWO/k1XQqko4ud/AEdo5vzDSVTrTjNa4RKynZQo0a18VjwFzpOZ0b5O/0LyeBjL13fu6TnWaTea7j0SZ73OIPULBjqwTemihjchVQ0Z91n/i8blA85YveMiLPYEJDb84KoeHPBeLHP64wCXR0psZzbZWQqbK4Y9ZGINZ2xMyvRVnt002l/OnNVdDSagtTJ0KwQAtq61+M0XqGX8k8mY9jC+uz5SH1p6G4K8uclSb1z9XbU1n7lQmZOej4hMIGOpNAGOp0BdNQABaODF5LZBKA83HMyqDYzse0qJQtG1AXQrYdf4umdNP4Yvp3eTpcsG6Ey2beJwBao31k/iGPhX/no8KLwqliqzAkaZwaZ3C5IF7g2Eyhm8tPZFDkk0qNlzK8+lmFqXFsBiD6sliSscrF6mAWaJR6Ka2t0Jn09wj8mNszSKTen6ib5TcVR1KmggEEBWc64eIF7TiS9KHPEkm7vyg==",
+    "expiration": "2026-05-17T12:08:33.000Z"
+  },
+  "name": "autoinvest-strategy-builder",
+  "path": "/home/ubuntu/autoinvest-strategy-builder",
+  "port": 3000,
+  "secrets": {
+    "BUILT_IN_FORGE_API_KEY": "NiHUoPedpEsJcskVCibRam",
+    "BUILT_IN_FORGE_API_URL": "https://forge.manus.ai",
+    "JWT_SECRET": "Rq5o3HJVDpJVCuSEW9bmzk",
+    "OAUTH_SERVER_URL": "https://api.manus.im",
+    "OWNER_NAME": "Criztofer Lima Ribeiro",
+    "OWNER_OPEN_ID": "oLGGSGGhWhiMTvTFkAFyCJ",
+    "VITE_ANALYTICS_ENDPOINT": "https://manus-analytics.com",
+    "VITE_ANALYTICS_WEBSITE_ID": "6cf08427-38be-45aa-84aa-0ca30741ec92",
+    "VITE_APP_ID": "MibUnB9pVE8XB5NiFzoXDr",
+    "VITE_APP_LOGO": "https://files.manuscdn.com/user_upload_by_module/web_dev_logo/310519663581078632/MSnmeGqNOBHoKGKq.png",
+    "VITE_APP_TITLE": "AutoInvest Strategy Builder",
+    "VITE_BRAPI_API_KEY": "4AjUurGMRxujRhDzqtoyKF",
+    "VITE_FRONTEND_FORGE_API_KEY": "cFu68ttQUihRwBqkTQg3dF",
+    "VITE_FRONTEND_FORGE_API_URL": "https://forge.manus.ai",
+    "VITE_OAUTH_PORTAL_URL": "https://manus.im"
+  },
+  "template_id": "web-db-user",
+  "test_command": "pnpm test"
+}

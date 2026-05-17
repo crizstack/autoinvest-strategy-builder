@@ -150,16 +150,19 @@ export default function ConfigPanel({ selectedNode }: ConfigPanelProps) {
             </>
           )}
 
-          {!selectedNode.data?.params && (
+          {!selectedNode.data?.params || Object.keys(selectedNode.data?.params || {}).length === 0 && (
             <p className="text-sm text-slate-500 italic">Nenhuma configuração disponível para este bloco</p>
           )}
         </div>
 
         {/* Help */}
-        <div className="p-3 rounded-lg bg-green-600/10 border border-green-600/20">
-          <p className="text-xs text-green-400">
-            💡 Dica: Arraste blocos do painel esquerdo para criar sua estratégia
-          </p>
+        <div className="p-3 rounded-lg bg-blue-600/10 border border-blue-600/20">
+          <p className="text-xs text-blue-400 font-semibold mb-2">💡 Como usar este bloco:</p>
+          <ul className="text-xs text-blue-400/80 space-y-1">
+            <li>• Configure os parâmetros acima</li>
+            <li>• Conecte a outros blocos</li>
+            <li>• Use o preview para ver o fluxo</li>
+          </ul>
         </div>
       </div>
     </div>
