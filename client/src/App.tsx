@@ -19,6 +19,7 @@ import Settings from './pages/Settings';
 import Market from './pages/Market';
 import AssetDetail from './pages/AssetDetail';
 import AuthenticatedLayout from './components/AuthenticatedLayout';
+import AIAssistantButton from './components/ai/AIAssistantButton';
 
 function Router() {
   return (
@@ -119,6 +120,7 @@ function App() {
         <TooltipProvider>
           <Toaster />
           <Router />
+          <AIAssistantButton />
         </TooltipProvider>
       </ThemeProvider>
     </ErrorBoundary>

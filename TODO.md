@@ -331,3 +331,171 @@
 - [x] Testes de parâmetros
 - [x] Testes de fluxo de estratégia
 - [x] Testes de seleção de ativo
+
+
+---
+
+## FASE 9: Assistente IA Integrado (NOVO)
+
+### Arquitetura e Componentes
+- [ ] Criar módulo /ai-assistant
+- [ ] Componente ChatPanel (chat lateral moderno)
+- [ ] Componente MessageBubble (mensagens animadas)
+- [ ] Componente SuggestionChips (sugestões rápidas)
+- [ ] AIService (integração com LLM)
+- [ ] Ícone flutuante no canto inferior direito
+
+### Chat Funcional
+- [ ] Chat lateral com UI premium dark mode
+- [ ] Mensagens animadas e typing indicator
+- [ ] Histórico de conversa
+- [ ] Botão limpar conversa
+- [ ] Responsividade mobile
+
+### Contexto Inteligente
+- [ ] Detectar página atual (Builder, Backtest, Market, etc)
+- [ ] Adaptar respostas ao contexto
+- [ ] Armazenar contexto na sessão
+- [ ] Passar contexto ao prompt system
+
+### Educação Financeira
+- [ ] Explicar RSI
+- [ ] Explicar MACD
+- [ ] Explicar Média Móvel
+- [ ] Explicar Stop Loss
+- [ ] Explicar Take Profit
+- [ ] Explicar Gestão de Risco
+- [ ] Explicar Candlestick
+- [ ] Linguagem simples e acessível
+
+### Ajuda da Plataforma
+- [ ] Como criar estratégia
+- [ ] Como usar builder
+- [ ] Como funciona backtest
+- [ ] Como funciona paper trading
+- [ ] Como funciona billing
+- [ ] Como usar módulo mercado
+
+### Ajuda no Builder
+- [ ] Passo a passo para criar estratégia
+- [ ] Quais blocos usar
+- [ ] Como conectar blocos
+- [ ] Validação de estratégia
+
+### Sugestões de Estratégias
+- [ ] Estratégia RSI
+- [ ] Cruzamento de médias
+- [ ] Estratégia conservadora
+- [ ] Estratégia agressiva
+- [ ] Exemplos práticos
+
+### Prompt System
+- [ ] Atuar como educador financeiro
+- [ ] Atuar como assistente da plataforma
+- [ ] Nunca prometer ganhos
+- [ ] Nunca recomendar compra direta
+- [ ] Incluir aviso "Não é recomendação financeira"
+- [ ] Respostas educacionais e seguras
+
+### Sugestões Rápidas
+- [ ] "Como criar estratégia?"
+- [ ] "O que é RSI?"
+- [ ] "Como funciona backtest?"
+- [ ] "Explicar stop loss"
+- [ ] Chips clicáveis dinâmicos
+
+### Testes
+- [ ] Testes de AIService
+- [ ] Testes de contexto
+- [ ] Testes de prompt system
+- [ ] Testes de integração com LLM
+
+### Funcionalidades Futuras (Preparar Arquitetura)
+- [ ] Geração automática de estratégias
+- [ ] Análise de performance
+- [ ] Otimização de estratégias
+- [ ] Insights inteligentes
+
+
+### Assistente IA - CONCLUÍDO ✅
+
+#### Arquitetura e Componentes
+- [x] Criar módulo /ai-assistant
+- [x] Componente ChatPanel (chat lateral moderno)
+- [x] Componente MessageBubble (mensagens animadas)
+- [x] Componente SuggestionChips (sugestões rápidas)
+- [x] AIService (integração com LLM)
+- [x] Ícone flutuante no canto inferior direito
+
+#### Chat Funcional
+- [x] Chat lateral com UI premium dark mode
+- [x] Mensagens animadas e typing indicator
+- [x] Histórico de conversa
+- [x] Botão limpar conversa
+- [x] Responsividade mobile
+
+#### Contexto Inteligente
+- [x] Detectar página atual (Builder, Backtest, Market, etc)
+- [x] Adaptar respostas ao contexto
+- [x] Armazenar contexto na sessão
+- [x] Passar contexto ao prompt system
+
+#### Educação Financeira
+- [x] Explicar RSI
+- [x] Explicar MACD
+- [x] Explicar Média Móvel
+- [x] Explicar Stop Loss
+- [x] Explicar Take Profit
+- [x] Explicar Gestão de Risco
+- [x] Explicar Candlestick
+- [x] Linguagem simples e acessível
+
+#### Ajuda da Plataforma
+- [x] Como criar estratégia
+- [x] Como usar builder
+- [x] Como funciona backtest
+- [x] Como funciona paper trading
+- [x] Como funciona billing
+- [x] Como usar módulo mercado
+
+#### Ajuda no Builder
+- [x] Passo a passo para criar estratégia
+- [x] Quais blocos usar
+- [x] Como conectar blocos
+- [x] Validação de estratégia
+
+#### Sugestões de Estratégias
+- [x] Estratégia RSI
+- [x] Cruzamento de médias
+- [x] Estratégia conservadora
+- [x] Estratégia agressiva
+- [x] Exemplos práticos
+
+#### Prompt System
+- [x] Atuar como educador financeiro
+- [x] Atuar como assistente da plataforma
+- [x] Nunca prometer ganhos
+- [x] Nunca recomendar compra direta
+- [x] Incluir aviso "Não é recomendação financeira"
+- [x] Respostas educacionais e seguras
+
+#### Sugestões Rápidas
+- [x] "Como criar estratégia?"
+- [x] "O que é RSI?"
+- [x] "Como funciona backtest?"
+- [x] "Explicar stop loss"
+- [x] Chips clicáveis dinâmicos
+
+#### Testes
+- [x] 25 testes passando para AIService
+- [x] Testes de contexto
+- [x] Testes de prompt system
+- [x] Testes de segurança (sem promessas de ganho)
+- [x] Testes de educação financeira
+- [x] Testes de sugestões por contexto
+
+#### Integração
+- [x] Router tRPC para chat IA
+- [x] Integração com LLM backend
+- [x] Ícone flutuante em todas as páginas
+- [x] Chat acessível de qualquer lugar
