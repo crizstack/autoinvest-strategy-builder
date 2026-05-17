@@ -509,3 +509,13 @@
 - [x] Usar bullets para organizar informações
 - [x] Testes passando (25/25)
 - [x] Validação de TypeScript (sem erros)
+
+
+### Strategy Builder - Correções (NOVO)
+
+- [x] Adicionar campo de condição (acima/abaixo) para blocos de preço
+- [x] Adicionar campo de input para valor específico nos blocos de preço
+- [x] Corrigir minimapa com cores por tipo de bloco
+- [x] Adicionar background escuro ao minimapa
+- [x] Adicionar border ao minimapa para visibilidade
+- [x] Colorir blocos: Trigger (azul), Indicador (roxo), Ação (verde), Risco (vermelho)

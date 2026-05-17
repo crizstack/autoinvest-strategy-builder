@@ -44,8 +44,19 @@ export default function ConfigPanel({ selectedNode }: ConfigPanelProps) {
         <div className="space-y-4">
           <h4 className="text-sm font-semibold text-slate-300">Configurações</h4>
 
-          {selectedNode.data?.type === 'trigger' && selectedNode.data?.subType === 'price_above' && (
+          {selectedNode.data?.type === 'trigger' && (selectedNode.data?.subType === 'price_above' || selectedNode.data?.subType === 'price_below') && (
             <>
+              <div>
+                <Label className="text-slate-300 text-sm">Condição</Label>
+                <select
+                  value={selectedNode.data?.params?.condition || 'above'}
+                  onChange={(e) => handleParamChange('condition', e.target.value)}
+                  className="w-full px-3 py-2 bg-slate-950 border border-slate-800 text-white rounded text-sm mt-2"
+                >
+                  <option value="above">Acima de</option>
+                  <option value="below">Abaixo de</option>
+                </select>
+              </div>
               <div>
                 <Label className="text-slate-300 text-sm">Valor (R$)</Label>
                 <Input

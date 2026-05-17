@@ -276,7 +276,27 @@ export default function StrategyBuilder() {
             >
               <Background color="#334155" gap={16} />
               <Controls />
-              <MiniMap />
+              <MiniMap
+                nodeColor={(node) => {
+                  switch (node.data?.type) {
+                    case 'trigger':
+                      return '#3b82f6';
+                    case 'indicator':
+                      return '#a855f7';
+                    case 'action':
+                      return '#10b981';
+                    case 'risk':
+                      return '#ef4444';
+                    default:
+                      return '#64748b';
+                  }
+                }}
+                maskColor="rgba(0, 0, 0, 0.3)"
+                style={{
+                  backgroundColor: '#1e293b',
+                  border: '1px solid #475569',
+                }}
+              />
             </ReactFlow>
 
             {/* Empty State with Guide */}
