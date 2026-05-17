@@ -557,3 +557,25 @@
 - [x] Criar procedure getAllAssets no router
 - [x] Corrigir Watchlist.tsx para buscar assets do servidor
 - [x] Implementar useEffect para sincronizar disponíveis
+
+
+### Templates de Estratégias (NOVO)
+
+- [ ] Criar tipos e estrutura de templates
+- [ ] Definir 4 templates (RSI Oversold, Cruzamento de Médias, Tendência, Scalping)
+- [ ] Criar componente TemplateModal
+- [ ] Criar componente TemplateGallery
+- [ ] Integrar templates no StrategyBuilder
+- [ ] Implementar lógica de import com 1 clique
+- [ ] Permitir edição após importação
+
+
+### Templates de Estratégias - COMPLETO
+
+- [x] Criar tipos e estrutura de templates
+- [x] Definir 4 templates (RSI Oversold, Cruzamento de Médias, Tendência, Scalping)
+- [x] Criar componente TemplateModal
+- [x] Criar componente TemplateGallery
+- [x] Integrar templates no StrategyBuilder
+- [x] Implementar lógica de import com 1 clique
+- [x] Permitir edição após importação

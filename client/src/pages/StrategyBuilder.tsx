@@ -20,9 +20,12 @@ import BlockLibrary from '@/components/builder/BlockLibrary';
 import BlockNode from '@/components/builder/BlockNode';
 import ConfigPanel from '@/components/builder/ConfigPanel';
 import StrategyPreview from '@/components/builder/StrategyPreview';
+import TemplateModal from '@/components/builder/TemplateModal';
+import TemplateGallery from '@/components/builder/TemplateGallery';
 import { trpc } from '@/lib/trpc';
 import type { BlockType } from '@/types/builder';
 import { useBuilderStore } from '@/stores/builderStore';
+import type { StrategyTemplate } from '@/data/strategyTemplates';
 
 const nodeTypes = {
   block: BlockNode,
@@ -41,6 +44,8 @@ export default function StrategyBuilder() {
   const [selectedAsset, setSelectedAsset] = useState<string>('');
   const [isSaving, setIsSaving] = useState(false);
   const [showPreview, setShowPreview] = useState(false);
+  const [showTemplates, setShowTemplates] = useState(false);
+  const [selectedTemplate, setSelectedTemplate] = useState<StrategyTemplate | null>(null);
   const reactFlowWrapper = useRef(null);
   const { setNodes: setStoreNodes, setEdges: setStoreEdges } = useBuilderStore();
 
@@ -101,6 +106,28 @@ export default function StrategyBuilder() {
     };
 
     setNodes((nds) => [...nds, newNode]);
+  };
+
+  const handleImportTemplate = (template: StrategyTemplate) => {
+    setStrategyName(template.name);
+    setStrategyDescription(template.description);
+    
+    const templateNodes = template.blocks.map((block: any) => ({
+      id: block.id,
+      data: {
+        label: block.label,
+        type: block.type,
+        subType: block.type,
+        params: block.data || {},
+      },
+      position: block.position,
+      type: 'block',
+    }));
+    
+    setNodes(templateNodes);
+    setEdges(template.connections);
+    setShowTemplates(false);
+    toast.success(`Template "${template.name}" importado com sucesso!`);
   };
 
   const validateStrategy = (): { valid: boolean; errors: string[] } => {
@@ -207,6 +234,13 @@ export default function StrategyBuilder() {
             </div>
 
             <div className="flex items-center gap-3">
+              <Button
+                onClick={() => setShowTemplates(!showTemplates)}
+                variant="outline"
+                className="flex items-center gap-2"
+              >
+                📋 Templates
+              </Button>
               <Button
                 onClick={() => setShowPreview(!showPreview)}
                 variant="outline"
@@ -395,6 +429,36 @@ export default function StrategyBuilder() {
           </div>
         </div>
       </div>
+
+      {/* Templates Modal */}
+      {showTemplates && (
+        <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4">
+          <div className="bg-slate-900 border border-slate-800 rounded-lg w-full max-w-4xl max-h-[90vh] overflow-y-auto">
+            <div className="p-6">
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-2xl font-bold text-white">Templates de Estratégias</h2>
+                <button
+                  onClick={() => setShowTemplates(false)}
+                  className="text-slate-400 hover:text-white"
+                >
+                  X
+                </button>
+              </div>
+              <TemplateGallery onSelectTemplate={(template) => {
+                setSelectedTemplate(template);
+              }} />
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Template Detail Modal */}
+      <TemplateModal
+        template={selectedTemplate}
+        isOpen={selectedTemplate !== null}
+        onClose={() => setSelectedTemplate(null)}
+        onImport={handleImportTemplate}
+      />
     </div>
   );
 }
