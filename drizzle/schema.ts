@@ -179,6 +179,18 @@ export const transactions = mysqlTable("transactions", {
 export type Transaction = typeof transactions.$inferSelect;
 export type InsertTransaction = typeof transactions.$inferInsert;
 
+// Watchlist
+export const watchlist = mysqlTable("watchlist", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull().references(() => users.id, { onDelete: "cascade" }),
+  assetId: int("assetId").notNull().references(() => assets.id, { onDelete: "cascade" }),
+  addedAt: timestamp("addedAt").defaultNow().notNull(),
+  notes: text("notes"),
+});
+
+export type Watchlist = typeof watchlist.$inferSelect;
+export type InsertWatchlist = typeof watchlist.$inferInsert;
+
 // Audit Logs
 export const auditLogs = mysqlTable("auditLogs", {
   id: int("id").autoincrement().primaryKey(),

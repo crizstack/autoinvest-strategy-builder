@@ -18,6 +18,7 @@ import Billing from './pages/Billing';
 import Settings from './pages/Settings';
 import Market from './pages/Market';
 import AssetDetail from './pages/AssetDetail';
+import Watchlist from './pages/Watchlist';
 import AuthenticatedLayout from './components/AuthenticatedLayout';
 import AIAssistantButton from './components/ai/AIAssistantButton';
 
@@ -94,6 +95,13 @@ function Router() {
         {() => (
           <AuthenticatedLayout>
             <AssetDetail />
+          </AuthenticatedLayout>
+        )}
+      </Route>
+      <Route path="/watchlist">
+        {() => (
+          <AuthenticatedLayout>
+            <Watchlist />
           </AuthenticatedLayout>
         )}
       </Route>

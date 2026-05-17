@@ -534,3 +534,17 @@
 - [x] Implementar visual dark mode estilo TradingView
 - [x] Adicionar hover effects e transições suaves
 - [x] Integrar Recharts para gráficos interativos
+
+
+### Sistema de Watchlist (NOVO)
+
+- [x] Criar schema de watchlist no banco de dados
+- [x] Implementar tRPC procedures (getAll, add, remove, updateNotes, isInWatchlist)
+- [x] Criar componente WatchlistWidget para Dashboard
+- [x] Criar página Watchlist completa
+- [x] Integrar widget no Dashboard
+- [x] Adicionar rota /watchlist em App.tsx
+- [x] Implementar modal de adição de ativos
+- [x] Implementar busca de ativos
+- [x] Implementar remoção de ativos
+- [x] Mock de preços em tempo real

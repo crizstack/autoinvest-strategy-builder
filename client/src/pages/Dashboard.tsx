@@ -9,6 +9,7 @@ import PerformanceComparison from '@/components/dashboard/PerformanceComparison'
 import HeatmapWidget from '@/components/dashboard/HeatmapWidget';
 import TopStrategiesWidget from '@/components/dashboard/TopStrategiesWidget';
 import MarketTodayWidget from '@/components/dashboard/MarketTodayWidget';
+import WatchlistWidget from '@/components/dashboard/WatchlistWidget';
 
 export default function Dashboard() {
   const { user } = useAuth({ redirectOnUnauthenticated: true });
@@ -92,10 +93,11 @@ export default function Dashboard() {
       </div>
 
       {/* Widgets Grid */}
-      <div className="grid md:grid-cols-3 gap-6">
+      <div className="grid md:grid-cols-4 gap-6">
         <HeatmapWidget />
         <TopStrategiesWidget />
         <MarketTodayWidget />
+        <WatchlistWidget />
       </div>
 
       {/* Quick Actions */}
