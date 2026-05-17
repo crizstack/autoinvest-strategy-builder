@@ -1,0 +1,191 @@
+/* Compact Mode Styles */
+
+:root.compact-mode {
+  --spacing-compact: 0.5rem;
+  --spacing-compact-lg: 1rem;
+}
+
+/* Compact Mode: Reduce Padding & Margins */
+.compact-mode {
+  --padding-base: 0.5rem;
+  --margin-base: 0.5rem;
+}
+
+.compact-mode .container {
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+}
+
+.compact-mode [class*='p-4'] {
+  padding: 0.75rem !important;
+}
+
+.compact-mode [class*='p-6'] {
+  padding: 1rem !important;
+}
+
+.compact-mode [class*='m-4'] {
+  margin: 0.75rem !important;
+}
+
+.compact-mode [class*='gap-4'] {
+  gap: 0.75rem !important;
+}
+
+.compact-mode [class*='gap-6'] {
+  gap: 1rem !important;
+}
+
+/* Compact Mode: Reduce Font Sizes */
+.compact-mode h1 {
+  font-size: 1.5rem;
+  line-height: 1.4;
+}
+
+.compact-mode h2 {
+  font-size: 1.25rem;
+  line-height: 1.4;
+}
+
+.compact-mode h3 {
+  font-size: 1.1rem;
+  line-height: 1.4;
+}
+
+.compact-mode p {
+  font-size: 0.875rem;
+  line-height: 1.4;
+}
+
+/* Compact Mode: Reduce Button Sizes */
+.compact-mode button {
+  padding: 0.375rem 0.75rem;
+  font-size: 0.875rem;
+}
+
+.compact-mode [class*='size-lg'] {
+  padding: 0.5rem 1rem;
+}
+
+/* Compact Mode: Reduce Card Heights */
+.compact-mode [class*='card'] {
+  padding: 0.75rem;
+}
+
+/* Compact Mode: Reduce Table Density */
+.compact-mode table {
+  font-size: 0.875rem;
+}
+
+.compact-mode th,
+.compact-mode td {
+  padding: 0.5rem;
+}
+
+/* Compact Mode: Reduce Sidebar Width */
+.compact-mode [class*='sidebar'] {
+  width: 200px;
+}
+
+/* Compact Mode: Compact Lists */
+.compact-mode [class*='list'] > li {
+  padding: 0.375rem 0;
+}
+
+/* Compact Mode: Reduce Spacing in Forms */
+.compact-mode form {
+  gap: 0.75rem;
+}
+
+.compact-mode label {
+  margin-bottom: 0.25rem;
+  font-size: 0.875rem;
+}
+
+.compact-mode input,
+.compact-mode textarea,
+.compact-mode select {
+  padding: 0.375rem 0.5rem;
+  font-size: 0.875rem;
+}
+
+/* Compact Mode: Reduce Icon Sizes */
+.compact-mode [class*='icon'] {
+  width: 1rem;
+  height: 1rem;
+}
+
+.compact-mode [class*='icon-lg'] {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+/* Compact Mode: Reduce Navigation Height */
+.compact-mode nav {
+  padding: 0.5rem 0;
+}
+
+.compact-mode nav a,
+.compact-mode nav button {
+  padding: 0.375rem 0.75rem;
+  font-size: 0.875rem;
+}
+
+/* Compact Mode: Reduce Dialog/Modal Sizes */
+.compact-mode [role='dialog'] {
+  max-width: 90vw;
+}
+
+.compact-mode [role='dialog'] [class*='p-6'] {
+  padding: 1rem !important;
+}
+
+/* Compact Mode: Reduce Spacing in Grids */
+.compact-mode [class*='grid'] {
+  gap: 0.75rem;
+}
+
+/* Compact Mode: Reduce Breadcrumb Spacing */
+.compact-mode [class*='breadcrumb'] {
+  gap: 0.25rem;
+  font-size: 0.875rem;
+}
+
+/* Compact Mode: Reduce Badge Sizes */
+.compact-mode [class*='badge'] {
+  padding: 0.125rem 0.375rem;
+  font-size: 0.75rem;
+}
+
+/* Compact Mode: Reduce Tooltip Sizes */
+.compact-mode [role='tooltip'] {
+  padding: 0.375rem 0.5rem;
+  font-size: 0.75rem;
+}
+
+/* Compact Mode: Reduce Skeleton Heights */
+.compact-mode .skeleton {
+  height: 1.5rem;
+}
+
+.compact-mode .skeleton-text {
+  height: 0.875rem;
+}
+
+/* Compact Mode: Responsive Adjustments */
+@media (max-width: 768px) {
+  .compact-mode {
+    --padding-base: 0.375rem;
+    --margin-base: 0.375rem;
+  }
+
+  .compact-mode .container {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+}
+
+/* Compact Mode: Transitions */
+.compact-mode * {
+  transition: padding 0.2s ease-out, margin 0.2s ease-out, font-size 0.2s ease-out;
+}
