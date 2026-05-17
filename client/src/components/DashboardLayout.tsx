@@ -21,7 +21,8 @@ import {
 } from "@/components/ui/sidebar";
 import { getLoginUrl } from "@/const";
 import { useIsMobile } from "@/hooks/useMobile";
-import { LayoutDashboard, LogOut, PanelLeft, Users } from "lucide-react";
+import { LayoutDashboard, LogOut, PanelLeft, Users, Bell } from "lucide-react";
+import NotificationCenter from "./notifications/NotificationCenter";
 import { CSSProperties, useEffect, useRef, useState } from "react";
 import { useLocation } from "wouter";
 import { DashboardLayoutSkeleton } from './DashboardLayoutSkeleton';
@@ -111,6 +112,7 @@ function DashboardLayoutContent({
   const { state, toggleSidebar } = useSidebar();
   const isCollapsed = state === "collapsed";
   const [isResizing, setIsResizing] = useState(false);
+  const [showNotifications, setShowNotifications] = useState(false);
   const sidebarRef = useRef<HTMLDivElement>(null);
   const activeMenuItem = menuItems.find(item => item.path === location);
   const isMobile = useIsMobile();
@@ -255,10 +257,28 @@ function DashboardLayoutContent({
                 </div>
               </div>
             </div>
+            <button
+              onClick={() => setShowNotifications(true)}
+              className="p-2 hover:bg-accent rounded-lg transition-colors"
+            >
+              <Bell className="w-5 h-5" />
+            </button>
           </div>
         )}
+        <div className="flex items-center justify-between border-b h-14 px-4 bg-background/95 sticky top-0 z-40">
+          <div />
+          <button
+            onClick={() => setShowNotifications(true)}
+            className="p-2 hover:bg-accent rounded-lg transition-colors"
+          >
+            <Bell className="w-5 h-5" />
+          </button>
+        </div>
         <main className="flex-1 p-4">{children}</main>
       </SidebarInset>
+
+      {/* Notification Center */}
+      <NotificationCenter isOpen={showNotifications} onClose={() => setShowNotifications(false)} />
     </>
   );
 }

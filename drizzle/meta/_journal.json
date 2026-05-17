@@ -22,6 +22,13 @@
       "when": 1779036105422,
       "tag": "0002_dear_robbie_robertson",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "5",
+      "when": 1779037042022,
+      "tag": "0003_yellow_cloak",
+      "breakpoints": true
     }
   ]
 }

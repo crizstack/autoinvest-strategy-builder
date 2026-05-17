@@ -191,6 +191,23 @@ export const watchlist = mysqlTable("watchlist", {
 export type Watchlist = typeof watchlist.$inferSelect;
 export type InsertWatchlist = typeof watchlist.$inferInsert;
 
+// Notifications/Alerts
+export const notifications = mysqlTable("notifications", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull().references(() => users.id, { onDelete: "cascade" }),
+  type: mysqlEnum("type", ["execution", "risk", "market", "system"]).notNull(),
+  title: varchar("title", { length: 255 }).notNull(),
+  message: text("message").notNull(),
+  severity: mysqlEnum("severity", ["info", "warning", "error", "success"]).default("info"),
+  strategyId: int("strategyId").references(() => strategies.id, { onDelete: "set null" }),
+  read: boolean("read").default(false),
+  actionUrl: varchar("actionUrl", { length: 255 }),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export type Notification = typeof notifications.$inferSelect;
+export type InsertNotification = typeof notifications.$inferInsert;
+
 // Audit Logs
 export const auditLogs = mysqlTable("auditLogs", {
   id: int("id").autoincrement().primaryKey(),

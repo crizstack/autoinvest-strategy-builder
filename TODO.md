@@ -579,3 +579,27 @@
 - [x] Integrar templates no StrategyBuilder
 - [x] Implementar lógica de import com 1 clique
 - [x] Permitir edição após importação
+
+
+### Sistema de Alertas (NOVO)
+
+- [ ] Criar tipos e schema de alertas
+- [ ] Implementar tRPC procedures para alertas
+- [ ] Criar componente NotificationCenter
+- [ ] Criar componente AlertToast
+- [ ] Criar hook useNotifications
+- [ ] Integrar alertas em todas as páginas
+- [ ] Implementar testes
+
+
+### Sistema de Alertas - COMPLETO
+
+- [x] Criar tipos e schema de alertas
+- [x] Implementar tRPC procedures para alertas (getAll, getUnreadCount, markAsRead, markAllAsRead, create, delete, deleteAll)
+- [x] Criar componente NotificationCenter com painel lateral
+- [x] Criar hook useNotifications com helpers (notifyExecution, notifyRisk, notifyMarket, notifySystem)
+- [x] Integrar NotificationCenter em DashboardLayout
+- [x] Adicionar botão de notificações no header
+- [x] Implementar 11 testes passando
+- [x] Suporte para 4 tipos de alertas (execution, risk, market, system)
+- [x] Suporte para 4 níveis de severidade (info, warning, error, success)
