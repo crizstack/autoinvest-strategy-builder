@@ -3,6 +3,7 @@ import { z } from 'zod';
 import { notifications } from '../../drizzle/schema';
 import { eq, and, desc } from 'drizzle-orm';
 import { getDb } from '../db';
+import { TRPCError } from '@trpc/server';
 
 export const notificationsRouter = router({
   // Get all notifications for user

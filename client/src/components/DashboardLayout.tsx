@@ -21,7 +21,7 @@ import {
 } from "@/components/ui/sidebar";
 import { getLoginUrl } from "@/const";
 import { useIsMobile } from "@/hooks/useMobile";
-import { LayoutDashboard, LogOut, PanelLeft, Users, Bell, BookOpen } from "lucide-react";
+import { LayoutDashboard, LogOut, PanelLeft, Users, Bell, BookOpen, TrendingUp, Zap, BarChart3, Settings } from "lucide-react";
 import NotificationCenter from "./notifications/NotificationCenter";
 import { CSSProperties, useEffect, useRef, useState } from "react";
 import { useLocation } from "wouter";
@@ -30,8 +30,11 @@ import { Button } from "./ui/button";
 
 const menuItems = [
   { icon: LayoutDashboard, label: "Dashboard", path: "/dashboard" },
+  { icon: TrendingUp, label: "Estratégias", path: "/estrategias" },
+  { icon: Zap, label: "Mercado", path: "/mercado" },
+  { icon: BarChart3, label: "Backtest", path: "/backtest" },
   { icon: BookOpen, label: "Educação", path: "/educacao" },
-  { icon: Users, label: "Comunidade", path: "/comunidade" },
+  { icon: Settings, label: "Configurações", path: "/settings" },
 ];
 
 const SIDEBAR_WIDTH_KEY = "sidebar-width";
