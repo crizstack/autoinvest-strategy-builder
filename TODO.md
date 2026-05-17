@@ -519,3 +519,18 @@
 - [x] Adicionar background escuro ao minimapa
 - [x] Adicionar border ao minimapa para visibilidade
 - [x] Colorir blocos: Trigger (azul), Indicador (roxo), Ação (verde), Risco (vermelho)
+
+
+### Dashboard - Transformação Premium (NOVO)
+
+- [x] Criar componente BalanceChart (gráfico de evolução de saldo)
+- [x] Criar componente ProfitabilityChart (ganhos vs perdas semanal)
+- [x] Criar componente PerformanceComparison (usuário vs mercado)
+- [x] Criar componente HeatmapWidget (heatmap semanal)
+- [x] Criar componente TopStrategiesWidget (top 3 estratégias)
+- [x] Criar componente MarketTodayWidget (principais ativos B3)
+- [x] Refatorar Dashboard.tsx com novo layout profissional
+- [x] Adicionar métricas: Taxa de Acerto, Rentabilidade, Estratégias Ativas
+- [x] Implementar visual dark mode estilo TradingView
+- [x] Adicionar hover effects e transições suaves
+- [x] Integrar Recharts para gráficos interativos
