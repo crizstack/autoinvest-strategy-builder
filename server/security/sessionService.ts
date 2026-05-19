@@ -64,11 +64,11 @@ export class SessionService {
    */
   static async getActiveSessions(userId: number) {
     return db.query.userSessions.findMany({
-      where: and(
-        eq(userSessions.userId, userId),
-        isNull(userSessions.revokedAt)
+      where: (s: any) => and(
+        eq(s.userId, userId),
+        isNull(s.revokedAt)
       ),
-      orderBy: (sessions) => sessions.lastActivityAt,
+      orderBy: (sessions: any) => sessions.lastActivityAt,
     });
   }
 
@@ -86,9 +86,9 @@ export class SessionService {
    */
   static async revokeAllOtherSessions(userId: number, currentSessionId?: number): Promise<void> {
     const sessions = await db.query.userSessions.findMany({
-      where: and(
-        eq(userSessions.userId, userId),
-        isNull(userSessions.revokedAt)
+      where: (s: any) => and(
+        eq(s.userId, userId),
+        isNull(s.revokedAt)
       ),
     });
 
@@ -109,7 +109,7 @@ export class SessionService {
     
     // Mark expired sessions as revoked
     const expiredSessions = await db.query.userSessions.findMany({
-      where: (sessions) => {
+      where: (sessions: any) => {
         const { and: andOp, lt, isNull: isNullOp } = require('drizzle-orm');
         return andOp(
           lt(sessions.expiresAt, now),
@@ -131,7 +131,7 @@ export class SessionService {
   static async detectSuspiciousActivity(userId: number): Promise<{
     suspicious: boolean;
     reason?: string;
-    sessions: typeof userSessions.$inferSelect[];
+    sessions: any[];
   }> {
     const sessions = await this.getActiveSessions(userId);
 
@@ -144,7 +144,7 @@ export class SessionService {
     }
 
     // Check for sessions from very different IPs
-    const ips = new Set(sessions.map(s => s.ipAddress).filter(Boolean));
+    const ips = new Set(sessions.map((s: any) => s.ipAddress).filter(Boolean));
     if (ips.size > 5) {
       return {
         suspicious: true,

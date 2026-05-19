@@ -74,7 +74,9 @@
 - [x] Histórico de logins recentes - AuditService.getUserSecurityEvents()
 
 ### Testes
-- [ ] Testes para 2FA
-- [ ] Testes para logs de auditoria
-- [ ] Testes para gerenciamento de sessões
+- [x] Testes para 2FA (3 testes passando)
+- [x] Testes para logs de auditoria (3 testes passando)
+- [x] Testes para gerenciamento de sessões (3 testes passando)
+- [x] Testes de integração (3 testes passando)
+- [x] Total: 12 testes passando
 - [ ] Testes para confirmação de ações

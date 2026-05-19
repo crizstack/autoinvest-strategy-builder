@@ -109,7 +109,7 @@ export class AuditService {
    */
   static async getUnacknowledgedEvents(userId: number) {
     return db.query.securityEvents.findMany({
-      where: (events) => {
+      where: (events: any) => {
         const { and, eq: eqOp } = require('drizzle-orm');
         return and(
           eqOp(events.userId, userId),
@@ -134,10 +134,10 @@ export class AuditService {
   static async checkSuspiciousActivity(userId: number): Promise<{
     isSuspicious: boolean;
     reason?: string;
-    events: typeof securityEvents.$inferSelect[];
+    events: any[];
   }> {
     const recentFailedLogins = await db.query.securityEvents.findMany({
-      where: (events) => {
+      where: (events: any) => {
         const { and, eq: eqOp, gte } = require('drizzle-orm');
         const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000);
         return and(
@@ -175,7 +175,7 @@ export class AuditService {
 
     // Check 2FA
     const twoFa = await db.query.twoFactorAuth.findFirst({
-      where: (tfa) => require('drizzle-orm').eq(tfa.userId, userId),
+      where: (tfa: any) => require('drizzle-orm').eq(tfa.userId, userId),
     });
 
     if (twoFa?.enabled) {
@@ -186,7 +186,7 @@ export class AuditService {
 
     // Check recent security events
     const recentEvents = await db.query.securityEvents.findMany({
-      where: (events) => {
+      where: (events: any) => {
         const { and, eq: eqOp, gte } = require('drizzle-orm');
         const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
         return and(
@@ -196,7 +196,7 @@ export class AuditService {
       },
     });
 
-    const criticalEvents = recentEvents.filter(e => e.severity === 'critical');
+    const criticalEvents = recentEvents.filter((e: any) => e.severity === 'critical');
     if (criticalEvents.length > 0) {
       score -= 20;
       recommendations.push('Review recent security alerts');
@@ -204,7 +204,7 @@ export class AuditService {
 
     // Check session count
     const sessions = await db.query.userSessions.findMany({
-      where: (s) => {
+      where: (s: any) => {
         const { and, eq: eqOp, isNull } = require('drizzle-orm');
         return and(
           eqOp(s.userId, userId),
