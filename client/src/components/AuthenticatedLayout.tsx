@@ -2,7 +2,7 @@ import { ReactNode, useState } from 'react';
 import { useAuth } from '@/_core/hooks/useAuth';
 import { Button } from '@/components/ui/button';
 import { Menu, X, LogOut, Settings, BarChart3, TrendingUp, Zap, DollarSign, Cpu, ChevronDown, LineChart, BookOpen, Shield } from 'lucide-react';
-import { useLocation } from 'wouter';
+import { useLocation, Link } from 'wouter';
 import { toast } from 'sonner';
 
 interface AuthenticatedLayoutProps {
@@ -83,7 +83,7 @@ export default function AuthenticatedLayout({ children }: AuthenticatedLayoutPro
             const Icon = item.icon;
             const isActive = currentPath === item.href;
             return (
-              <a
+              <Link
                 key={item.href}
                 href={item.href}
                 className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${isActive ? 'bg-green-600/20 text-green-400 border-l-2 border-green-500' : 'text-slate-400 hover:text-white hover:bg-slate-800/50'}`}
@@ -91,21 +91,21 @@ export default function AuthenticatedLayout({ children }: AuthenticatedLayoutPro
               >
                 <Icon className="w-5 h-5 flex-shrink-0" />
                 {sidebarOpen && <span className="text-sm font-medium">{item.label}</span>}
-              </a>
+              </Link>
             );
           })}
         </nav>
 
         {/* Settings */}
         <div className="absolute bottom-4 left-4 right-4">
-          <a
+          <Link
             href="/settings"
             className="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800/50 transition-colors"
             title={!sidebarOpen ? 'Configurações' : undefined}
           >
             <Settings className="w-5 h-5 flex-shrink-0" />
             {sidebarOpen && <span className="text-sm font-medium">Configurações</span>}
-          </a>
+          </Link>
         </div>
       </aside>
 
@@ -134,24 +134,27 @@ export default function AuthenticatedLayout({ children }: AuthenticatedLayoutPro
             {/* User Dropdown */}
             {showUserMenu && (
               <div className="absolute right-0 mt-2 w-48 bg-slate-900 border border-slate-800 rounded-lg shadow-lg z-50">
-                <a
+                <Link
                   href="/settings"
                   className="block px-4 py-2 text-sm text-slate-300 hover:bg-slate-800 hover:text-white first:rounded-t-lg"
+                  onClick={() => setShowUserMenu(false)}
                 >
                   Configurações
-                </a>
-                <a
+                </Link>
+                <Link
                   href="/settings/profile"
                   className="block px-4 py-2 text-sm text-slate-300 hover:bg-slate-800 hover:text-white"
+                  onClick={() => setShowUserMenu(false)}
                 >
                   Perfil
-                </a>
-                <a
+                </Link>
+                <Link
                   href="/settings/billing"
                   className="block px-4 py-2 text-sm text-slate-300 hover:bg-slate-800 hover:text-white"
+                  onClick={() => setShowUserMenu(false)}
                 >
                   Plano
-                </a>
+                </Link>
                 <button
                   onClick={handleLogout}
                   className="w-full text-left px-4 py-2 text-sm text-red-400 hover:bg-slate-800 hover:text-red-300 flex items-center gap-2 last:rounded-b-lg"
