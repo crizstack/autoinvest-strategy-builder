@@ -1,0 +1,170 @@
+import { randomBytes } from 'crypto';
+import { db } from '../db';
+import { userSessions } from '../../drizzle/schema';
+import { eq, and, isNull } from 'drizzle-orm';
+
+export class SessionService {
+  /**
+   * Create a new session
+   */
+  static async createSession(
+    userId: number,
+    ipAddress?: string,
+    userAgent?: string,
+    expiresInDays = 30
+  ): Promise<string> {
+    const sessionToken = randomBytes(32).toString('hex');
+    const expiresAt = new Date(Date.now() + expiresInDays * 24 * 60 * 60 * 1000);
+
+    await db.insert(userSessions).values({
+      userId,
+      sessionToken,
+      ipAddress,
+      userAgent,
+      expiresAt,
+    });
+
+    return sessionToken;
+  }
+
+  /**
+   * Validate a session token
+   */
+  static async validateSession(sessionToken: string): Promise<{
+    valid: boolean;
+    userId?: number;
+    session?: typeof userSessions.$inferSelect;
+  }> {
+    const session = await db.query.userSessions.findFirst({
+      where: eq(userSessions.sessionToken, sessionToken),
+    });
+
+    if (!session) {
+      return { valid: false };
+    }
+
+    if (session.revokedAt) {
+      return { valid: false };
+    }
+
+    if (session.expiresAt && session.expiresAt < new Date()) {
+      return { valid: false };
+    }
+
+    // Update last activity
+    await db.update(userSessions)
+      .set({ lastActivityAt: new Date() })
+      .where(eq(userSessions.id, session.id));
+
+    return { valid: true, userId: session.userId, session };
+  }
+
+  /**
+   * Get all active sessions for a user
+   */
+  static async getActiveSessions(userId: number) {
+    return db.query.userSessions.findMany({
+      where: and(
+        eq(userSessions.userId, userId),
+        isNull(userSessions.revokedAt)
+      ),
+      orderBy: (sessions) => sessions.lastActivityAt,
+    });
+  }
+
+  /**
+   * Revoke a session
+   */
+  static async revokeSession(sessionId: number): Promise<void> {
+    await db.update(userSessions)
+      .set({ revokedAt: new Date() })
+      .where(eq(userSessions.id, sessionId));
+  }
+
+  /**
+   * Revoke all sessions for a user (except current)
+   */
+  static async revokeAllOtherSessions(userId: number, currentSessionId?: number): Promise<void> {
+    const sessions = await db.query.userSessions.findMany({
+      where: and(
+        eq(userSessions.userId, userId),
+        isNull(userSessions.revokedAt)
+      ),
+    });
+
+    for (const session of sessions) {
+      if (currentSessionId && session.id === currentSessionId) {
+        continue;
+      }
+
+      await this.revokeSession(session.id);
+    }
+  }
+
+  /**
+   * Clean up expired sessions
+   */
+  static async cleanupExpiredSessions(): Promise<number> {
+    const now = new Date();
+    
+    // Mark expired sessions as revoked
+    const expiredSessions = await db.query.userSessions.findMany({
+      where: (sessions) => {
+        const { and: andOp, lt, isNull: isNullOp } = require('drizzle-orm');
+        return andOp(
+          lt(sessions.expiresAt, now),
+          isNullOp(sessions.revokedAt)
+        );
+      },
+    });
+
+    for (const session of expiredSessions) {
+      await this.revokeSession(session.id);
+    }
+
+    return expiredSessions.length;
+  }
+
+  /**
+   * Detect suspicious session activity
+   */
+  static async detectSuspiciousActivity(userId: number): Promise<{
+    suspicious: boolean;
+    reason?: string;
+    sessions: typeof userSessions.$inferSelect[];
+  }> {
+    const sessions = await this.getActiveSessions(userId);
+
+    if (sessions.length > 10) {
+      return {
+        suspicious: true,
+        reason: 'Unusually high number of active sessions',
+        sessions,
+      };
+    }
+
+    // Check for sessions from very different IPs
+    const ips = new Set(sessions.map(s => s.ipAddress).filter(Boolean));
+    if (ips.size > 5) {
+      return {
+        suspicious: true,
+        reason: 'Sessions from multiple different locations',
+        sessions,
+      };
+    }
+
+    return {
+      suspicious: false,
+      sessions,
+    };
+  }
+
+  /**
+   * Get session info
+   */
+  static async getSessionInfo(sessionToken: string) {
+    return db.query.userSessions.findFirst({
+      where: eq(userSessions.sessionToken, sessionToken),
+    });
+  }
+}

@@ -36,3 +36,45 @@
 ## Features Anteriores (Concluídas)
 - [x] Link de Educação no sidebar
 - [x] Melhorias no Assistente IA (8 novas capacidades)
+
+
+## Melhorias de Segurança
+
+### Autenticação 2FA
+- [x] Implementar TOTP (Time-based One-Time Password) - twoFactorService.ts
+- [x] Componente QR Code para setup - TwoFactorSetup.tsx
+- [x] Backup codes para recuperação - geração e validação implementadas
+- [x] Página de gerenciamento de 2FA em Settings - TwoFactorSetup.tsx
+
+### Logs de Auditoria
+- [x] Tabela audit_logs no banco - criada via migração
+- [x] Registrar login/logout - AuditService.logAudit()
+- [x] Registrar alterações de configurações - AuditService.logAudit()
+- [x] Registrar ações sensíveis (trades, estratégias) - AuditService.logAudit()
+- [ ] Página de visualização de logs
+
+### Gerenciamento de Sessões
+- [x] Tabela user_sessions no banco - criada via migração
+- [x] Listar sessões ativas - SessionService.getActiveSessions()
+- [x] Revogar sessões remotas - SessionService.revokeSession()
+- [x] Detectar login suspeito (IP/localização) - SessionService.detectSuspiciousActivity()
+- [x] Timeout automático de sessão - SessionService.cleanupExpiredSessions()
+
+### Confirmação de Ações Sensíveis
+- [x] Modal de confirmação para deletar estratégias - ConfirmationDialog.tsx
+- [x] Modal de confirmação para deletar trades - ConfirmationDialog.tsx
+- [x] Modal de confirmação para alterar 2FA - ConfirmationDialog.tsx
+- [x] Modal de confirmação para logout de outras sessões - ConfirmationDialog.tsx
+
+### Transparência de Risco
+- [x] Indicador de força de senha - SecurityStatus.tsx
+- [x] Aviso de atividade suspeita - SecurityStatus.tsx
+- [x] Status de segurança da conta - SecurityStatus.tsx com score 0-100
+- [x] Recomendações de segurança - AuditService.getSecurityScore()
+- [x] Histórico de logins recentes - AuditService.getUserSecurityEvents()
+
+### Testes
+- [ ] Testes para 2FA
+- [ ] Testes para logs de auditoria
+- [ ] Testes para gerenciamento de sessões
+- [ ] Testes para confirmação de ações

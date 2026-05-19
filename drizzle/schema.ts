@@ -5,6 +5,7 @@ import { int, mysqlEnum, mysqlTable, text, timestamp, varchar, decimal, boolean,
  * Extend this file with additional tables as your product grows.
  * Columns use camelCase to match both database fields and generated types.
  */
+// Enhanced users table with security fields
 export const users = mysqlTable("users", {
   /**
    * Surrogate primary key. Auto-incremented numeric value managed by the database.
@@ -222,3 +223,50 @@ export const auditLogs = mysqlTable("auditLogs", {
 
 export type AuditLog = typeof auditLogs.$inferSelect;
 export type InsertAuditLog = typeof auditLogs.$inferInsert;
+
+// Two-Factor Authentication
+export const twoFactorAuth = mysqlTable("twoFactorAuth", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull().unique().references(() => users.id, { onDelete: "cascade" }),
+  secret: varchar("secret", { length: 255 }).notNull(),
+  backupCodes: json("backupCodes"), // Array of hashed backup codes
+  enabled: boolean("enabled").default(false),
+  verifiedAt: timestamp("verifiedAt"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type TwoFactorAuth = typeof twoFactorAuth.$inferSelect;
+export type InsertTwoFactorAuth = typeof twoFactorAuth.$inferInsert;
+
+// User Sessions
+export const userSessions = mysqlTable("userSessions", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull().references(() => users.id, { onDelete: "cascade" }),
+  sessionToken: varchar("sessionToken", { length: 255 }).notNull().unique(),
+  ipAddress: varchar("ipAddress", { length: 45 }),
+  userAgent: varchar("userAgent", { length: 500 }),
+  lastActivityAt: timestamp("lastActivityAt").defaultNow(),
+  expiresAt: timestamp("expiresAt"),
+  revokedAt: timestamp("revokedAt"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export type UserSession = typeof userSessions.$inferSelect;
+export type InsertUserSession = typeof userSessions.$inferInsert;
+
+// Security Events (Login attempts, suspicious activity)
+export const securityEvents = mysqlTable("securityEvents", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").references(() => users.id, { onDelete: "set null" }),
+  eventType: mysqlEnum("eventType", ["login_success", "login_failed", "login_2fa", "suspicious_activity", "password_changed", "2fa_enabled", "2fa_disabled", "session_revoked"]).notNull(),
+  severity: mysqlEnum("severity", ["low", "medium", "high", "critical"]).default("low"),
+  ipAddress: varchar("ipAddress", { length: 45 }),
+  userAgent: varchar("userAgent", { length: 500 }),
+  details: json("details"),
+  acknowledged: boolean("acknowledged").default(false),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export type SecurityEvent = typeof securityEvents.$inferSelect;
+export type InsertSecurityEvent = typeof securityEvents.$inferInsert;
