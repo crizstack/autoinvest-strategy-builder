@@ -80,3 +80,45 @@
 - [x] Testes de integração (3 testes passando)
 - [x] Total: 12 testes passando
 - [ ] Testes para confirmação de ações
+
+
+## Melhorias do Módulo Backtest
+
+### Métricas Avançadas
+- [x] Implementar cálculo de Sharpe Ratio - MetricsService.calculateSharpeRatio()
+- [x] Implementar cálculo de Profit Factor - MetricsService.calculateProfitFactor()
+- [x] Implementar cálculo de Drawdown Máximo - MetricsService.calculateMaxDrawdown()
+- [x] Implementar cálculo de Win Rate - MetricsService.calculateWinRate()
+- [x] Implementar cálculo de Fator de Recuperação - MetricsService.calculateRecoveryFactor()
+
+### Comparações
+- [x] Comparação entre múltiplas estratégias - StrategyComparison.tsx
+- [x] Comparação com IBOV (índice de referência) - IBOVComparison.tsx
+- [x] Tabela comparativa de métricas - StrategyComparison com ranking
+- [x] Gráfico de performance relativa - IBOVComparison com LineChart
+
+### Replay Histórico
+- [x] Implementar replay passo a passo - BacktestReplay.tsx
+- [x] Controles de play/pause/stop - Botões de controle
+- [x] Visualização de operações em tempo real - Lista de trades
+- [x] Timeline interativa - Progress bar com slider
+
+### Gráficos Profissionais
+- [x] Equity curve com Recharts - ProfessionalEquityCurve.tsx
+- [x] Drawdown chart - Área chart no ProfessionalEquityCurve
+- [x] Monthly returns heatmap - Bar chart de retornos mensais
+- [x] Distribuição de retornos - Estatísticas em cards
+- [x] Correlação com IBOV - IBOVComparison com cálculo
+
+### Visual
+- [x] Redesign da página de resultados - BacktestResults.tsx
+- [x] Cards com métricas principais - Grid de 4 cards com gradientes
+- [x] Tabela de operações melhorada - Tabela interativa com hover
+- [x] Indicadores visuais de performance - Ícones e cores semantáticas
+- [ ] Exportar relatório em PDF
+
+### Testes
+- [x] Testes para cálculo de Sharpe Ratio (1 teste)
+- [x] Testes para cálculo de Profit Factor (3 testes)
+- [x] Testes para comparação de estratégias (1 teste)
+- [x] Testes para todas as métricas (11 testes passando)
