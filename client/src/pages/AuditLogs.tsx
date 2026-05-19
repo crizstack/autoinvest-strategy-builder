@@ -55,7 +55,7 @@ export default function AuditLogs() {
 
   // Filter logs based on search and filters
   const filteredLogs = useMemo(() => {
-    return logs.filter((log) => {
+    return logs.filter((log: any) => {
       const matchesSearch =
         log.action.toLowerCase().includes(searchTerm.toLowerCase()) ||
         log.description?.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -217,7 +217,7 @@ export default function AuditLogs() {
             <div>
               <p className="text-sm text-muted-foreground">Eventos críticos</p>
               <p className="text-2xl font-bold">
-                {filteredLogs.filter((l) => l.severity === "critical").length}
+                {filteredLogs.filter((l: any) => l.severity === "critical").length}
               </p>
             </div>
             <AlertCircle className="w-8 h-8 text-red-500 opacity-50" />
@@ -229,7 +229,7 @@ export default function AuditLogs() {
             <div>
               <p className="text-sm text-muted-foreground">Logins</p>
               <p className="text-2xl font-bold">
-                {filteredLogs.filter((l) => l.action.includes("login")).length}
+                {filteredLogs.filter((l: any) => l.action.includes("login")).length}
               </p>
             </div>
             <User className="w-8 h-8 text-blue-500 opacity-50" />
@@ -241,7 +241,7 @@ export default function AuditLogs() {
             <div>
               <p className="text-sm text-muted-foreground">Atividades suspeitas</p>
               <p className="text-2xl font-bold">
-                {filteredLogs.filter((l) => l.action === "suspicious_activity").length}
+                {filteredLogs.filter((l: any) => l.action === "suspicious_activity").length}
               </p>
             </div>
             <Shield className="w-8 h-8 text-orange-500 opacity-50" />
