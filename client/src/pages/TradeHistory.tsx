@@ -70,6 +70,7 @@ const MOCK_TRADES: TradeLog[] = [
     resultPercent: 2.98,
     entryTime: new Date('2024-01-15T10:30:00'),
     exitTime: new Date('2024-01-15T14:20:00'),
+    indicator: 'RSI',
     duration: 230,
     explanation: {
       entryReason: 'Compra executada porque RSI caiu abaixo de 30, indicando sobrevenda',
@@ -107,6 +108,7 @@ const MOCK_TRADES: TradeLog[] = [
     symbol: 'VALE3',
     signal: 'SELL',
     quantity: 150,
+    indicator: 'MACD',
     entryPrice: 29.10,
     exitPrice: 28.20,
     result: 1245,
