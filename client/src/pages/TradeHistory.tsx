@@ -146,6 +146,7 @@ const MOCK_TRADES: TradeLog[] = [
     result: -160,
     resultPercent: -0.71,
     entryTime: new Date('2024-01-15T13:20:00'),
+    indicator: 'MA',
     status: 'closed',
     tags: ['stop-loss', 'weak-signal'],
     confidence: 42,
@@ -221,7 +222,7 @@ export default function TradeHistory() {
     const losing = trades.filter((t) => t.result < 0).length;
     const totalProfit = trades.reduce((sum, t) => sum + t.result, 0);
     const avgConfidence =
-      trades.length > 0 ? Math.round(trades.reduce((sum, t) => sum + t.confidence, 0) / trades.length) : 0;
+      trades.length > 0 ? Math.round(trades.reduce((sum, t) => sum + (t.confidence || 0), 0) / trades.length) : 0;
 
     return {
       total: trades.length,
