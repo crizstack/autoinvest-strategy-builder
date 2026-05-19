@@ -51,7 +51,7 @@
 - [x] Registrar login/logout - AuditService.logAudit()
 - [x] Registrar alterações de configurações - AuditService.logAudit()
 - [x] Registrar ações sensíveis (trades, estratégias) - AuditService.logAudit()
-- [ ] Página de visualização de logs
+- [x] Página de visualização de logs
 
 ### Gerenciamento de Sessões
 - [x] Tabela user_sessions no banco - criada via migração
@@ -79,7 +79,7 @@
 - [x] Testes para gerenciamento de sessões (3 testes passando)
 - [x] Testes de integração (3 testes passando)
 - [x] Total: 12 testes passando
-- [ ] Testes para confirmação de ações
+- [x] Testes para confirmação de ações
 
 
 ## Melhorias do Módulo Backtest
@@ -115,7 +115,7 @@
 - [x] Cards com métricas principais - Grid de 4 cards com gradientes
 - [x] Tabela de operações melhorada - Tabela interativa com hover
 - [x] Indicadores visuais de performance - Ícones e cores semantáticas
-- [ ] Exportar relatório em PDF
+- [x] Exportar relatório em PDF
 
 ### Testes
 - [x] Testes para cálculo de Sharpe Ratio (1 teste)

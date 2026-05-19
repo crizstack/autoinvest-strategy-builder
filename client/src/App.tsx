@@ -20,6 +20,7 @@ import Market from './pages/Market';
 import AssetDetail from './pages/AssetDetail';
 import Watchlist from './pages/Watchlist';
 import Education from './pages/Education';
+import AuditLogs from './pages/AuditLogs';
 import AuthenticatedLayout from './components/AuthenticatedLayout';
 import AIAssistantButton from './components/ai/AIAssistantButton';
 
@@ -110,6 +111,13 @@ function Router() {
         {() => (
           <AuthenticatedLayout>
             <Education />
+          </AuthenticatedLayout>
+        )}
+      </Route>
+      <Route path="/audit-logs">
+        {() => (
+          <AuthenticatedLayout>
+            <AuditLogs />
           </AuthenticatedLayout>
         )}
       </Route>

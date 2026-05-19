@@ -1,7 +1,7 @@
 import { ReactNode, useState } from 'react';
 import { useAuth } from '@/_core/hooks/useAuth';
 import { Button } from '@/components/ui/button';
-import { Menu, X, LogOut, Settings, BarChart3, TrendingUp, Zap, DollarSign, Cpu, ChevronDown, LineChart, BookOpen } from 'lucide-react';
+import { Menu, X, LogOut, Settings, BarChart3, TrendingUp, Zap, DollarSign, Cpu, ChevronDown, LineChart, BookOpen, Shield } from 'lucide-react';
 import { useLocation } from 'wouter';
 import { toast } from 'sonner';
 
@@ -47,6 +47,7 @@ export default function AuthenticatedLayout({ children }: AuthenticatedLayoutPro
     { label: 'Backtest', href: '/backtest', icon: TrendingUp },
     { label: 'Trades', href: '/trades', icon: DollarSign },
     { label: 'Educação', href: '/educacao', icon: BookOpen },
+    { label: 'Logs de Auditoria', href: '/audit-logs', icon: Shield },
     { label: 'Billing', href: '/billing', icon: Settings },
   ];
 

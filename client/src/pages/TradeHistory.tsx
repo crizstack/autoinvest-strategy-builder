@@ -15,6 +15,27 @@ import {
 } from 'lucide-react';
 // TradeLog types
 type IndicatorType = 'RSI' | 'MACD' | 'Bollinger' | 'MA' | 'Stochastic';
+
+interface IndicatorSignal {
+  name: string;
+  value: number;
+  threshold?: number;
+  condition: string;
+  strength: 'weak' | 'medium' | 'strong';
+}
+
+interface TradeExplanation {
+  entryReason: string;
+  entryIndicators: IndicatorSignal[];
+  entryConfidence: number;
+  exitReason: string;
+  exitIndicators: IndicatorSignal[];
+  exitType: string;
+  marketContext: string;
+  riskReward: number;
+  notes: string;
+}
+
 interface TradeLog {
   id: string;
   strategyId: string;
@@ -28,7 +49,11 @@ interface TradeLog {
   entryTime: Date;
   exitTime?: Date;
   indicator: IndicatorType;
-  explanation: string;
+  explanation: TradeExplanation;
+  status?: 'open' | 'closed';
+  tags?: string[];
+  confidence?: number;
+  duration?: number;
 }
 
 // Mock data

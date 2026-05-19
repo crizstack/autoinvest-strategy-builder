@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { notifyOwner } from "./notification";
-import { adminProcedure, publicProcedure, router } from "./trpc";
+import { adminProcedure, publicProcedure, protectedProcedure, router } from "./trpc";
+import { AuditService } from "../security/auditService";
 
 export const systemRouter = router({
   health: publicProcedure
@@ -25,5 +26,17 @@ export const systemRouter = router({
       return {
         success: delivered,
       } as const;
+    }),
+
+  getAuditLogs: protectedProcedure
+    .input(
+      z.object({
+        limit: z.number().min(1).max(100).default(50),
+        offset: z.number().min(0).default(0),
+      })
+    )
+    .query(async ({ ctx, input }) => {
+      const logs = await AuditService.getUserAuditLogs(ctx.user!.id, input.limit);
+      return logs;
     }),
 });
