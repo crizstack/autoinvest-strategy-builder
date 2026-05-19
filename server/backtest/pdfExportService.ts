@@ -32,7 +32,7 @@ export interface BacktestReportData {
 }
 
 export class PDFExportService {
-  static generateBacktestReport(data: BacktestReportData): PDFDocument {
+  static generateBacktestReport(data: BacktestReportData): typeof PDFDocument {
     const doc = new PDFDocument({
       size: "A4",
       margin: 40,
@@ -173,7 +173,7 @@ export class PDFExportService {
         resolve(Buffer.concat(chunks));
       });
 
-      doc.on("error", (err) => {
+      doc.on("error", (err: Error) => {
         reject(err);
       });
 

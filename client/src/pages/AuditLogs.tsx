@@ -272,7 +272,7 @@ export default function AuditLogs() {
                 </TableCell>
               </TableRow>
             ) : (
-              filteredLogs.map((log, idx) => (
+              filteredLogs.map((log: any, idx: number) => (
                 <TableRow key={idx} className="hover:bg-muted/50">
                   <TableCell>
                     <div className="flex items-center gap-2">
