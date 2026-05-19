@@ -20,7 +20,7 @@
 - [x] Estados vazios inteligentes em listas
 - [x] Componente EmptyState.tsx
 - [x] Mensagens contextualizadas por página (6 presets)
-- [ ] Ícones e ilustrações para estados vazios
+- [x] Ícones com emojis para estados vazios (6 presets com Ícones visuais)
 
 ### Modo Compacto
 - [x] Hook useCompactMode com localStorage

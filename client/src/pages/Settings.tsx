@@ -51,7 +51,12 @@ export default function Settings() {
     });
   };
 
-  const { isCompact, toggle } = useCompactMode();
+  const { isCompact, toggle: toggleCompactMode } = useCompactMode();
+
+  const handleToggleCompactMode = () => {
+    toggleCompactMode();
+    toast.success(isCompact ? 'Modo normal ativado' : 'Modo compacto ativado');
+  };
 
   const tabs = [
     { id: 'profile', label: 'Perfil', icon: User },
@@ -304,9 +309,6 @@ export default function Settings() {
           </div>
         </Card>
       )}
-    </div>
-  );
-}
 
       {/* Display Tab */}
       {activeTab === 'display' && (
@@ -323,7 +325,7 @@ export default function Settings() {
                 <p className="text-sm text-slate-400 mt-1">Reduz espaçamento e tamanhos para mais densidade</p>
               </div>
               <button
-                onClick={toggle}
+                onClick={handleToggleCompactMode}
                 className={`relative inline-flex h-8 w-14 items-center rounded-full transition-colors ${
                   isCompact ? 'bg-green-600' : 'bg-slate-700'
                 }`}
@@ -349,3 +351,6 @@ export default function Settings() {
           </div>
         </Card>
       )}
+    </div>
+  );
+}
