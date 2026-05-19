@@ -122,3 +122,35 @@
 - [x] Testes para cálculo de Profit Factor (3 testes)
 - [x] Testes para comparação de estratégias (1 teste)
 - [x] Testes para todas as métricas (11 testes passando)
+
+
+## Melhorias de Logs de Operações
+
+### Estrutura de Dados
+- [x] Criar interface TradeLog com motivo de entrada/saída - shared/types/tradeLog.ts
+- [x] Adicionar campo de indicador acionado - IndicatorSignal interface
+- [x] Adicionar timestamp de execução - entryTime/exitTime
+- [x] Adicionar contexto de mercado (preço, volume) - TradeContext interface
+
+### Serviço de Explicações
+- [x] Criar TradeExplanationService - server/trades/tradeExplanationService.ts
+- [x] Gerar explicações baseadas em indicadores - 12 indicadores suportados
+- [x] Gerar explicações de saída - 5 tipos de saída
+- [x] Suportar múltiplos indicadores - generateFullExplanation()
+
+### Componentes
+- [x] Componente TradeLogDetail com explicações - client/src/components/TradeLogDetail.tsx
+- [x] Timeline de operações - Expandir/colapsar
+- [x] Filtros por indicador/resultado - Em TradeHistory
+- [x] Busca de operações - Campo de busca por símbolo
+
+### Página de Histórico
+- [x] Página de histórico de operações - client/src/pages/TradeHistory.tsx
+- [x] Visualização detalhada de cada trade - TradeLogDetail expandido
+- [x] Gráfico de performance por indicador - Insights section
+- [x] Estatísticas por tipo de operação - Stats cards
+
+### Testes
+- [x] Testes para TradeExplanationService - 16 testes passando
+- [x] Testes para geração de explicações - Todos os indicadores
+- [x] Testes de componente TradeLog - Testes de integração
