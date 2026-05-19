@@ -154,3 +154,8 @@
 - [x] Testes para TradeExplanationService - 16 testes passando
 - [x] Testes para geração de explicações - Todos os indicadores
 - [x] Testes de componente TradeLog - Testes de integração
+
+
+## Bug Fixes
+
+- [x] Corrigir edição de triggers de preço no Strategy Builder - Sincronizar ConfigPanel com React Flow (StrategyBuilder.tsx + ConfigPanel.tsx)

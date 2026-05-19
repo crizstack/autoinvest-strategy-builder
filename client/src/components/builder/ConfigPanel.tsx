@@ -7,9 +7,10 @@ import type { Node } from 'reactflow';
 
 interface ConfigPanelProps {
   selectedNode: Node | null;
+  onNodeUpdate?: (nodeId: string, data: any) => void;
 }
 
-export default function ConfigPanel({ selectedNode }: ConfigPanelProps) {
+export default function ConfigPanel({ selectedNode, onNodeUpdate }: ConfigPanelProps) {
   const { updateNode } = useBuilderStore();
 
   if (!selectedNode) {
@@ -23,12 +24,17 @@ export default function ConfigPanel({ selectedNode }: ConfigPanelProps) {
   }
 
   const handleParamChange = (key: string, value: any) => {
-    updateNode(selectedNode.id, {
+    const newData = {
       params: {
         ...(selectedNode.data?.params || {}),
         [key]: value,
       },
-    });
+    };
+    if (onNodeUpdate) {
+      onNodeUpdate(selectedNode.id, newData);
+    } else {
+      updateNode(selectedNode.id, newData);
+    }
   };
 
   return (

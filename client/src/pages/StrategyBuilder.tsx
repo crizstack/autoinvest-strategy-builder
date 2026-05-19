@@ -47,7 +47,15 @@ export default function StrategyBuilder() {
   const [showTemplates, setShowTemplates] = useState(false);
   const [selectedTemplate, setSelectedTemplate] = useState<StrategyTemplate | null>(null);
   const reactFlowWrapper = useRef(null);
-  const { setNodes: setStoreNodes, setEdges: setStoreEdges } = useBuilderStore();
+  const { setNodes: setStoreNodes, setEdges: setStoreEdges, updateNode: updateStoreNode } = useBuilderStore();
+
+  // Sincronizar atualizações do store com o React Flow
+  const handleNodeUpdate = (nodeId: string, data: any) => {
+    updateStoreNode(nodeId, data);
+    setNodes((nds) =>
+      nds.map((n) => (n.id === nodeId ? { ...n, data: { ...n.data, ...data } } : n))
+    );
+  };
 
   const createStrategyMutation = trpc.strategies.create.useMutation<any>({
     onSuccess: () => {
@@ -365,7 +373,7 @@ export default function StrategyBuilder() {
               strategyName={strategyName}
             />
           ) : (
-            <ConfigPanel selectedNode={selectedNode || null} />
+            <ConfigPanel selectedNode={selectedNode || null} onNodeUpdate={handleNodeUpdate} />
           )}
         </div>
 
