@@ -1,7 +1,17 @@
 import { randomBytes } from 'crypto';
-import { db } from '../db';
+import { getDb } from '../db';
 import { twoFactorAuth, users } from '../../drizzle/schema';
 import { eq } from 'drizzle-orm';
+
+let db: any = null;
+
+// Initialize db lazily
+async function getDatabase() {
+  if (!db) {
+    db = await getDb();
+  }
+  return db;
+}
 
 // TOTP library (speakeasy alternative)
 const base32Alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
@@ -106,6 +116,8 @@ export class TwoFactorService {
    * Setup 2FA for a user
    */
   static async setup2FA(userId: number, email: string) {
+    const database = await getDatabase();
+    if (!database) throw new Error('Database not available');
     const { secret, qrCodeUrl } = this.generateSecret(email);
     const backupCodes = this.generateBackupCodes();
 
@@ -114,7 +126,7 @@ export class TwoFactorService {
       require('crypto').createHash('sha256').update(code).digest('hex')
     );
 
-    await db.insert(twoFactorAuth).values({
+    await database.insert(twoFactorAuth).values({
       userId,
       secret,
       backupCodes: hashedCodes,
@@ -132,7 +144,9 @@ export class TwoFactorService {
    * Verify and enable 2FA
    */
   static async verify2FA(userId: number, code: string): Promise<boolean> {
-    const twoFa = await db.query.twoFactorAuth.findFirst({
+    const database = await getDatabase();
+    if (!database) throw new Error('Database not available');
+    const twoFa = await database.query.twoFactorAuth.findFirst({
       where: eq(twoFactorAuth.userId, userId),
     });
 
@@ -145,7 +159,7 @@ export class TwoFactorService {
     }
 
     // Enable 2FA
-    await db.update(twoFactorAuth)
+    await database.update(twoFactorAuth)
       .set({ enabled: true, verifiedAt: new Date() })
       .where(eq(twoFactorAuth.userId, userId));
 
@@ -156,7 +170,9 @@ export class TwoFactorService {
    * Verify TOTP code during login
    */
   static async verifyLoginCode(userId: number, code: string): Promise<boolean> {
-    const twoFa = await db.query.twoFactorAuth.findFirst({
+    const database = await getDatabase();
+    if (!database) return false;
+    const twoFa = await database.query.twoFactorAuth.findFirst({
       where: eq(twoFactorAuth.userId, userId),
     });
 
@@ -179,7 +195,7 @@ export class TwoFactorService {
         const updated = [...(twoFa.backupCodes as string[])];
         updated.splice(index, 1);
         
-        await db.update(twoFactorAuth)
+        await database.update(twoFactorAuth)
           .set({ backupCodes: updated })
           .where(eq(twoFactorAuth.userId, userId));
         
@@ -194,7 +210,9 @@ export class TwoFactorService {
    * Disable 2FA
    */
   static async disable2FA(userId: number): Promise<void> {
-    await db.update(twoFactorAuth)
+    const database = await getDatabase();
+    if (!database) return;
+    await database.update(twoFactorAuth)
       .set({ enabled: false })
       .where(eq(twoFactorAuth.userId, userId));
   }
@@ -203,7 +221,9 @@ export class TwoFactorService {
    * Check if user has 2FA enabled
    */
   static async is2FAEnabled(userId: number): Promise<boolean> {
-    const twoFa = await db.query.twoFactorAuth.findFirst({
+    const database = await getDatabase();
+    if (!database) return false;
+    const twoFa = await database.query.twoFactorAuth.findFirst({
       where: eq(twoFactorAuth.userId, userId),
     });
 

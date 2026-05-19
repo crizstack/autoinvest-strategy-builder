@@ -5,6 +5,8 @@ import { TRPCError } from '@trpc/server';
 import { eq } from 'drizzle-orm';
 import { getDb } from '../db';
 import { users } from '../../drizzle/schema';
+import { COOKIE_NAME } from '../../shared/const';
+import { getSessionCookieOptions } from '../_core/cookies';
 
 export const authRouter = router({
   /**
@@ -193,8 +195,13 @@ export const authRouter = router({
    * Logout
    */
   logout: protectedProcedure.mutation(({ ctx }) => {
-    // JWT logout is handled by clearing the cookie on the client
-    // This endpoint can be used for server-side cleanup if needed
+    // Clear the session cookie on the server
+    const cookieOptions = getSessionCookieOptions(ctx.req);
+    ctx.res.clearCookie(COOKIE_NAME, {
+      ...cookieOptions,
+      maxAge: -1,
+    });
+    
     return {
       success: true,
       message: 'Logout realizado com sucesso',

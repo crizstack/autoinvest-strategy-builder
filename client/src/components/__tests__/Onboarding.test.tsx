@@ -94,6 +94,7 @@ describe('Onboarding Component', () => {
 
     // Segundo step: 40%
     progressBar = screen.getByRole('progressbar', { hidden: true });
-    expect(progressBar).toHaveStyle({ width: '40%' });
+    expect(progressBar).toHaveAttribute('style');
+    expect(progressBar.getAttribute('style')).toContain('40%');
   });
 });

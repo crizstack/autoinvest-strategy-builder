@@ -1,7 +1,17 @@
 import { randomBytes } from 'crypto';
-import { db } from '../db';
+import { getDb } from '../db';
 import { userSessions } from '../../drizzle/schema';
 import { eq, and, isNull } from 'drizzle-orm';
+
+let db: any = null;
+
+// Initialize db lazily
+async function getDatabase() {
+  if (!db) {
+    db = await getDb();
+  }
+  return db;
+}
 
 export class SessionService {
   /**
@@ -13,10 +23,12 @@ export class SessionService {
     userAgent?: string,
     expiresInDays = 30
   ): Promise<string> {
+    const database = await getDatabase();
+    if (!database) throw new Error('Database not available');
     const sessionToken = randomBytes(32).toString('hex');
     const expiresAt = new Date(Date.now() + expiresInDays * 24 * 60 * 60 * 1000);
 
-    await db.insert(userSessions).values({
+    await database.insert(userSessions).values({
       userId,
       sessionToken,
       ipAddress,
@@ -35,7 +47,9 @@ export class SessionService {
     userId?: number;
     session?: typeof userSessions.$inferSelect;
   }> {
-    const session = await db.query.userSessions.findFirst({
+    const database = await getDatabase();
+    if (!database) return { valid: false };
+    const session = await database.query.userSessions.findFirst({
       where: eq(userSessions.sessionToken, sessionToken),
     });
 
@@ -52,7 +66,7 @@ export class SessionService {
     }
 
     // Update last activity
-    await db.update(userSessions)
+    await database.update(userSessions)
       .set({ lastActivityAt: new Date() })
       .where(eq(userSessions.id, session.id));
 
@@ -63,7 +77,9 @@ export class SessionService {
    * Get all active sessions for a user
    */
   static async getActiveSessions(userId: number) {
-    return db.query.userSessions.findMany({
+    const database = await getDatabase();
+    if (!database) return [];
+    return database.query.userSessions.findMany({
       where: (s: any) => and(
         eq(s.userId, userId),
         isNull(s.revokedAt)
@@ -76,7 +92,9 @@ export class SessionService {
    * Revoke a session
    */
   static async revokeSession(sessionId: number): Promise<void> {
-    await db.update(userSessions)
+    const database = await getDatabase();
+    if (!database) return;
+    await database.update(userSessions)
       .set({ revokedAt: new Date() })
       .where(eq(userSessions.id, sessionId));
   }
@@ -85,7 +103,9 @@ export class SessionService {
    * Revoke all sessions for a user (except current)
    */
   static async revokeAllOtherSessions(userId: number, currentSessionId?: number): Promise<void> {
-    const sessions = await db.query.userSessions.findMany({
+    const database = await getDatabase();
+    if (!database) return;
+    const sessions = await database.query.userSessions.findMany({
       where: (s: any) => and(
         eq(s.userId, userId),
         isNull(s.revokedAt)
@@ -105,10 +125,12 @@ export class SessionService {
    * Clean up expired sessions
    */
   static async cleanupExpiredSessions(): Promise<number> {
+    const database = await getDatabase();
+    if (!database) return 0;
     const now = new Date();
     
     // Mark expired sessions as revoked
-    const expiredSessions = await db.query.userSessions.findMany({
+    const expiredSessions = await database.query.userSessions.findMany({
       where: (sessions: any) => {
         const { and: andOp, lt, isNull: isNullOp } = require('drizzle-orm');
         return andOp(

@@ -1,6 +1,16 @@
-import { db } from '../db';
+import { getDb } from '../db';
 import { auditLogs, securityEvents } from '../../drizzle/schema';
 import { eq } from 'drizzle-orm';
+
+let db: any = null;
+
+// Initialize db lazily
+async function getDatabase() {
+  if (!db) {
+    db = await getDb();
+  }
+  return db;
+}
 
 export type AuditAction = 
   | 'strategy_created'
@@ -44,7 +54,9 @@ export class AuditService {
     ipAddress?: string
   ): Promise<void> {
     try {
-      await db.insert(auditLogs).values({
+      const database = await getDatabase();
+      if (!database) return;
+      await database.insert(auditLogs).values({
         userId,
         action,
         resourceType,
@@ -69,7 +81,9 @@ export class AuditService {
     details?: Record<string, any>
   ): Promise<void> {
     try {
-      await db.insert(securityEvents).values({
+      const database = await getDatabase();
+      if (!database) return;
+      await database.insert(securityEvents).values({
         userId,
         eventType,
         severity,
@@ -86,9 +100,11 @@ export class AuditService {
    * Get audit logs for a user
    */
   static async getUserAuditLogs(userId: number, limit = 50) {
-    return db.query.auditLogs.findMany({
+    const database = await getDatabase();
+    if (!database) return [];
+    return database.query.auditLogs.findMany({
       where: eq(auditLogs.userId, userId),
-      orderBy: (logs) => logs.createdAt,
+      orderBy: (logs: any) => logs.createdAt,
       limit,
     });
   }
@@ -97,9 +113,11 @@ export class AuditService {
    * Get security events for a user
    */
   static async getUserSecurityEvents(userId: number, limit = 50) {
-    return db.query.securityEvents.findMany({
+    const database = await getDatabase();
+    if (!database) return [];
+    return database.query.securityEvents.findMany({
       where: eq(securityEvents.userId, userId),
-      orderBy: (events) => events.createdAt,
+      orderBy: (events: any) => events.createdAt,
       limit,
     });
   }
@@ -108,7 +126,9 @@ export class AuditService {
    * Get unacknowledged security events
    */
   static async getUnacknowledgedEvents(userId: number) {
-    return db.query.securityEvents.findMany({
+    const database = await getDatabase();
+    if (!database) return [];
+    return database.query.securityEvents.findMany({
       where: (events: any) => {
         const { and, eq: eqOp } = require('drizzle-orm');
         return and(
@@ -123,7 +143,9 @@ export class AuditService {
    * Acknowledge a security event
    */
   static async acknowledgeEvent(eventId: number): Promise<void> {
-    await db.update(securityEvents)
+    const database = await getDatabase();
+    if (!database) return;
+    await database.update(securityEvents)
       .set({ acknowledged: true })
       .where(eq(securityEvents.id, eventId));
   }
@@ -131,12 +153,14 @@ export class AuditService {
   /**
    * Check for suspicious activity
    */
-  static async checkSuspiciousActivity(userId: number): Promise<{
+  static async checkSuspiciousActivity(userId: number  ): Promise<{
     isSuspicious: boolean;
     reason?: string;
     events: any[];
   }> {
-    const recentFailedLogins = await db.query.securityEvents.findMany({
+    const database = await getDatabase();
+    if (!database) return { isSuspicious: false, events: [] };
+    const recentFailedLogins = await database.query.securityEvents.findMany({
       where: (events: any) => {
         const { and, eq: eqOp, gte } = require('drizzle-orm');
         const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000);

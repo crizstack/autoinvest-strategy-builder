@@ -13,7 +13,23 @@ import {
   Calendar,
   Zap,
 } from 'lucide-react';
-import type { TradeLog, IndicatorType } from '@/shared/types/tradeLog';
+// TradeLog types
+type IndicatorType = 'RSI' | 'MACD' | 'Bollinger' | 'MA' | 'Stochastic';
+interface TradeLog {
+  id: string;
+  strategyId: string;
+  symbol: string;
+  signal: 'BUY' | 'SELL';
+  quantity: number;
+  entryPrice: number;
+  exitPrice?: number;
+  result: number;
+  resultPercent: number;
+  entryTime: Date;
+  exitTime?: Date;
+  indicator: IndicatorType;
+  explanation: string;
+}
 
 // Mock data
 const MOCK_TRADES: TradeLog[] = [
@@ -139,14 +155,14 @@ export default function TradeHistory() {
   const indicators = useMemo(() => {
     const set = new Set<IndicatorType>();
     MOCK_TRADES.forEach((trade) => {
-      trade.explanation.entryIndicators.forEach((ind) => set.add(ind.name));
+      trade.explanation.entryIndicators.forEach((ind: any) => set.add(ind.name));
     });
     return Array.from(set).sort();
   }, []);
 
   // Filtrar trades
   const filteredTrades = useMemo(() => {
-    return MOCK_TRADES.filter((trade) => {
+    return MOCK_TRADES.filter((trade: TradeLog) => {
       // Busca por símbolo
       if (searchTerm && !trade.symbol.toLowerCase().includes(searchTerm.toLowerCase())) {
         return false;
