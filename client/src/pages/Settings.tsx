@@ -4,7 +4,8 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useAuth } from '@/_core/hooks/useAuth';
-import { User, Lock, Bell, Shield } from 'lucide-react';
+import { useCompactMode } from '@/hooks/useCompactMode';
+import { User, Lock, Bell, Shield, Zap } from 'lucide-react';
 import { toast } from 'sonner';
 
 export default function Settings() {
@@ -50,11 +51,14 @@ export default function Settings() {
     });
   };
 
+  const { isCompact, toggle } = useCompactMode();
+
   const tabs = [
     { id: 'profile', label: 'Perfil', icon: User },
     { id: 'password', label: 'Senha', icon: Lock },
     { id: 'notifications', label: 'Notificações', icon: Bell },
     { id: 'security', label: 'Segurança', icon: Shield },
+    { id: 'display', label: 'Exibição', icon: Zap },
   ];
 
   return (
@@ -303,3 +307,45 @@ export default function Settings() {
     </div>
   );
 }
+
+      {/* Display Tab */}
+      {activeTab === 'display' && (
+        <Card className="p-6 bg-slate-900/50 border-slate-800">
+          <div className="space-y-6">
+            <div>
+              <h3 className="text-lg font-semibold text-white mb-4">Preferências de Exibição</h3>
+            </div>
+
+            {/* Compact Mode Toggle */}
+            <div className="flex items-center justify-between p-4 bg-slate-950 border border-slate-800 rounded-lg">
+              <div>
+                <p className="text-white font-medium">Modo Compacto</p>
+                <p className="text-sm text-slate-400 mt-1">Reduz espaçamento e tamanhos para mais densidade</p>
+              </div>
+              <button
+                onClick={toggle}
+                className={`relative inline-flex h-8 w-14 items-center rounded-full transition-colors ${
+                  isCompact ? 'bg-green-600' : 'bg-slate-700'
+                }`}
+              >
+                <span
+                  className={`inline-block h-6 w-6 transform rounded-full bg-white transition-transform ${
+                    isCompact ? 'translate-x-7' : 'translate-x-1'
+                  }`}
+                />
+              </button>
+            </div>
+
+            {/* Preview */}
+            <div className="p-4 bg-slate-950 border border-slate-800 rounded-lg">
+              <p className="text-sm text-slate-400 mb-3">Pré-visualização:</p>
+              <div className={isCompact ? 'compact-mode' : ''}>
+                <Card className="p-4 bg-slate-900">
+                  <p className="text-sm font-medium text-white">Exemplo de Card</p>
+                  <p className="text-xs text-slate-400 mt-2">Este é um exemplo de como o conteúdo aparecerá</p>
+                </Card>
+              </div>
+            </div>
+          </div>
+        </Card>
+      )}

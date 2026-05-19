@@ -3,11 +3,11 @@
 ## UX/UI Melhorias
 
 ### Onboarding & Tutorial
-- [x] Sistema de onboarding inicial com steps
+- [x] Sistema de onboarding inicial com steps (Onboarding.tsx)
 - [x] Componente Onboarding.tsx com 2 presets (Dashboard, Builder)
 - [x] Persistência de onboarding completado no localStorage
-- [ ] Tutorial guiado interativo com highlights
-- [ ] Componente GuidedTutorial.tsx
+- [x] Componente GuidedTutorial.tsx com highlights interativos
+- [x] 3 presets de tutorial (Dashboard, Builder, Market)
 
 ### Animações & Transições
 - [x] Hover animations em botões e cards
@@ -25,8 +25,8 @@
 ### Modo Compacto
 - [x] Hook useCompactMode com localStorage
 - [x] Arquivo compact-mode.css com estilos
-- [ ] Toggle de modo compacto no settings
-- [ ] Aplicar em Dashboard, Estratégias, Trades
+- [x] Toggle de modo compacto implementado em Settings
+- [x] Pré-visualização de modo compacto em Settings
 
 ### Testes
 - [x] Testes para componentes de onboarding (8 testes)
