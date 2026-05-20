@@ -42,7 +42,10 @@ export function registerOAuthRoutes(app: Express) {
       });
 
       const cookieOptions = getSessionCookieOptions(req);
+      console.log("[OAuth] Setting session cookie with options:", cookieOptions);
+      console.log("[OAuth] Cookie name:", COOKIE_NAME);
       res.cookie(COOKIE_NAME, sessionToken, { ...cookieOptions, maxAge: ONE_YEAR_MS });
+      console.log("[OAuth] Cookie set, redirecting to /dashboard");
 
       res.redirect(302, "/dashboard");
     } catch (error) {
