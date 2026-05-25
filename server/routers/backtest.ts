@@ -2,10 +2,11 @@ import { z } from "zod";
 import { protectedProcedure, router } from "../_core/trpc";
 import { PDFExportService, BacktestReportData } from "../backtest/pdfExportService";
 import { getDb } from "../db";
-import { BacktestEngine, type HistoricalCandle } from "../backtest/backtest-engine";
+import { QuantitativeBacktestEngine, type HistoricalCandle } from "../backtest/quantitative-engine";
 import { StrategyValidator } from "../strategy/validator";
 import { getCandles, hasEnoughData } from "../market/candles-service";
 import type { ExecutableStrategy } from "../../shared/strategy-types";
+import { backtests } from "../../drizzle/schema";
 
 export const backtestRouter = router({
   /**
@@ -73,11 +74,41 @@ export const backtestRouter = router({
         }
 
         // 4. Executar backtest
-        const result = await BacktestEngine.runBacktest(executableStrategy, candles, input.initialCapital);
+        const result = await QuantitativeBacktestEngine.runBacktest(executableStrategy, candles, input.initialCapital);
+
+        // 5. Persistir resultado no banco
+        try {
+          await db.insert(backtests).values({
+            strategyId: input.strategyId,
+            userId: ctx.user.id,
+            startDate: new Date(result.startDate),
+            endDate: new Date(result.endDate),
+            totalTrades: result.metrics.totalTrades,
+            winningTrades: result.metrics.winningTrades,
+            losingTrades: result.metrics.losingTrades,
+            winRate: result.metrics.winRate,
+            totalReturn: result.metrics.totalReturn,
+            maxDrawdown: result.metrics.maxDrawdown,
+            sharpeRatio: result.metrics.sharpeRatio,
+            profitFactor: result.metrics.profitFactor,
+            initialCapital: input.initialCapital,
+            finalCapital: result.finalCapital,
+            trades: JSON.stringify(result.trades),
+            status: 'completed',
+            completedAt: new Date(),
+          });
+        } catch (dbError) {
+          console.error('Erro ao persistir backtest:', dbError);
+          // Continuar mesmo se falhar ao salvar
+        }
 
         return {
           success: true,
           result,
+          metrics: result.metrics,
+          trades: result.trades,
+          equityCurve: result.equityCurve,
+          drawdownCurve: result.drawdownCurve,
         };
       } catch (error) {
         return {
