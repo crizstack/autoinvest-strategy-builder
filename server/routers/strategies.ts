@@ -62,15 +62,16 @@ export const strategiesRouter = router({
           description: input.description,
           asset: input.asset,
           status: 'draft' as const,
-          blocks: JSON.stringify([]),
-          connections: JSON.stringify([]),
+          blocks: input.blocks ? JSON.stringify(input.blocks) : JSON.stringify([]),
+          connections: input.connections ? JSON.stringify(input.connections) : JSON.stringify([]),
         };
 
-        await db.insert(strategies).values(newStrategy);
+        const result = await db.insert(strategies).values(newStrategy);
 
         return {
           success: true,
           message: 'Estratégia criada com sucesso',
+          strategyId: result.insertId,
         };
       } catch (error) {
         throw new TRPCError({

@@ -4,6 +4,7 @@
  */
 
 import type { ExecutableStrategy, StrategyValidation, ValidationError } from '../../shared/strategy-types';
+import { GraphValidator } from './graph-validator';
 
 export class StrategyValidator {
   /**
@@ -45,6 +46,11 @@ export class StrategyValidator {
     // Validar conexões
     const connectionErrors = this.validateConnections(strategy);
     errors.push(...connectionErrors);
+
+    // Validar grafo (ciclos, tipos de conexões, fluxo)
+    const graphValidation = GraphValidator.validate(strategy);
+    errors.push(...graphValidation.errors.map((msg) => ({ message: msg, severity: 'error' as const })));
+    warnings.push(...graphValidation.warnings.map((msg) => ({ message: msg, severity: 'warning' as const })));
 
     return {
       isValid: errors.length === 0,

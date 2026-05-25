@@ -193,10 +193,27 @@ export default function StrategyBuilder() {
       setStoreNodes(nodes);
       setStoreEdges(edges);
 
+      // Converter nodes e edges para o formato ExecutableStrategy
+      const blocks = nodes.map((node) => ({
+        id: node.id,
+        type: node.data.type,
+        subType: node.data.subType,
+        label: node.data.label,
+        params: node.data.params || {},
+        position: node.position,
+      }));
+
+      const connections = edges.map((edge) => ({
+        source: edge.source,
+        target: edge.target,
+      }));
+
       await createStrategyMutation.mutateAsync({
         name: strategyName,
         asset: selectedAsset,
         description: strategyDescription,
+        blocks,
+        connections,
       });
     } finally {
       setIsSaving(false);

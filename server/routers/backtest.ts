@@ -60,8 +60,24 @@ export const backtestRouter = router({
           throw new Error("Estratégia não encontrada");
         }
 
-        // 2. Validar estratégia
-        const executableStrategy: ExecutableStrategy = JSON.parse(strategy.blocks);
+        // 2. Reconstruir ExecutableStrategy
+        const blocks = strategy.blocks ? JSON.parse(strategy.blocks as any) : [];
+        const connections = strategy.connections ? JSON.parse(strategy.connections as any) : [];
+        
+        const executableStrategy: ExecutableStrategy = {
+          id: strategy.id.toString(),
+          name: strategy.name,
+          description: strategy.description,
+          asset: strategy.asset,
+          blocks,
+          connections,
+          userId: strategy.userId,
+          status: strategy.status,
+          createdAt: strategy.createdAt,
+          updatedAt: strategy.updatedAt,
+        };
+
+        // 3. Validar estratégia
         const validation = StrategyValidator.validate(executableStrategy);
 
         if (!validation.isValid) {

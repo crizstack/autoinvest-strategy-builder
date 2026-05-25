@@ -31,6 +31,8 @@ export const CreateStrategySchema = z.object({
   name: z.string().min(1, 'Nome é obrigatório'),
   description: z.string().optional(),
   asset: z.string().min(1, 'Ativo é obrigatório'),
+  blocks: z.any().optional(),
+  connections: z.any().optional(),
 });
 
 export const UpdateStrategySchema = z.object({
