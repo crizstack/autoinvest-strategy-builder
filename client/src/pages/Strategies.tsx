@@ -169,17 +169,6 @@ export default function Strategies() {
               <Zap className="w-5 h-5" />
               Builder Visual
             </Button>
-            <Button
-              onClick={() => {
-                setNewStrategyName('');
-                setNewStrategyDescription('');
-                setShowCreateModal(true);
-              }}
-              className="bg-green-600 hover:bg-green-700 flex items-center gap-2"
-            >
-              <Plus className="w-5 h-5" />
-              Nova Estratégia
-            </Button>
           </div>
         </div>
 
