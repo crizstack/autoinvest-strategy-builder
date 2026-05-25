@@ -137,6 +137,48 @@ export const portfolios = mysqlTable("portfolios", {
 export type Portfolio = typeof portfolios.$inferSelect;
 export type InsertPortfolio = typeof portfolios.$inferInsert;
 
+// Portfolio Snapshots (Historical tracking)
+export const portfolioSnapshots = mysqlTable("portfolioSnapshots", {
+  id: int("id").autoincrement().primaryKey(),
+  portfolioId: int("portfolioId").notNull().references(() => portfolios.id, { onDelete: "cascade" }),
+  userId: int("userId").notNull().references(() => users.id, { onDelete: "cascade" }),
+  balance: decimal("balance", { precision: 15, scale: 2 }).notNull(),
+  totalReturn: decimal("totalReturn", { precision: 10, scale: 2 }).notNull(),
+  totalTrades: int("totalTrades").default(0),
+  winningTrades: int("winningTrades").default(0),
+  winRate: decimal("winRate", { precision: 5, scale: 2 }).default("0.00"),
+  maxDrawdown: decimal("maxDrawdown", { precision: 5, scale: 2 }).default("0.00"),
+  sharpeRatio: decimal("sharpeRatio", { precision: 5, scale: 2 }).default("0.00"),
+  profitFactor: decimal("profitFactor", { precision: 5, scale: 2 }).default("0.00"),
+  openPositionsCount: int("openPositionsCount").default(0),
+  totalOpenValue: decimal("totalOpenValue", { precision: 15, scale: 2 }).default("0.00"),
+  snapshotDate: date("snapshotDate").notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export type PortfolioSnapshot = typeof portfolioSnapshots.$inferSelect;
+export type InsertPortfolioSnapshot = typeof portfolioSnapshots.$inferInsert;
+
+// Portfolio Allocations (Asset breakdown)
+export const portfolioAllocations = mysqlTable("portfolioAllocations", {
+  id: int("id").autoincrement().primaryKey(),
+  portfolioId: int("portfolioId").notNull().references(() => portfolios.id, { onDelete: "cascade" }),
+  userId: int("userId").notNull().references(() => users.id, { onDelete: "cascade" }),
+  assetId: int("assetId").notNull().references(() => assets.id, { onDelete: "cascade" }),
+  symbol: varchar("symbol", { length: 10 }).notNull(),
+  quantity: int("quantity").notNull(),
+  averagePrice: decimal("averagePrice", { precision: 10, scale: 2 }).notNull(),
+  currentPrice: decimal("currentPrice", { precision: 10, scale: 2 }).notNull(),
+  totalValue: decimal("totalValue", { precision: 15, scale: 2 }).notNull(),
+  profitLoss: decimal("profitLoss", { precision: 15, scale: 2 }).notNull(),
+  profitLossPercent: decimal("profitLossPercent", { precision: 5, scale: 2 }).notNull(),
+  percentageOfPortfolio: decimal("percentageOfPortfolio", { precision: 5, scale: 2 }).notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type PortfolioAllocation = typeof portfolioAllocations.$inferSelect;
+export type InsertPortfolioAllocation = typeof portfolioAllocations.$inferInsert;
+
 // Assets (B3)
 export const assets = mysqlTable("assets", {
   id: int("id").autoincrement().primaryKey(),

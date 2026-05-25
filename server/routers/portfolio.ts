@@ -3,72 +3,34 @@ import { z } from 'zod';
 import { getDb } from '../db';
 import { portfolios } from '../../drizzle/schema';
 import { eq } from 'drizzle-orm';
+import { PortfolioService } from '../portfolio/portfolio-service';
 
 export const portfolioRouter = router({
   /**
-   * Obter portfolio do usuário
+   * Obter portfolio do usuário com estatísticas completas
    */
   getPortfolio: protectedProcedure.query(async ({ ctx }) => {
-    const db = await getDb();
-    if (!db) {
-      // Retornar valores padrão se DB não está disponível
-      return {
-        id: 0,
-        userId: ctx.user.id,
-        initialBalance: '10000.00',
-        currentBalance: '10000.00',
-        totalReturn: '0.00',
-        totalTrades: 0,
-        winningTrades: 0,
-        winRate: '0.00',
-        openPositions: null,
-        updatedAt: new Date(),
-      };
-    }
-
     try {
-      let portfolio = await db
-        .select()
-        .from(portfolios)
-        .where(eq(portfolios.userId, ctx.user.id))
-        .limit(1);
-
-      // Se não existe, criar com valores padrão
-      if (!portfolio || portfolio.length === 0) {
-        const initialBalance = '10000.00';
-        await db.insert(portfolios).values({
+      const db = await getDb();
+      if (!db) {
+        return {
+          id: 0,
           userId: ctx.user.id,
-          initialBalance,
-          currentBalance: initialBalance,
+          initialBalance: '10000.00',
+          currentBalance: '10000.00',
           totalReturn: '0.00',
           totalTrades: 0,
           winningTrades: 0,
           winRate: '0.00',
-        });
-
-        portfolio = await db
-          .select()
-          .from(portfolios)
-          .where(eq(portfolios.userId, ctx.user.id))
-          .limit(1);
+          openPositions: null,
+          updatedAt: new Date(),
+        };
       }
 
-      const p = portfolio[0];
-      return {
-        id: p?.id || 0,
-        userId: p?.userId,
-        initialBalance: p?.initialBalance,
-        currentBalance: p?.currentBalance,
-        totalReturn: p?.totalReturn,
-        totalTrades: p?.totalTrades,
-        winningTrades: p?.winningTrades,
-        winRate: p?.winRate,
-        openPositions: p?.openPositions,
-        updatedAt: p?.updatedAt,
-      };
+      const portfolio = await PortfolioService.getOrCreatePortfolio(ctx.user.id);
+      return portfolio;
     } catch (error) {
       console.error('[Portfolio] Error getting portfolio:', error);
-      // Retornar valores padrão em caso de erro
       return {
         id: 0,
         userId: ctx.user.id,
@@ -83,6 +45,60 @@ export const portfolioRouter = router({
       };
     }
   }),
+
+  /**
+   * Obter estatísticas completas do portfolio
+   */
+  getStats: protectedProcedure.query(async ({ ctx }) => {
+    try {
+      const stats = await PortfolioService.calculatePortfolioStats(ctx.user.id);
+      return stats;
+    } catch (error) {
+      console.error('[Portfolio] Error getting stats:', error);
+      return {
+        totalBalance: 10000,
+        initialBalance: 10000,
+        totalReturn: 0,
+        totalReturnPercent: 0,
+        totalTrades: 0,
+        winningTrades: 0,
+        winRate: 0,
+        openPositions: 0,
+        totalOpenValue: 0,
+        maxDrawdown: 0,
+        sharpeRatio: 0,
+        profitFactor: 0,
+      };
+    }
+  }),
+
+  /**
+   * Obter alocação por ativo
+   */
+  getAllocation: protectedProcedure.query(async ({ ctx }) => {
+    try {
+      const allocation = await PortfolioService.getAllocationBreakdown(ctx.user.id);
+      return allocation;
+    } catch (error) {
+      console.error('[Portfolio] Error getting allocation:', error);
+      return [];
+    }
+  }),
+
+  /**
+   * Obter histórico de snapshots
+   */
+  getHistory: protectedProcedure
+    .input(z.object({ days: z.number().default(30) }))
+    .query(async ({ ctx, input }) => {
+      try {
+        const history = await PortfolioService.getSnapshotHistory(ctx.user.id, input.days);
+        return history;
+      } catch (error) {
+        console.error('[Portfolio] Error getting history:', error);
+        return [];
+      }
+    }),
 
   /**
    * Atualizar portfolio
@@ -124,29 +140,24 @@ export const portfolioRouter = router({
    * Resetar portfolio
    */
   resetPortfolio: protectedProcedure.mutation(async ({ ctx }) => {
-    const db = await getDb();
-    if (!db) {
-      console.warn('[Portfolio] Database not available for reset');
-      return { success: false };
-    }
-
     try {
-      const initialBalance = '10000.00';
-
-      await db
-        .update(portfolios)
-        .set({
-          currentBalance: initialBalance,
-          totalReturn: '0.00',
-          totalTrades: 0,
-          winningTrades: 0,
-          winRate: '0.00',
-        })
-        .where(eq(portfolios.userId, ctx.user.id));
-
+      await PortfolioService.resetPortfolio(ctx.user.id);
       return { success: true };
     } catch (error) {
       console.error('[Portfolio] Error resetting portfolio:', error);
+      return { success: false };
+    }
+  }),
+
+  /**
+   * Criar snapshot manual
+   */
+  createSnapshot: protectedProcedure.mutation(async ({ ctx }) => {
+    try {
+      await PortfolioService.createSnapshot(ctx.user.id);
+      return { success: true };
+    } catch (error) {
+      console.error('[Portfolio] Error creating snapshot:', error);
       return { success: false };
     }
   }),
