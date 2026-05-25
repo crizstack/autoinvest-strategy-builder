@@ -4,31 +4,8 @@ import { PDFExportService, BacktestReportData } from "../backtest/pdfExportServi
 import { getDb } from "../db";
 import { BacktestEngine, type HistoricalCandle } from "../backtest/backtest-engine";
 import { StrategyValidator } from "../strategy/validator";
+import { getCandles, hasEnoughData } from "../market/candles-service";
 import type { ExecutableStrategy } from "../../shared/strategy-types";
-
-function generateMockCandles(asset: string, startDate: Date, endDate: Date): HistoricalCandle[] {
-  const candles: HistoricalCandle[] = [];
-  let currentDate = new Date(startDate);
-  let price = 100;
-
-  while (currentDate <= endDate) {
-    const change = (Math.random() - 0.5) * 2;
-    price += change;
-
-    candles.push({
-      timestamp: new Date(currentDate),
-      open: price,
-      high: price + Math.abs(change),
-      low: price - Math.abs(change),
-      close: price,
-      volume: 1000000 + Math.random() * 500000,
-    });
-
-    currentDate.setDate(currentDate.getDate() + 1);
-  }
-
-  return candles;
-}
 
 export const backtestRouter = router({
   /**
@@ -85,7 +62,15 @@ export const backtestRouter = router({
         }
 
         // 3. Buscar dados históricos
-        const candles = generateMockCandles(strategy.asset, input.startDate, input.endDate);
+        const hasData = await hasEnoughData(strategy.asset, 30);
+        if (!hasData) {
+          throw new Error(`Dados insuficientes para ${strategy.asset}. Execute sincronização primeiro.`);
+        }
+
+        const candles = await getCandles(strategy.asset, input.startDate, input.endDate);
+        if (candles.length === 0) {
+          throw new Error(`Nenhum candle encontrado para ${strategy.asset} no período`);
+        }
 
         // 4. Executar backtest
         const result = await BacktestEngine.runBacktest(executableStrategy, candles, input.initialCapital);
