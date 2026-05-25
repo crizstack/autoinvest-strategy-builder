@@ -5,6 +5,7 @@ describe("Cookie Configuration", () => {
   it("should return correct cookie options for secure requests", () => {
     const mockReq = {
       protocol: "https",
+      hostname: "example.manus.computer",
       headers: {},
     } as any;
 
@@ -16,9 +17,10 @@ describe("Cookie Configuration", () => {
     expect(options.secure).toBe(true);
   });
 
-  it("should return correct cookie options for non-secure requests", () => {
+  it("should return correct cookie options for non-secure requests on localhost", () => {
     const mockReq = {
       protocol: "http",
+      hostname: "localhost",
       headers: {},
     } as any;
 
@@ -33,6 +35,7 @@ describe("Cookie Configuration", () => {
   it("should detect secure requests via x-forwarded-proto header", () => {
     const mockReq = {
       protocol: "http",
+      hostname: "example.manus.computer",
       headers: {
         "x-forwarded-proto": "https",
       },
@@ -46,6 +49,7 @@ describe("Cookie Configuration", () => {
   it("should handle comma-separated x-forwarded-proto header", () => {
     const mockReq = {
       protocol: "http",
+      hostname: "example.manus.computer",
       headers: {
         "x-forwarded-proto": "https, http",
       },
@@ -56,12 +60,13 @@ describe("Cookie Configuration", () => {
     expect(options.secure).toBe(true);
   });
 
-  it("should use sameSite=lax which is valid with secure=false", () => {
+  it("should use sameSite=lax which is valid with secure=false on localhost", () => {
     // SameSite=Lax is valid with Secure=false
     // SameSite=None requires Secure=true
     // This test ensures we're using the correct combination
     const mockReq = {
       protocol: "http",
+      hostname: "localhost",
       headers: {},
     } as any;
 

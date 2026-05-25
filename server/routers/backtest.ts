@@ -1,8 +1,91 @@
 import { z } from "zod";
 import { protectedProcedure, router } from "../_core/trpc";
 import { PDFExportService, BacktestReportData } from "../backtest/pdfExportService";
+import { getDb } from "../db";
+import { BacktestEngine, type HistoricalCandle } from "../backtest/backtest-engine";
+import { StrategyValidator } from "../strategy/validator";
+import type { ExecutableStrategy } from "../../shared/strategy-types";
+
+function generateMockCandles(asset: string, startDate: Date, endDate: Date): HistoricalCandle[] {
+  const candles: HistoricalCandle[] = [];
+  let currentDate = new Date(startDate);
+  let price = 100;
+
+  while (currentDate <= endDate) {
+    const change = (Math.random() - 0.5) * 2;
+    price += change;
+
+    candles.push({
+      timestamp: new Date(currentDate),
+      open: price,
+      high: price + Math.abs(change),
+      low: price - Math.abs(change),
+      close: price,
+      volume: 1000000 + Math.random() * 500000,
+    });
+
+    currentDate.setDate(currentDate.getDate() + 1);
+  }
+
+  return candles;
+}
 
 export const backtestRouter = router({
+  /**
+   * Executar backtest de uma estratégia
+   */
+  run: protectedProcedure
+    .input(
+      z.object({
+        strategyId: z.number(),
+        startDate: z.date(),
+        endDate: z.date(),
+        initialCapital: z.number().default(10000),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      try {
+        // 1. Buscar estratégia
+        const db = await getDb();
+        if (!db) {
+          throw new Error('Banco de dados não disponível');
+        }
+
+        const strategy = await db.query.strategies.findFirst({
+          where: (strategies, { eq, and }) =>
+            and(eq(strategies.id, input.strategyId), eq(strategies.userId, ctx.user.id)),
+        });
+
+        if (!strategy) {
+          throw new Error("Estratégia não encontrada");
+        }
+
+        // 2. Validar estratégia
+        const executableStrategy: ExecutableStrategy = JSON.parse(strategy.blocks);
+        const validation = StrategyValidator.validate(executableStrategy);
+
+        if (!validation.isValid) {
+          throw new Error(`Estratégia inválida: ${validation.errors.join(", ")}`);
+        }
+
+        // 3. Buscar dados históricos
+        const candles = generateMockCandles(strategy.asset, input.startDate, input.endDate);
+
+        // 4. Executar backtest
+        const result = await BacktestEngine.runBacktest(executableStrategy, candles, input.initialCapital);
+
+        return {
+          success: true,
+          result,
+        };
+      } catch (error) {
+        return {
+          success: false,
+          error: error instanceof Error ? error.message : "Erro ao executar backtest",
+        };
+      }
+    }),
+
   exportReportPDF: protectedProcedure
     .input(
       z.object({
