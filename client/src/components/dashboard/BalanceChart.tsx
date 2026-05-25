@@ -1,18 +1,78 @@
+import { useEffect, useState } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { Card } from '@/components/ui/card';
+import { trpc } from '@/lib/trpc';
+import { Loader } from 'lucide-react';
 
-const data = [
-  { date: 'Jan 1', balance: 10000 },
-  { date: 'Jan 8', balance: 10500 },
-  { date: 'Jan 15', balance: 11200 },
-  { date: 'Jan 22', balance: 10800 },
-  { date: 'Jan 29', balance: 11500 },
-  { date: 'Feb 5', balance: 12100 },
-  { date: 'Feb 12', balance: 11900 },
-  { date: 'Feb 19', balance: 12800 },
-];
+interface BalancePoint {
+  date: string;
+  balance: number;
+}
 
 export default function BalanceChart() {
+  const [data, setData] = useState<BalancePoint[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  // Buscar portfolio
+  const { data: portfolio } = trpc.portfolio.getPortfolio.useQuery();
+
+  // Buscar trades fechados
+  const { data: trades } = trpc.paperTrading.getClosedTrades.useQuery({ limit: 1000 });
+
+  useEffect(() => {
+    if (portfolio && trades) {
+      const initialBalance = Number(portfolio.initialBalance) || 10000;
+
+      // Ordenar trades por data
+      const sortedTrades = [...(trades || [])].sort(
+        (a, b) => new Date(a.exitTime!).getTime() - new Date(b.exitTime!).getTime()
+      );
+
+      // Calcular saldo em cada ponto
+      let runningBalance = initialBalance;
+      const points: BalancePoint[] = [
+        {
+          date: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toLocaleDateString('pt-BR'),
+          balance: initialBalance,
+        },
+      ];
+
+      for (const trade of sortedTrades) {
+        if (trade.profitLoss && trade.exitTime) {
+          runningBalance += trade.profitLoss;
+          points.push({
+            date: new Date(trade.exitTime).toLocaleDateString('pt-BR'),
+            balance: Math.round(runningBalance),
+          });
+        }
+      }
+
+      // Se não há trades, preencher com dados de exemplo
+      if (points.length === 1) {
+        const today = new Date();
+        for (let i = 7; i >= 0; i--) {
+          const date = new Date(today);
+          date.setDate(date.getDate() - i);
+          points.push({
+            date: date.toLocaleDateString('pt-BR'),
+            balance: initialBalance,
+          });
+        }
+      }
+
+      setData(points.slice(-8)); // Últimos 8 pontos
+      setLoading(false);
+    }
+  }, [portfolio, trades]);
+
+  if (loading) {
+    return (
+      <Card className="p-6 bg-slate-900/50 border-slate-800 col-span-2 flex items-center justify-center">
+        <Loader className="w-6 h-6 text-green-400 animate-spin" />
+      </Card>
+    );
+  }
+
   return (
     <Card className="p-6 bg-slate-900/50 border-slate-800 col-span-2">
       <div className="mb-6">
@@ -31,7 +91,7 @@ export default function BalanceChart() {
               borderRadius: '8px',
               color: '#e2e8f0',
             }}
-            formatter={(value) => `R$ ${value.toLocaleString('pt-BR')}`}
+            formatter={(value) => `R$ ${Number(value).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`}
           />
           <Line
             type="monotone"

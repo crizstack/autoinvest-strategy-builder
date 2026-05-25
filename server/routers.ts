@@ -11,6 +11,7 @@ import { backtestRouter } from "./routers/backtest";
 import { marketRouter } from "./routers/market";
 import { backtestHistoryRouter } from "./routers/backtest-history";
 import { paperTradingRouter } from "./routers/paper-trading";
+import { portfolioRouter } from "./routers/portfolio";
 
 export const appRouter = router({
     // if you need to use socket.io, read and register route in server/_core/index.ts, all api should start with '/api/' so that the gateway can route correctly
@@ -24,6 +25,7 @@ export const appRouter = router({
   backtestHistory: backtestHistoryRouter,
   market: marketRouter,
   paperTrading: paperTradingRouter,
+  portfolio: portfolioRouter,
 
   // TODO: add feature routers here, e.g.
   // todo: router({
