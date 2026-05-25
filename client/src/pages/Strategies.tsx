@@ -214,7 +214,7 @@ export default function Strategies() {
           </p>
           {!searchTerm && (
             <Button
-              onClick={() => setShowCreateModal(true)}
+              onClick={() => setLocation('/estrategias/builder')}
               className="bg-green-600 hover:bg-green-700"
             >
               Criar Estratégia
