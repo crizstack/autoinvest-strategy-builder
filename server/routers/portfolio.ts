@@ -10,42 +10,78 @@ export const portfolioRouter = router({
    */
   getPortfolio: protectedProcedure.query(async ({ ctx }) => {
     const db = await getDb();
-    if (!db) throw new Error('Database not available');
-
-    let portfolio = await db.query.portfolios.findFirst({
-      where: eq(portfolios.userId, ctx.user.id),
-    });
-
-    // Se não existe, criar com valores padrão
-    if (!portfolio) {
-      const initialBalance = '10000.00';
-      await db.insert(portfolios).values({
+    if (!db) {
+      // Retornar valores padrão se DB não está disponível
+      return {
+        id: 0,
         userId: ctx.user.id,
-        initialBalance,
-        currentBalance: initialBalance,
+        initialBalance: '10000.00',
+        currentBalance: '10000.00',
         totalReturn: '0.00',
         totalTrades: 0,
         winningTrades: 0,
         winRate: '0.00',
-      });
-
-      portfolio = await db.query.portfolios.findFirst({
-        where: eq(portfolios.userId, ctx.user.id),
-      });
+        openPositions: null,
+        updatedAt: new Date(),
+      };
     }
 
-    return {
-      id: portfolio?.id,
-      userId: portfolio?.userId,
-      initialBalance: portfolio?.initialBalance,
-      currentBalance: portfolio?.currentBalance,
-      totalReturn: portfolio?.totalReturn,
-      totalTrades: portfolio?.totalTrades,
-      winningTrades: portfolio?.winningTrades,
-      winRate: portfolio?.winRate,
-      openPositions: portfolio?.openPositions,
-      updatedAt: portfolio?.updatedAt,
-    };
+    try {
+      let portfolio = await db
+        .select()
+        .from(portfolios)
+        .where(eq(portfolios.userId, ctx.user.id))
+        .limit(1);
+
+      // Se não existe, criar com valores padrão
+      if (!portfolio || portfolio.length === 0) {
+        const initialBalance = '10000.00';
+        await db.insert(portfolios).values({
+          userId: ctx.user.id,
+          initialBalance,
+          currentBalance: initialBalance,
+          totalReturn: '0.00',
+          totalTrades: 0,
+          winningTrades: 0,
+          winRate: '0.00',
+        });
+
+        portfolio = await db
+          .select()
+          .from(portfolios)
+          .where(eq(portfolios.userId, ctx.user.id))
+          .limit(1);
+      }
+
+      const p = portfolio[0];
+      return {
+        id: p?.id || 0,
+        userId: p?.userId,
+        initialBalance: p?.initialBalance,
+        currentBalance: p?.currentBalance,
+        totalReturn: p?.totalReturn,
+        totalTrades: p?.totalTrades,
+        winningTrades: p?.winningTrades,
+        winRate: p?.winRate,
+        openPositions: p?.openPositions,
+        updatedAt: p?.updatedAt,
+      };
+    } catch (error) {
+      console.error('[Portfolio] Error getting portfolio:', error);
+      // Retornar valores padrão em caso de erro
+      return {
+        id: 0,
+        userId: ctx.user.id,
+        initialBalance: '10000.00',
+        currentBalance: '10000.00',
+        totalReturn: '0.00',
+        totalTrades: 0,
+        winningTrades: 0,
+        winRate: '0.00',
+        openPositions: null,
+        updatedAt: new Date(),
+      };
+    }
   }),
 
   /**
@@ -63,18 +99,25 @@ export const portfolioRouter = router({
     )
     .mutation(async ({ ctx, input }) => {
       const db = await getDb();
-      if (!db) throw new Error('Database not available');
+      if (!db) {
+        console.warn('[Portfolio] Database not available for update');
+        return { success: false };
+      }
 
-      const updates: any = {};
-      if (input.currentBalance !== undefined) updates.currentBalance = input.currentBalance.toString();
-      if (input.totalReturn !== undefined) updates.totalReturn = input.totalReturn.toString();
-      if (input.totalTrades !== undefined) updates.totalTrades = input.totalTrades;
-      if (input.winningTrades !== undefined) updates.winningTrades = input.winningTrades;
-      if (input.winRate !== undefined) updates.winRate = input.winRate.toString();
+      try {
+        const updates: any = {};
+        if (input.currentBalance !== undefined) updates.currentBalance = input.currentBalance.toString();
+        if (input.totalReturn !== undefined) updates.totalReturn = input.totalReturn.toString();
+        if (input.totalTrades !== undefined) updates.totalTrades = input.totalTrades;
+        if (input.winningTrades !== undefined) updates.winningTrades = input.winningTrades;
+        if (input.winRate !== undefined) updates.winRate = input.winRate.toString();
 
-      await db.update(portfolios).set(updates).where(eq(portfolios.userId, ctx.user.id));
-
-      return { success: true };
+        await db.update(portfolios).set(updates).where(eq(portfolios.userId, ctx.user.id));
+        return { success: true };
+      } catch (error) {
+        console.error('[Portfolio] Error updating portfolio:', error);
+        return { success: false };
+      }
     }),
 
   /**
@@ -82,21 +125,29 @@ export const portfolioRouter = router({
    */
   resetPortfolio: protectedProcedure.mutation(async ({ ctx }) => {
     const db = await getDb();
-    if (!db) throw new Error('Database not available');
+    if (!db) {
+      console.warn('[Portfolio] Database not available for reset');
+      return { success: false };
+    }
 
-    const initialBalance = '10000.00';
+    try {
+      const initialBalance = '10000.00';
 
-    await db
-      .update(portfolios)
-      .set({
-        currentBalance: initialBalance,
-        totalReturn: '0.00',
-        totalTrades: 0,
-        winningTrades: 0,
-        winRate: '0.00',
-      })
-      .where(eq(portfolios.userId, ctx.user.id));
+      await db
+        .update(portfolios)
+        .set({
+          currentBalance: initialBalance,
+          totalReturn: '0.00',
+          totalTrades: 0,
+          winningTrades: 0,
+          winRate: '0.00',
+        })
+        .where(eq(portfolios.userId, ctx.user.id));
 
-    return { success: true };
+      return { success: true };
+    } catch (error) {
+      console.error('[Portfolio] Error resetting portfolio:', error);
+      return { success: false };
+    }
   }),
 });

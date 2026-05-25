@@ -19,7 +19,10 @@ export const strategiesRouter = router({
     .query(async ({ input, ctx }) => {
       try {
         const db = await getDb();
-        if (!db) throw new Error('Database not available');
+        if (!db) {
+          console.warn('[Strategies] Database not available');
+          return [];
+        }
 
         let whereCondition: any = eq(strategies.userId, ctx.user.id);
         
@@ -36,10 +39,8 @@ export const strategiesRouter = router({
 
         return result;
       } catch (error) {
-        throw new TRPCError({
-          code: 'INTERNAL_SERVER_ERROR',
-          message: 'Erro ao listar estratégias',
-        });
+        console.error('[Strategies] Error listing strategies:', error);
+        return [];
       }
     }),
 
@@ -51,7 +52,13 @@ export const strategiesRouter = router({
     .mutation(async ({ input, ctx }) => {
       try {
         const db = await getDb();
-        if (!db) throw new Error('Database not available');
+        if (!db) {
+          console.warn('[Strategies] Database not available');
+          throw new TRPCError({
+            code: 'INTERNAL_SERVER_ERROR',
+            message: 'Database not available',
+          });
+        }
 
         // Check plan limits
         // TODO: Implement plan limit check

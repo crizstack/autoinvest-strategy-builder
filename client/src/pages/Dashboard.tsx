@@ -26,21 +26,41 @@ interface DashboardMetrics {
 export default function Dashboard() {
   const { user } = useAuth({ redirectOnUnauthenticated: true });
   const [, setLocation] = useLocation();
-  const [metrics, setMetrics] = useState<DashboardMetrics | null>(null);
+  const [metrics, setMetrics] = useState<DashboardMetrics>({
+    balance: 10000,
+    initialBalance: 10000,
+    totalReturn: 0,
+    activeStrategies: 0,
+    winRate: 0,
+    totalTrades: 0,
+    profitFactor: 0,
+  });
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
 
-  // Buscar portfolio
-  const { data: portfolio } = trpc.portfolio.getPortfolio.useQuery();
+  // Buscar portfolio - com retry e valores padrão
+  const { data: portfolio, isLoading: portfolioLoading } = trpc.portfolio.getPortfolio.useQuery(undefined, {
+    retry: 1,
+  });
 
-  // Buscar estatísticas de trades
-  const { data: tradeStats } = trpc.paperTrading.getTradeStats.useQuery();
+  // Buscar estatísticas de trades - com retry e valores padrão
+  const { data: tradeStats, isLoading: tradeStatsLoading } = trpc.paperTrading.getTradeStats.useQuery(undefined, {
+    retry: 1,
+  });
 
-  // Buscar estratégias
-  const { data: strategies } = trpc.strategies.list.useQuery();
+  // Buscar estratégias - com retry e valores padrão
+  const { data: strategies, isLoading: strategiesLoading } = trpc.strategies.list.useQuery(undefined, {
+    retry: 1,
+  });
 
-  // Calcular métricas quando dados chegam
+  // Atualizar métricas quando dados chegam
   useEffect(() => {
+    // Se alguma query está carregando, mostrar loading
+    if (portfolioLoading || tradeStatsLoading || strategiesLoading) {
+      setLoading(true);
+      return;
+    }
+
+    // Se dados chegaram, usar eles
     if (portfolio && tradeStats && strategies) {
       const activeStrategies = strategies.filter((s) => s.status === 'active').length;
       const balance = Number(portfolio.currentBalance) || 10000;
@@ -56,25 +76,15 @@ export default function Dashboard() {
         totalTrades: tradeStats.totalTrades || 0,
         profitFactor: tradeStats.profitFactor || 0,
       });
-      setLoading(false);
     }
-  }, [portfolio, tradeStats, strategies]);
+
+    setLoading(false);
+  }, [portfolio, tradeStats, strategies, portfolioLoading, tradeStatsLoading, strategiesLoading]);
 
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
         <Loader className="w-8 h-8 text-green-400 animate-spin" />
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="space-y-6">
-        <h1 className="text-3xl font-bold text-white">Dashboard</h1>
-        <Card className="p-6 bg-red-900/20 border-red-800">
-          <p className="text-red-400">{error}</p>
-        </Card>
       </div>
     );
   }
@@ -102,18 +112,18 @@ export default function Dashboard() {
             </div>
           </div>
           <p className="text-3xl font-bold text-white">
-            R$ {(metrics?.balance || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
+            R$ {metrics.balance.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
           </p>
           <div className="flex items-center gap-2 mt-3">
-            {(metrics?.totalReturn || 0) > 0 ? (
+            {metrics.totalReturn > 0 ? (
               <>
                 <TrendingUp className="w-4 h-4 text-green-400" />
-                <p className="text-sm text-green-400">+{metrics?.totalReturn.toFixed(2)}%</p>
+                <p className="text-sm text-green-400">+{metrics.totalReturn.toFixed(2)}%</p>
               </>
             ) : (
               <>
                 <TrendingDown className="w-4 h-4 text-red-400" />
-                <p className="text-sm text-red-400">{metrics?.totalReturn.toFixed(2)}%</p>
+                <p className="text-sm text-red-400">{metrics.totalReturn.toFixed(2)}%</p>
               </>
             )}
           </div>
@@ -127,8 +137,8 @@ export default function Dashboard() {
               <TrendingUp className="w-5 h-5 text-green-400" />
             </div>
           </div>
-          <p className={`text-3xl font-bold ${(metrics?.totalReturn || 0) > 0 ? 'text-green-400' : 'text-red-400'}`}>
-            {(metrics?.totalReturn || 0) > 0 ? '+' : ''}{metrics?.totalReturn.toFixed(2)}%
+          <p className={`text-3xl font-bold ${metrics.totalReturn > 0 ? 'text-green-400' : 'text-red-400'}`}>
+            {metrics.totalReturn > 0 ? '+' : ''}{metrics.totalReturn.toFixed(2)}%
           </p>
           <p className="text-xs text-slate-500 mt-3">Desde o início</p>
         </Card>
@@ -141,7 +151,7 @@ export default function Dashboard() {
               <Zap className="w-5 h-5 text-purple-400" />
             </div>
           </div>
-          <p className="text-3xl font-bold text-white">{metrics?.activeStrategies || 0}</p>
+          <p className="text-3xl font-bold text-white">{metrics.activeStrategies}</p>
           <p className="text-xs text-slate-500 mt-3">Em execução</p>
         </Card>
 
@@ -153,8 +163,8 @@ export default function Dashboard() {
               <Target className="w-5 h-5 text-blue-400" />
             </div>
           </div>
-          <p className="text-3xl font-bold text-blue-400">{metrics?.winRate.toFixed(1)}%</p>
-          <p className="text-xs text-slate-500 mt-3">{metrics?.totalTrades} operações</p>
+          <p className="text-3xl font-bold text-blue-400">{metrics.winRate.toFixed(1)}%</p>
+          <p className="text-xs text-slate-500 mt-3">{metrics.totalTrades} operações</p>
         </Card>
       </div>
 
