@@ -33,9 +33,11 @@ export async function getCandles(
     }
 
     // 1. Buscar asset
-    const asset = await db.query.assets.findFirst({
-      where: eq(assets.symbol, symbol),
-    });
+    const [asset] = await db
+      .select()
+      .from(assets)
+      .where(eq(assets.symbol, symbol))
+      .limit(1);
 
     if (!asset) {
       console.error(`Asset ${symbol} não encontrado no banco`);
@@ -92,9 +94,11 @@ export async function getLatestCandle(symbol: string): Promise<HistoricalCandle 
     if (!db) return null;
 
     // 1. Buscar asset
-    const asset = await db.query.assets.findFirst({
-      where: eq(assets.symbol, symbol),
-    });
+    const [asset] = await db
+      .select()
+      .from(assets)
+      .where(eq(assets.symbol, symbol))
+      .limit(1);
 
     if (!asset) {
       console.error(`Asset ${symbol} não encontrado`);
@@ -144,9 +148,11 @@ export async function hasEnoughData(symbol: string, minCandles: number = 30): Pr
     const db = await getDb();
     if (!db) return false;
 
-    const asset = await db.query.assets.findFirst({
-      where: eq(assets.symbol, symbol),
-    });
+    const [asset] = await db
+      .select()
+      .from(assets)
+      .where(eq(assets.symbol, symbol))
+      .limit(1);
 
     if (!asset) return false;
 
@@ -179,10 +185,12 @@ export async function getDataCoverage(): Promise<
     const db = await getDb();
     if (!db) return [];
 
-    const allAssets = await db.query.assets.findMany();
+    const allAssets = await db
+      .select()
+      .from(assets);
 
     const coverage = await Promise.all(
-      allAssets.map(async (asset) => {
+      allAssets.map(async (asset: any) => {
         const prices = await db
           .select({
             time: assetPrices.time,

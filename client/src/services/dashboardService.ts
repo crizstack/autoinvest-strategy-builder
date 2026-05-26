@@ -40,14 +40,14 @@ export interface StrategyPerformance {
 export async function getDashboardMetrics(): Promise<DashboardMetrics> {
   try {
     // Buscar portfolio
-    const portfolio = await trpc.portfolio.getPortfolio.query();
+    const portfolio = await trpc.portfolio.getPortfolio.useQuery().data;
 
     // Buscar estatísticas de paper trading
-    const tradeStats = await trpc.paperTrading.getTradeStats.query();
+    const tradeStats = await trpc.paperTrading.getTradeStats.useQuery().data;
 
     // Buscar estratégias ativas
-    const strategies = await trpc.strategies.list.query();
-    const activeStrategies = strategies.filter((s) => s.status === 'active').length;
+    const strategies = await trpc.strategies.list.useQuery().data || [];
+    const activeStrategies = strategies.filter((s: any) => s.status === 'active').length;
 
     return {
       balance: Number(portfolio?.currentBalance) || 10000,
@@ -70,13 +70,13 @@ export async function getDashboardMetrics(): Promise<DashboardMetrics> {
 export async function getBalanceHistory(): Promise<BalancePoint[]> {
   try {
     // Buscar todos os trades fechados
-    const trades = await trpc.paperTrading.getClosedTrades.query({ limit: 1000 });
+    const trades = await trpc.paperTrading.getClosedTrades.useQuery({ limit: 1000 }).data || [];
 
     // Ordenar por data
-    const sortedTrades = trades.sort((a, b) => new Date(a.exitTime!).getTime() - new Date(b.exitTime!).getTime());
+    const sortedTrades = trades.sort((a: any, b: any) => new Date(a.exitTime!).getTime() - new Date(b.exitTime!).getTime());
 
     // Calcular saldo em cada ponto
-    const portfolio = await trpc.portfolio.getPortfolio.query();
+    const portfolio = await trpc.portfolio.getPortfolio.useQuery().data;
     const initialBalance = Number(portfolio?.initialBalance) || 10000;
 
     let runningBalance = initialBalance;
@@ -117,7 +117,7 @@ export async function getBalanceHistory(): Promise<BalancePoint[]> {
  */
 export async function getProfitabilityByWeek(): Promise<ProfitabilityData[]> {
   try {
-    const trades = await trpc.paperTrading.getClosedTrades.query({ limit: 1000 });
+    const trades = await trpc.paperTrading.getClosedTrades.useQuery({ limit: 1000 }).data || [];
 
     // Agrupar por semana
     const weeklyData: { [key: string]: { profit: number; loss: number } } = {};

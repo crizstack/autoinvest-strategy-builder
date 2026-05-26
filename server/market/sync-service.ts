@@ -6,7 +6,7 @@
 
 import { getDb } from '../db';
 import { assets, assetPrices } from '../../drizzle/schema';
-import { eq } from 'drizzle-orm';
+import { eq, and, gte } from 'drizzle-orm';
 import {
   fetchQuote,
   fetchHistoricalCandles,
@@ -66,9 +66,11 @@ export async function syncAsset(symbol: string): Promise<SyncResult> {
     }
 
     // 2. Criar ou atualizar asset
-    const existingAsset = await db.query.assets.findFirst({
-      where: eq(assets.symbol, symbol),
-    });
+    const [existingAsset] = await db
+      .select()
+      .from(assets)
+      .where(eq(assets.symbol, symbol))
+      .limit(1);
 
     let assetId: number;
 
@@ -198,9 +200,11 @@ export async function updateRecentPrices(symbol: string): Promise<SyncResult> {
     }
 
     // Buscar asset
-    const asset = await db.query.assets.findFirst({
-      where: eq(assets.symbol, symbol),
-    });
+    const [asset] = await db
+      .select()
+      .from(assets)
+      .where(eq(assets.symbol, symbol))
+      .limit(1);
 
     if (!asset) {
       result.errors.push(`Asset ${symbol} não encontrado. Execute syncAsset primeiro.`);
@@ -222,9 +226,10 @@ export async function updateRecentPrices(symbol: string): Promise<SyncResult> {
     await db
       .delete(assetPrices)
       .where(
-        (col) =>
-          col.assetId === asset.id &&
-          col.time >= oneMonthAgo
+        and(
+          eq(assetPrices.assetId, asset.id),
+          gte(assetPrices.time, oneMonthAgo)
+        )
       );
 
     // Inserir novos preços
@@ -263,9 +268,11 @@ export async function getSyncedAssets(): Promise<
     const db = await getDb();
     if (!db) return [];
 
-    const result = await db.query.assets.findMany();
+    const result = await db
+      .select()
+      .from(assets);
 
-    return result.map((asset) => ({
+    return result.map((asset: any) => ({
       id: asset.id,
       symbol: asset.symbol,
       name: asset.name,
