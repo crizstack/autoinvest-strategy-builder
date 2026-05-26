@@ -202,7 +202,7 @@ export class AuditService {
     if (!db) return { score: 0, status: 'critical', recommendations: [] };
     
     // Note: twoFactorAuth table not found in schema, skipping 2FA check
-    const twoFa = null;
+    const twoFa: any = null;
 
     if (twoFa?.enabled) {
       score += 30;

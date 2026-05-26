@@ -15,9 +15,10 @@ export const backtestHistoryRouter = router({
       if (!db) throw new Error('Database not available');
 
       // Verificar se estratégia pertence ao usuário
-      const strategy = await db.query.strategies.findFirst({
-        where: and(eq(strategies.id, input.strategyId), eq(strategies.userId, ctx.user.id)),
-      });
+      const strategy = await db.select().from(strategies)
+        .where(and(eq(strategies.id, input.strategyId), eq(strategies.userId, ctx.user.id)))
+        .limit(1)
+        .then(rows => rows[0] || null);
 
       if (!strategy) {
         throw new Error('Strategy not found or unauthorized');
@@ -61,9 +62,10 @@ export const backtestHistoryRouter = router({
       if (!db) throw new Error('Database not available');
 
       // Buscar backtest
-      const backtest = await db.query.backtests.findFirst({
-        where: eq(backtests.id, input.backtestId),
-      });
+      const backtest = await db.select().from(backtests)
+        .where(eq(backtests.id, input.backtestId))
+        .limit(1)
+        .then(rows => rows[0] || null);
 
       if (!backtest) {
         throw new Error('Backtest not found');
@@ -140,9 +142,10 @@ export const backtestHistoryRouter = router({
       if (!db) throw new Error('Database not available');
 
       // Buscar backtest
-      const backtest = await db.query.backtests.findFirst({
-        where: eq(backtests.id, input.backtestId),
-      });
+      const backtest = await db.select().from(backtests)
+        .where(eq(backtests.id, input.backtestId))
+        .limit(1)
+        .then(rows => rows[0] || null);
 
       if (!backtest) {
         throw new Error('Backtest not found');
@@ -170,9 +173,10 @@ export const backtestHistoryRouter = router({
 
       const results = await Promise.all(
         input.backtestIds.map(async (id) => {
-          const bt = await db.query.backtests.findFirst({
-            where: eq(backtests.id, id),
-          });
+          const bt = await db.select().from(backtests)
+            .where(eq(backtests.id, id))
+            .limit(1)
+            .then(rows => rows[0] || null);
 
           if (!bt || bt.userId !== ctx.user.id) {
             return null;

@@ -182,7 +182,7 @@ export class PortfolioService {
     // Converter para array e calcular métricas
     const allocations: AllocationBreakdown[] = [];
 
-    for (const [symbol, data] of assetMap.entries()) {
+    for (const [symbol, data] of Array.from(assetMap.entries())) {
       const averagePrice = data.quantity > 0 ? data.totalCost / data.quantity : 0;
       const currentPrice = averagePrice; // Em produção, buscar preço atual da API
       const totalValue = data.quantity * currentPrice;

@@ -130,7 +130,7 @@ export class GraphValidator {
       recursionStack.delete(nodeId);
     };
 
-    for (const blockId of blockIds) {
+    for (const blockId of Array.from(blockIds)) {
       if (!visited.has(blockId)) {
         dfs(blockId);
       }
@@ -235,7 +235,7 @@ export class GraphValidator {
       return component;
     };
 
-    for (const blockId of blockIds) {
+    for (const blockId of Array.from(blockIds)) {
       if (!visited.has(blockId)) {
         const component = bfs(blockId);
         components.push(component);

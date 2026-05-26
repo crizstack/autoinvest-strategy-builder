@@ -108,12 +108,18 @@ export const strategiesRouter = router({
           connections: JSON.stringify(normalizedStrategy.connections),
         };
 
-        const result = await db.insert(strategies).values(newStrategy);
+        await db.insert(strategies).values(newStrategy);
+
+        // Buscar a estratégia criada para obter o ID
+        const createdStrategy = await db.select().from(strategies)
+          .where(and(eq(strategies.userId, ctx.user.id), eq(strategies.name, input.name)))
+          .limit(1)
+          .then(rows => rows[0]);
 
         return {
           success: true,
           message: 'Estratégia criada com sucesso',
-          strategyId: result.insertId,
+          strategyId: createdStrategy?.id || 0,
         };
       } catch (error) {
         throw new TRPCError({

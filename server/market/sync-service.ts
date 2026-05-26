@@ -95,7 +95,13 @@ export async function syncAsset(symbol: string): Promise<SyncResult> {
         lastUpdated: new Date(),
       });
 
-      assetId = Number(inserted.insertId);
+      // Buscar o asset criado para obter o ID
+      const createdAsset = await db.select().from(assets)
+        .where(eq(assets.symbol, quote.symbol))
+        .limit(1)
+        .then(rows => rows[0]);
+      
+      assetId = createdAsset?.id || 0;
       result.assetsCreated++;
     }
 

@@ -6,7 +6,8 @@ import { QuantitativeBacktestEngine, type HistoricalCandle } from "../backtest/q
 import { StrategyValidator } from "../strategy/validator";
 import { getCandles, hasEnoughData } from "../market/candles-service";
 import type { ExecutableStrategy } from "../../shared/strategy-types";
-import { backtests } from "../../drizzle/schema";
+import { backtests, strategies } from "../../drizzle/schema";
+import { eq, and } from "drizzle-orm";
 
 export const backtestRouter = router({
   /**
@@ -29,10 +30,10 @@ export const backtestRouter = router({
           throw new Error('Banco de dados não disponível');
         }
 
-        const strategy = await db.query.strategies.findFirst({
-          where: (strategies, { eq, and }) =>
-            and(eq(strategies.id, input.strategyId), eq(strategies.userId, ctx.user.id)),
-        });
+        const strategy = await db.select().from(strategies)
+          .where(and(eq(strategies.id, input.strategyId), eq(strategies.userId, ctx.user.id)))
+          .limit(1)
+          .then(rows => rows[0] || null);
 
         if (!strategy) {
           throw new Error("Estratégia não encontrada");
@@ -45,12 +46,12 @@ export const backtestRouter = router({
         const executableStrategy: ExecutableStrategy = {
           id: strategy.id.toString(),
           name: strategy.name,
-          description: strategy.description,
+          description: strategy.description || undefined,
           asset: strategy.asset,
           blocks,
           connections,
           userId: strategy.userId,
-          status: strategy.status,
+          status: (strategy.status as 'draft' | 'active' | 'paused' | 'archived') || 'draft',
           createdAt: strategy.createdAt,
           updatedAt: strategy.updatedAt,
         };
@@ -78,21 +79,26 @@ export const backtestRouter = router({
 
         // 5. Persistir resultado no banco
         try {
+          const formatDate = (d: any) => {
+            const date = d instanceof Date ? d : new Date(d);
+            return date.toISOString().split('T')[0]; // YYYY-MM-DD
+          };
+
           await db.insert(backtests).values({
             strategyId: input.strategyId,
             userId: ctx.user.id,
-            startDate: new Date(result.startDate),
-            endDate: new Date(result.endDate),
+            startDate: formatDate(result.startDate) as any,
+            endDate: formatDate(result.endDate) as any,
             totalTrades: result.metrics.totalTrades,
             winningTrades: result.metrics.winningTrades,
             losingTrades: result.metrics.losingTrades,
-            winRate: result.metrics.winRate,
-            totalReturn: result.metrics.totalReturn,
-            maxDrawdown: result.metrics.maxDrawdown,
-            sharpeRatio: result.metrics.sharpeRatio,
-            profitFactor: result.metrics.profitFactor,
-            initialCapital: input.initialCapital,
-            finalCapital: result.finalCapital,
+            winRate: Number(result.metrics.winRate) as any,
+            totalReturn: Number(result.metrics.totalReturn) as any,
+            maxDrawdown: Number(result.metrics.maxDrawdown) as any,
+            sharpeRatio: Number(result.metrics.sharpeRatio) as any,
+            profitFactor: Number(result.metrics.profitFactor) as any,
+            initialCapital: Number(input.initialCapital) as any,
+            finalCapital: Number(result.finalCapital) as any,
             trades: JSON.stringify(result.trades),
             status: 'completed',
             completedAt: new Date(),

@@ -218,7 +218,7 @@ export class StrategyParser {
 
     executionOrder.forEach((node, index) => {
       const indent = '  '.repeat(Math.max(0, node.block.type === 'trigger' ? 0 : 1));
-      lines.push(`${index + 1}. ${indent}[${node.block.type.toUpperCase()}] ${node.label}`);
+      lines.push(`${index + 1}. ${indent}[${node.block.type.toUpperCase()}] ${node.block.label}`);
     });
 
     return lines.join('\n');

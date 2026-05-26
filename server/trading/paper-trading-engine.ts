@@ -6,7 +6,7 @@
 
 import { getDb } from '../db';
 import { paperTrades, portfolios, users } from '../../drizzle/schema';
-import { eq, and } from 'drizzle-orm';
+import { eq, and, desc } from 'drizzle-orm';
 import { getLatestCandle } from '../market/candles-service';
 
 export interface OpenPositionRequest {
@@ -68,7 +68,14 @@ export class PaperTradingEngine {
       entryReason: request.entryReason,
     });
 
-    const tradeId = Number(result.insertId);
+    // Buscar o trade criado para obter o ID
+    const createdTrade = await db.select().from(paperTrades)
+      .where(and(eq(paperTrades.userId, request.userId), eq(paperTrades.asset, request.asset)))
+      .orderBy(desc(paperTrades.entryTime))
+      .limit(1)
+      .then(rows => rows[0]);
+    
+    const tradeId = createdTrade?.id || 0;
 
     // Atualizar portfolio
     await this.updatePortfolioOnTradeOpen(request.userId, request.quantity, request.entryPrice, request.type);

@@ -248,10 +248,14 @@ export class ContextualAIService {
       if (backtestResults && backtestResults.length > 0) {
         const bt = backtestResults[0];
         analysis += `\n[ÚLTIMO BACKTEST]\n`;
-        analysis += `- Retorno: ${bt.totalReturnPercent?.toFixed(2)}%\n`;
-        analysis += `- Win Rate: ${bt.winRate?.toFixed(1)}%\n`;
-        analysis += `- Sharpe Ratio: ${bt.sharpeRatio?.toFixed(2)}\n`;
-        analysis += `- Drawdown: ${bt.maxDrawdown?.toFixed(2)}%\n`;
+        const totalReturn = typeof bt.totalReturn === 'string' ? parseFloat(bt.totalReturn) : (bt.totalReturn || 0);
+        const winRate = typeof bt.winRate === 'string' ? parseFloat(bt.winRate) : (bt.winRate || 0);
+        const sharpeRatio = typeof bt.sharpeRatio === 'string' ? parseFloat(bt.sharpeRatio) : (bt.sharpeRatio || 0);
+        const maxDrawdown = typeof bt.maxDrawdown === 'string' ? parseFloat(bt.maxDrawdown) : (bt.maxDrawdown || 0);
+        analysis += `- Retorno: ${totalReturn.toFixed(2)}%\n`;
+        analysis += `- Win Rate: ${winRate.toFixed(1)}%\n`;
+        analysis += `- Sharpe Ratio: ${sharpeRatio.toFixed(2)}\n`;
+        analysis += `- Drawdown: ${maxDrawdown.toFixed(2)}%\n`;
       }
 
       return analysis;

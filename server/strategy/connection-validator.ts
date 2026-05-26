@@ -325,4 +325,30 @@ export class ConnectionValidator {
 
     return errors;
   }
+
+  /**
+   * Valida estratégia completa (todas as verificações)
+   */
+  static validate(strategy: any): { isValid: boolean; errors: string[] } {
+    const errors: string[] = [];
+
+    // Validar conexões
+    const connErrors = this.validateConnections(strategy);
+    errors.push(...connErrors.map(e => e.message));
+
+    // Validar estrutura
+    const structErrors = this.validateStructure(strategy);
+    errors.push(...structErrors.map(e => e.message));
+
+    // Validar parâmetros de blocos
+    for (const block of strategy.blocks) {
+      const blockErrors = this.validateBlockParams(block);
+      errors.push(...blockErrors.map(e => e.message));
+    }
+
+    return {
+      isValid: errors.length === 0,
+      errors,
+    };
+  }
 }
