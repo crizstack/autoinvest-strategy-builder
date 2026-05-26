@@ -116,7 +116,7 @@ export function TradeLogDetail({ trade, isExpanded: initialExpanded = false }: T
                 <p className="text-sm font-semibold text-white mb-1">Motivo da Entrada</p>
                 <p className="text-sm text-slate-300">{trade.explanation.entryReason}</p>
                 <div className="mt-2 flex flex-wrap gap-1">
-                  {trade.explanation.entryIndicators.map((ind, idx) => (
+                  {trade.explanation.entryIndicators.map((ind: any, idx: number) => (
                     <Badge key={idx} variant="outline" className="text-xs">
                       {ind.name}
                     </Badge>
@@ -138,7 +138,7 @@ export function TradeLogDetail({ trade, isExpanded: initialExpanded = false }: T
                   <p className="text-sm font-semibold text-white mb-1">Motivo da Saída</p>
                   <p className="text-sm text-slate-300">{trade.explanation.exitReason}</p>
                   <div className="mt-2 flex flex-wrap gap-1">
-                    {trade.explanation.exitIndicators.map((ind, idx) => (
+                    {trade.explanation.exitIndicators.map((ind: any, idx: number) => (
                       <Badge key={idx} variant="outline" className="text-xs">
                         {ind.name}
                       </Badge>
@@ -222,7 +222,7 @@ export function TradeLogDetail({ trade, isExpanded: initialExpanded = false }: T
             <div className="pt-2 border-t border-slate-800">
               <p className="text-xs text-slate-400 mb-2">Tags</p>
               <div className="flex flex-wrap gap-1">
-                {trade.tags.map((tag, idx) => (
+                {trade.tags.map((tag: string, idx: number) => (
                   <Badge key={idx} variant="secondary" className="text-xs">
                     {tag}
                   </Badge>

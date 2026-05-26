@@ -112,7 +112,7 @@ export class ContextualAIService {
     if (context.activeStrategies && context.activeStrategies.length > 0) {
       summary += `\n[ESTRATÉGIAS ATIVAS]\n`;
       summary += `- Total: ${context.activeStrategies.length}\n`;
-      const activeCount = context.activeStrategies.filter((s) => s.isActive).length;
+      const activeCount = context.activeStrategies.filter((s: any) => s.status === 'active').length;
       summary += `- Ativas: ${activeCount}\n`;
     }
 
@@ -236,17 +236,17 @@ export class ContextualAIService {
       const s = strategy[0];
       let analysis = `\n[ANÁLISE DE ESTRATÉGIA: ${s.name}]\n`;
       analysis += `- Ativo: ${s.asset}\n`;
-      analysis += `- Status: ${s.isActive ? 'Ativa' : 'Inativa'}\n`;
+      analysis += `- Status: ${s.status === 'active' ? 'Ativa' : 'Inativa'}\n`;
 
       // Buscar backtests desta estratégia
-      const backtests = await db
+      const backtestResults = await db
         .select()
         .from(backtests)
         .where(eq(backtests.strategyId, strategyId))
         .limit(1);
 
-      if (backtests && backtests.length > 0) {
-        const bt = backtests[0];
+      if (backtestResults && backtestResults.length > 0) {
+        const bt = backtestResults[0];
         analysis += `\n[ÚLTIMO BACKTEST]\n`;
         analysis += `- Retorno: ${bt.totalReturnPercent?.toFixed(2)}%\n`;
         analysis += `- Win Rate: ${bt.winRate?.toFixed(1)}%\n`;

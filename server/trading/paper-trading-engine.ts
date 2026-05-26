@@ -98,32 +98,24 @@ export class PaperTradingEngine {
     if (!db) throw new Error('Database not available');
 
     // Buscar trade
-    const trade = await db.query.paperTrades.findFirst({
-      where: eq(paperTrades.id, request.tradeId),
-    });
+    const [trade] = await db
+      .select()
+      .from(paperTrades)
+      .where(eq(paperTrades.id, request.tradeId))
+      .limit(1);
 
-    if (!trade) throw new Error('Trade not found');
-    if (trade.status !== 'open') throw new Error('Trade is not open');
+    if (!trade) throw new Error(`Trade ${request.tradeId} not found`);
+    if (trade.status !== 'open') throw new Error(`Trade ${request.tradeId} is not open`);
 
     const now = new Date();
-    const entryPrice = Number(trade.entryPrice);
-    const exitPrice = request.exitPrice;
-
-    // Calcular PnL
-    let profitLoss: number;
-    if (trade.type === 'buy') {
-      profitLoss = trade.quantity * (exitPrice - entryPrice);
-    } else {
-      profitLoss = trade.quantity * (entryPrice - exitPrice);
-    }
-
-    const profitLossPercent = (profitLoss / (trade.quantity * entryPrice)) * 100;
+    const profitLoss = this.calculateProfitLoss(trade, request.exitPrice);
+    const profitLossPercent = (profitLoss / (Number(trade.entryPrice) * trade.quantity)) * 100;
 
     // Atualizar trade
     await db
       .update(paperTrades)
       .set({
-        exitPrice: exitPrice.toString(),
+        exitPrice: request.exitPrice.toString(),
         exitTime: now,
         status: 'closed',
         profitLoss: profitLoss.toString(),
@@ -133,11 +125,10 @@ export class PaperTradingEngine {
       .where(eq(paperTrades.id, request.tradeId));
 
     // Atualizar portfolio
-    await this.updatePortfolioOnTradeClose(trade.userId, profitLoss, profitLossPercent > 0);
+    await this.updatePortfolioOnTradeClose(trade.userId, profitLoss);
 
     // Log
-    const result = profitLoss > 0 ? '✅' : '❌';
-    console.log(`${result} Posição fechada: ${trade.asset} @ R$${exitPrice} | P&L: R$${profitLoss.toFixed(2)} (${profitLossPercent.toFixed(2)}%)`);
+    console.log(`📉 Posição fechada: ${trade.asset} ${trade.type.toUpperCase()} | P&L: R$${profitLoss.toFixed(2)} (${profitLossPercent.toFixed(2)}%)`);
 
     return {
       id: trade.id,
@@ -146,9 +137,9 @@ export class PaperTradingEngine {
       asset: trade.asset,
       type: trade.type,
       quantity: trade.quantity,
-      entryPrice,
+      entryPrice: Number(trade.entryPrice),
       entryTime: trade.entryTime,
-      exitPrice,
+      exitPrice: request.exitPrice,
       exitTime: now,
       status: 'closed',
       profitLoss,
@@ -165,73 +156,39 @@ export class PaperTradingEngine {
     const db = await getDb();
     if (!db) throw new Error('Database not available');
 
-    const trade = await db.query.paperTrades.findFirst({
-      where: eq(paperTrades.id, tradeId),
-    });
+    const [trade] = await db
+      .select()
+      .from(paperTrades)
+      .where(eq(paperTrades.id, tradeId))
+      .limit(1);
 
-    if (!trade) throw new Error('Trade not found');
-    if (trade.status !== 'open') throw new Error('Trade is not open');
+    if (!trade) throw new Error(`Trade ${tradeId} not found`);
+    if (trade.status !== 'open') throw new Error(`Trade ${tradeId} is not open`);
 
-    // Atualizar trade
     await db
       .update(paperTrades)
-      .set({ status: 'canceled' })
+      .set({
+        status: 'canceled',
+        exitTime: new Date(),
+      })
       .where(eq(paperTrades.id, tradeId));
 
-    // Reverter portfolio
-    await this.updatePortfolioOnTradeCancel(trade.userId, trade.quantity, Number(trade.entryPrice), trade.type);
-
-    console.log(`🚫 Posição cancelada: ${trade.asset}`);
+    console.log(`❌ Posição cancelada: ${trade.asset}`);
   }
 
   /**
-   * Monitorar posições abertas para stop loss/take profit
-   */
-  static async monitorOpenPositions(userId: number): Promise<void> {
-    const db = await getDb();
-    if (!db) return;
-
-    // Buscar todas as posições abertas do usuário
-    const openTrades = await db.query.paperTrades.findMany({
-      where: and(eq(paperTrades.userId, userId), eq(paperTrades.status, 'open')),
-    });
-
-    for (const trade of openTrades) {
-      try {
-        // Buscar preço atual
-        const latestCandle = await getLatestCandle(trade.asset);
-        if (!latestCandle) continue;
-
-        const currentPrice = latestCandle.close;
-        const entryPrice = Number(trade.entryPrice);
-
-        // Verificar stop loss
-        if (trade.type === 'buy') {
-          const loss = ((currentPrice - entryPrice) / entryPrice) * 100;
-          // Se houver stop loss definido e foi acionado
-          // (implementar lógica de stop loss aqui)
-        } else {
-          const loss = ((entryPrice - currentPrice) / entryPrice) * 100;
-          // Se houver stop loss definido e foi acionado
-        }
-      } catch (error) {
-        console.error(`Erro ao monitorar ${trade.asset}:`, error);
-      }
-    }
-  }
-
-  /**
-   * Obter todas as posições abertas do usuário
+   * Obter posições abertas
    */
   static async getOpenPositions(userId: number): Promise<PaperTrade[]> {
     const db = await getDb();
     if (!db) return [];
 
-    const trades = await db.query.paperTrades.findMany({
-      where: and(eq(paperTrades.userId, userId), eq(paperTrades.status, 'open')),
-    });
+    const trades = await db
+      .select()
+      .from(paperTrades)
+      .where(and(eq(paperTrades.userId, userId), eq(paperTrades.status, 'open')));
 
-    return trades.map((t) => ({
+    return trades.map((t: any) => ({
       id: t.id,
       strategyId: t.strategyId,
       userId: t.userId,
@@ -246,18 +203,19 @@ export class PaperTradingEngine {
   }
 
   /**
-   * Obter histórico de trades fechados
+   * Obter trades fechados
    */
-  static async getClosedTrades(userId: number, limit: number = 50): Promise<PaperTrade[]> {
+  static async getClosedTrades(userId: number, limit: number = 100): Promise<PaperTrade[]> {
     const db = await getDb();
     if (!db) return [];
 
-    const trades = await db.query.paperTrades.findMany({
-      where: and(eq(paperTrades.userId, userId), eq(paperTrades.status, 'closed')),
-      limit,
-    });
+    const trades = await db
+      .select()
+      .from(paperTrades)
+      .where(and(eq(paperTrades.userId, userId), eq(paperTrades.status, 'closed')))
+      .limit(limit);
 
-    return trades.map((t) => ({
+    return trades.map((t: any) => ({
       id: t.id,
       strategyId: t.strategyId,
       userId: t.userId,
@@ -267,7 +225,7 @@ export class PaperTradingEngine {
       entryPrice: Number(t.entryPrice),
       entryTime: t.entryTime,
       exitPrice: t.exitPrice ? Number(t.exitPrice) : undefined,
-      exitTime: t.exitTime || undefined,
+      exitTime: t.exitTime,
       status: t.status,
       profitLoss: t.profitLoss ? Number(t.profitLoss) : undefined,
       profitLossPercent: t.profitLossPercent ? Number(t.profitLossPercent) : undefined,
@@ -277,15 +235,49 @@ export class PaperTradingEngine {
   }
 
   /**
-   * Obter PnL em tempo real de uma posição aberta
+   * Obter todos os trades
+   */
+  static async getAllTrades(userId: number, limit: number = 100): Promise<PaperTrade[]> {
+    const db = await getDb();
+    if (!db) return [];
+
+    const trades = await db
+      .select()
+      .from(paperTrades)
+      .where(eq(paperTrades.userId, userId))
+      .limit(limit);
+
+    return trades.map((t: any) => ({
+      id: t.id,
+      strategyId: t.strategyId,
+      userId: t.userId,
+      asset: t.asset,
+      type: t.type,
+      quantity: t.quantity,
+      entryPrice: Number(t.entryPrice),
+      entryTime: t.entryTime,
+      exitPrice: t.exitPrice ? Number(t.exitPrice) : undefined,
+      exitTime: t.exitTime,
+      status: t.status,
+      profitLoss: t.profitLoss ? Number(t.profitLoss) : undefined,
+      profitLossPercent: t.profitLossPercent ? Number(t.profitLossPercent) : undefined,
+      entryReason: t.entryReason || undefined,
+      exitReason: t.exitReason || undefined,
+    }));
+  }
+
+  /**
+   * Obter PnL de uma posição aberta
    */
   static async getPositionPnL(tradeId: number): Promise<{ profitLoss: number; profitLossPercent: number } | null> {
     const db = await getDb();
     if (!db) return null;
 
-    const trade = await db.query.paperTrades.findFirst({
-      where: eq(paperTrades.id, tradeId),
-    });
+    const [trade] = await db
+      .select()
+      .from(paperTrades)
+      .where(eq(paperTrades.id, tradeId))
+      .limit(1);
 
     if (!trade || trade.status !== 'open') return null;
 
@@ -293,21 +285,12 @@ export class PaperTradingEngine {
       const latestCandle = await getLatestCandle(trade.asset);
       if (!latestCandle) return null;
 
-      const currentPrice = latestCandle.close;
-      const entryPrice = Number(trade.entryPrice);
-
-      let profitLoss: number;
-      if (trade.type === 'buy') {
-        profitLoss = trade.quantity * (currentPrice - entryPrice);
-      } else {
-        profitLoss = trade.quantity * (entryPrice - currentPrice);
-      }
-
-      const profitLossPercent = (profitLoss / (trade.quantity * entryPrice)) * 100;
+      const profitLoss = this.calculateProfitLoss(trade, latestCandle.close);
+      const profitLossPercent = (profitLoss / (Number(trade.entryPrice) * trade.quantity)) * 100;
 
       return { profitLoss, profitLossPercent };
     } catch (error) {
-      console.error(`Erro ao calcular PnL de ${trade.asset}:`, error);
+      console.error(`Erro ao calcular PnL de ${tradeId}:`, error);
       return null;
     }
   }
@@ -315,23 +298,20 @@ export class PaperTradingEngine {
   /**
    * Atualizar portfolio ao abrir posição
    */
-  private static async updatePortfolioOnTradeOpen(
-    userId: number,
-    quantity: number,
-    price: number,
-    type: 'buy' | 'sell'
-  ): Promise<void> {
+  private static async updatePortfolioOnTradeOpen(userId: number, quantity: number, entryPrice: number, type: 'buy' | 'sell'): Promise<void> {
     const db = await getDb();
     if (!db) return;
 
-    const portfolio = await db.query.portfolios.findFirst({
-      where: eq(portfolios.userId, userId),
-    });
+    const [portfolio] = await db
+      .select()
+      .from(portfolios)
+      .where(eq(portfolios.userId, userId))
+      .limit(1);
 
     if (!portfolio) return;
 
-    const cost = quantity * price;
-    const newBalance = Number(portfolio.currentBalance) - cost;
+    const cost = quantity * entryPrice;
+    const newBalance = Number(portfolio.currentBalance || 0) - cost;
 
     await db
       .update(portfolios)
@@ -344,60 +324,45 @@ export class PaperTradingEngine {
   /**
    * Atualizar portfolio ao fechar posição
    */
-  private static async updatePortfolioOnTradeClose(userId: number, profitLoss: number, isWin: boolean): Promise<void> {
+  private static async updatePortfolioOnTradeClose(userId: number, profitLoss: number): Promise<void> {
     const db = await getDb();
     if (!db) return;
 
-    const portfolio = await db.query.portfolios.findFirst({
-      where: eq(portfolios.userId, userId),
-    });
+    const [portfolio] = await db
+      .select()
+      .from(portfolios)
+      .where(eq(portfolios.userId, userId))
+      .limit(1);
 
     if (!portfolio) return;
 
-    const newBalance = Number(portfolio.currentBalance) + profitLoss;
-    const newTotalTrades = (portfolio.totalTrades || 0) + 1;
-    const newWinningTrades = (portfolio.winningTrades || 0) + (isWin ? 1 : 0);
-    const newWinRate = (newWinningTrades / newTotalTrades) * 100;
-    const newTotalReturn = ((newBalance - Number(portfolio.initialBalance)) / Number(portfolio.initialBalance)) * 100;
+    const newBalance = Number(portfolio.currentBalance || 0) + profitLoss;
+    const newTotalReturn = Number(portfolio.totalReturn || 0) + profitLoss;
+    const totalTrades = (portfolio.totalTrades || 0) + 1;
+    const winningTrades = profitLoss > 0 ? (portfolio.winningTrades || 0) + 1 : portfolio.winningTrades || 0;
+    const winRate = (winningTrades / totalTrades) * 100;
 
     await db
       .update(portfolios)
       .set({
         currentBalance: newBalance.toString(),
-        totalTrades: newTotalTrades,
-        winningTrades: newWinningTrades,
-        winRate: newWinRate.toString(),
         totalReturn: newTotalReturn.toString(),
+        totalTrades,
+        winningTrades,
+        winRate: winRate.toString(),
       })
       .where(eq(portfolios.userId, userId));
   }
 
   /**
-   * Atualizar portfolio ao cancelar posição
+   * Calcular lucro/prejuízo
    */
-  private static async updatePortfolioOnTradeCancel(
-    userId: number,
-    quantity: number,
-    price: number,
-    type: 'buy' | 'sell'
-  ): Promise<void> {
-    const db = await getDb();
-    if (!db) return;
-
-    const portfolio = await db.query.portfolios.findFirst({
-      where: eq(portfolios.userId, userId),
-    });
-
-    if (!portfolio) return;
-
-    const cost = quantity * price;
-    const newBalance = Number(portfolio.currentBalance) + cost;
-
-    await db
-      .update(portfolios)
-      .set({
-        currentBalance: newBalance.toString(),
-      })
-      .where(eq(portfolios.userId, userId));
+  private static calculateProfitLoss(trade: any, exitPrice: number): number {
+    const entryPrice = Number(trade.entryPrice);
+    if (trade.type === 'buy') {
+      return (exitPrice - entryPrice) * trade.quantity;
+    } else {
+      return (entryPrice - exitPrice) * trade.quantity;
+    }
   }
 }
