@@ -5,6 +5,8 @@ import { eq, and } from 'drizzle-orm';
 import { getDb } from '../db';
 import { strategies } from '../../drizzle/schema';
 import { z } from 'zod';
+import { InputNormalizer } from '../strategy/input-normalizer';
+import { ConnectionValidator } from '../strategy/connection-validator';
 
 export const strategiesRouter = router({
   /**
@@ -63,14 +65,47 @@ export const strategiesRouter = router({
         // Check plan limits
         // TODO: Implement plan limit check
 
+        // Normalizar entrada do Builder
+        const normalizedStrategy = InputNormalizer.normalizeBuilderInput(
+          {
+            name: input.name,
+            description: input.description,
+            asset: input.asset,
+            nodes: input.blocks?.map((b: any) => ({
+              id: b.id,
+              data: {
+                type: b.type,
+                subType: b.subType || b.type,
+                label: b.label,
+                params: b.params,
+              },
+              position: b.position,
+            })) || [],
+            edges: input.connections?.map((c: any) => ({
+              source: c.source,
+              target: c.target,
+            })) || [],
+          },
+          ctx.user.id
+        );
+
+        // Validar estratégia
+        const validation = ConnectionValidator.validate(normalizedStrategy);
+        if (!validation.isValid) {
+          throw new TRPCError({
+            code: 'BAD_REQUEST',
+            message: `Estratégia inválida: ${validation.errors.join(', ')}`,
+          });
+        }
+
         const newStrategy = {
           userId: ctx.user.id,
           name: input.name,
           description: input.description,
           asset: input.asset,
           status: 'draft' as const,
-          blocks: input.blocks ? JSON.stringify(input.blocks) : JSON.stringify([]),
-          connections: input.connections ? JSON.stringify(input.connections) : JSON.stringify([]),
+          blocks: JSON.stringify(normalizedStrategy.blocks),
+          connections: JSON.stringify(normalizedStrategy.connections),
         };
 
         const result = await db.insert(strategies).values(newStrategy);
