@@ -259,8 +259,11 @@ export default function Landing() {
                   <span className="text-green-400">✓</span> Prioridade máxima
                 </li>
               </ul>
-              <Button variant="outline" className="w-full border-slate-700">
-                Em breve
+              <Button 
+                onClick={() => window.location.href = getLoginUrl()}
+                className="w-full bg-green-600 hover:bg-green-700 text-white"
+              >
+                Começar Agora
               </Button>
             </div>
           </div>
