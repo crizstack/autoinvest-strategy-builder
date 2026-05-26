@@ -1,6 +1,6 @@
-import { router, publicProcedure } from '../_core/trpc';
+import { router, publicProcedure, protectedProcedure } from '../_core/trpc';
 import { z } from 'zod';
-import { generateAIResponse, formatAIResponse } from '../ai-assistant';
+import { generateAIResponse, formatAIResponse, generateContextualAnalysis } from '../ai-assistant';
 import type { Message } from '@/types/ai';
 
 export const aiRouter = router({
@@ -28,7 +28,7 @@ export const aiRouter = router({
     .mutation(async ({ input }) => {
       try {
         // Gerar resposta da IA
-        const response = await generateAIResponse(input.message, {
+        const response = await generateAIResponse(input.message, undefined, {
           context: input.context,
           conversationHistory: input.conversationHistory as Message[] | undefined,
         });
@@ -47,6 +47,71 @@ export const aiRouter = router({
         throw new Error('Falha ao gerar resposta. Tente novamente.');
       }
     }),
+
+  /**
+   * Chat contextual com acesso a dados do usuário
+   */
+  chatContextual: protectedProcedure
+    .input(
+      z.object({
+        message: z.string().min(1).max(1000),
+        context: z.object({
+          page: z.string(),
+          userRole: z.string().optional(),
+          currentPlan: z.string().optional(),
+          strategyName: z.string().optional(),
+          selectedAsset: z.string().optional(),
+        }).optional(),
+        conversationHistory: z.array(
+          z.object({
+            id: z.string(),
+            role: z.enum(['user', 'assistant']),
+            content: z.string(),
+            timestamp: z.date(),
+          })
+        ).optional(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      try {
+        // Gerar resposta com contexto do usuário
+        const response = await generateAIResponse(input.message, ctx.user.id, {
+          context: input.context,
+          conversationHistory: input.conversationHistory as Message[] | undefined,
+        });
+
+        const formattedResponse = formatAIResponse(
+          response,
+          input.message.toLowerCase().includes('investir') ||
+          input.message.toLowerCase().includes('comprar') ||
+          input.message.toLowerCase().includes('vender')
+        );
+
+        return formattedResponse;
+      } catch (error) {
+        console.error('Erro no chat contextual IA:', error);
+        throw new Error('Falha ao gerar resposta. Tente novamente.');
+      }
+    }),
+
+  /**
+   * Análise contextual completa do portfolio
+   */
+  getAnalysis: protectedProcedure.query(async ({ ctx }) => {
+    try {
+      const analysis = await generateContextualAnalysis(ctx.user.id);
+      return analysis;
+    } catch (error) {
+      console.error('Erro ao gerar análise:', error);
+      return {
+        risks: [],
+        suggestions: [],
+        insights: [],
+        recommendations: [],
+        nextAction: 'Comece criando sua primeira estratégia.',
+      };
+    }
+  }),
 
   getSuggestions: publicProcedure
     .input(

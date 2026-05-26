@@ -1,5 +1,7 @@
 import { invokeLLM } from './_core/llm';
 import type { Message } from '@/types/ai';
+import { ContextualAIService } from './ai/contextual-service';
+import { AnalysisEngine } from './ai/analysis-engine';
 
 /**
  * AIAssistant Service
@@ -104,6 +106,7 @@ const CONTEXT_PROMPTS: Record<string, string> = {
 
 export async function generateAIResponse(
   userMessage: string,
+  userId?: number,
   options: AIAssistantOptions = {}
 ): Promise<string> {
   const { context = {}, conversationHistory = [] } = options;
@@ -120,6 +123,17 @@ export async function generateAIResponse(
 
   if (context.selectedAsset) {
     contextPrompt += `\nAtivo selecionado: ${context.selectedAsset}`;
+  }
+
+  // Adicionar contexto do usuário se disponível
+  if (userId) {
+    try {
+      const userContext = await ContextualAIService.getUserContext(userId);
+      const contextSummary = ContextualAIService.generateContextSummary(userContext);
+      contextPrompt += contextSummary;
+    } catch (error) {
+      console.warn('[AI] Error loading user context:', error);
+    }
   }
 
   // Construir histórico de conversa
@@ -145,8 +159,8 @@ export async function generateAIResponse(
 
     const assistantMessage = response.choices?.[0]?.message?.content;
     if (typeof assistantMessage === 'string') {
-      // Limitar resposta a 500 caracteres para manter concisão
-      const maxLength = 500;
+      // Limitar resposta a 1000 caracteres para manter concisão
+      const maxLength = 1000;
       if (assistantMessage.length > maxLength) {
         return assistantMessage.substring(0, maxLength).trim() + '...';
       }
@@ -670,4 +684,39 @@ export function formatBacktestAnalysis(result: BacktestResult): string {
   }
 
   return analysis;
+}
+
+
+/**
+ * Gerar análise contextual completa
+ */
+export async function generateContextualAnalysis(userId: number): Promise<{
+  risks: string[];
+  suggestions: string[];
+  insights: string[];
+  recommendations: string[];
+  nextAction: string;
+}> {
+  try {
+    const analysis = await AnalysisEngine.analyzePortfolio(userId);
+    const context = await ContextualAIService.getUserContext(userId);
+    const nextAction = AnalysisEngine.getNextAction(context);
+
+    return {
+      risks: analysis.risks,
+      suggestions: analysis.suggestions,
+      insights: analysis.insights,
+      recommendations: analysis.recommendations,
+      nextAction,
+    };
+  } catch (error) {
+    console.error('[AI] Error generating contextual analysis:', error);
+    return {
+      risks: [],
+      suggestions: [],
+      insights: [],
+      recommendations: [],
+      nextAction: 'Comece criando sua primeira estratégia.',
+    };
+  }
 }
