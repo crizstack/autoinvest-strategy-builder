@@ -43,6 +43,13 @@
       "when": 1779677393509,
       "tag": "0005_clear_sister_grimm",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "5",
+      "when": 1779828405369,
+      "tag": "0006_young_richard_fisk",
+      "breakpoints": true
     }
   ]
 }

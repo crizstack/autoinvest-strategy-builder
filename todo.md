@@ -159,3 +159,50 @@
 ## Bug Fixes
 
 - [x] Corrigir edição de triggers de preço no Strategy Builder - Sincronizar ConfigPanel com React Flow (StrategyBuilder.tsx + ConfigPanel.tsx)
+
+
+## Paper Trading - Implementação Funcional
+
+### Fase 1: Estrutura de Dados
+- [x] Adicionar campos `stopLoss` e `takeProfit` ao schema paperTrades
+- [x] Adicionar campos `lastPriceCheck` e `lastUnrealizedPnL` para tracking
+- [x] Aplicar migração de schema com sucesso
+
+### Fase 2: Execução Automática de Estratégias
+- [x] Criar StrategyExecutorService com execução periódica
+- [x] Implementar `executeActiveStrategies()` para rodar estratégias ativas
+- [x] Integrar com StrategyExecutorV2 e dados de mercado
+- [x] Abertura automática de trades com SL/TP calculados
+- [x] Risk management automático (2% do portfolio por trade)
+- [x] Strategy Execution Router com endpoints públicos
+- [x] Integração ao appRouter
+
+### Fase 3: Fechamento Automático (SL/TP)
+- [x] Criar TradeMonitorService para monitoramento contínuo
+- [x] Implementar verificação de Stop Loss
+- [x] Implementar verificação de Take Profit
+- [x] Fechamento automático quando SL/TP acionado
+- [x] Cálculo de PnL não realizado
+- [x] Trade Monitoring Router com endpoints
+- [x] Logs estruturados de verificações
+
+### Fase 4: Logs Operacionais
+- [x] Criar TradeLoggerService com logs estruturados
+- [x] Métodos para: open, close, update_pnl, sl_check, tp_check
+- [x] Integração com PaperTradingEngine
+- [x] Mensagens formatadas com timestamps
+- [x] Logs em console (preparado para persistência futura)
+
+### Fase 5: Integração com Dashboard (PRÓXIMA)
+- [ ] Criar componente de posições abertas em tempo real
+- [ ] Atualizar portfolio com PnL unrealized
+- [ ] Mostrar histórico de operações
+- [ ] Integrar notificações de trades abertos/fechados
+- [ ] Atualizar gráficos com dados em tempo real
+
+### Fase 6: Testes e Validação
+- [ ] Criar testes para StrategyExecutorService
+- [ ] Criar testes para TradeMonitorService
+- [ ] Criar testes para TradeLoggerService
+- [ ] Testar fluxo completo de execução automática
+- [ ] Validar cálculos de SL/TP

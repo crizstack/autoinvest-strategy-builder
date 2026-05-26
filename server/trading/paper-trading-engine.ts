@@ -8,6 +8,7 @@ import { getDb } from '../db';
 import { paperTrades, portfolios, users } from '../../drizzle/schema';
 import { eq, and, desc } from 'drizzle-orm';
 import { getLatestCandle } from '../market/candles-service';
+import { TradeLoggerService } from './trade-logger-service';
 
 export interface OpenPositionRequest {
   strategyId: number;
@@ -63,6 +64,8 @@ export class PaperTradingEngine {
       type: request.type,
       quantity: request.quantity,
       entryPrice: request.entryPrice.toString(),
+      stopLoss: request.stopLoss?.toString(),
+      takeProfit: request.takeProfit?.toString(),
       entryTime: now,
       status: 'open',
       entryReason: request.entryReason,
@@ -81,7 +84,18 @@ export class PaperTradingEngine {
     await this.updatePortfolioOnTradeOpen(request.userId, request.quantity, request.entryPrice, request.type);
 
     // Log
-    console.log(`📈 Posição aberta: ${request.asset} ${request.type.toUpperCase()} x${request.quantity} @ R$${request.entryPrice}`);
+    await TradeLoggerService.logTradeOpen(
+      tradeId,
+      request.userId,
+      request.strategyId,
+      request.asset,
+      request.type,
+      request.quantity,
+      request.entryPrice,
+      request.stopLoss,
+      request.takeProfit,
+      request.entryReason
+    );
 
     return {
       id: tradeId,
@@ -135,7 +149,16 @@ export class PaperTradingEngine {
     await this.updatePortfolioOnTradeClose(trade.userId, profitLoss);
 
     // Log
-    console.log(`📉 Posição fechada: ${trade.asset} ${trade.type.toUpperCase()} | P&L: R$${profitLoss.toFixed(2)} (${profitLossPercent.toFixed(2)}%)`);
+    await TradeLoggerService.logTradeClose(
+      trade.id,
+      trade.userId,
+      trade.strategyId,
+      trade.asset,
+      request.exitPrice,
+      profitLoss,
+      profitLossPercent,
+      request.exitReason || 'Fechamento manual'
+    );
 
     return {
       id: trade.id,
@@ -362,9 +385,9 @@ export class PaperTradingEngine {
   }
 
   /**
-   * Calcular lucro/prejuízo
+   * Calcular lucro/prejuízo de uma posição
    */
-  private static calculateProfitLoss(trade: any, exitPrice: number): number {
+  static calculateProfitLoss(trade: any, exitPrice: number): number {
     const entryPrice = Number(trade.entryPrice);
     if (trade.type === 'buy') {
       return (exitPrice - entryPrice) * trade.quantity;
