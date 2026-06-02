@@ -12,6 +12,7 @@ import { getLatestCandle, getCandles } from '../market/candles-service';
 import { PaperTradingEngine } from './paper-trading-engine';
 import { TradeLoggerService } from './trade-logger-service';
 import { TradeMonitorService } from './trade-monitor-service';
+import { TradingNotificationService } from './trading-notification-service';
 import type { ExecutableStrategy } from '../../shared/strategy-types';
 
 export interface StrategyExecutionContext {
@@ -180,7 +181,7 @@ export class StrategyExecutorService {
                   : latestCandle.close * (1 - takeProfitPercent);
 
               // Abrir posição
-              await PaperTradingEngine.openPosition({
+              const trade = await PaperTradingEngine.openPosition({
                 strategyId: strategy.id,
                 userId: strategy.userId,
                 asset: strategy.asset,
@@ -191,6 +192,16 @@ export class StrategyExecutorService {
                 takeProfit,
                 entryReason: `Sinal automático: ${executionResult.signal.toUpperCase()}`,
               });
+
+              // Notificar usuário
+              await TradingNotificationService.notifyTradeOpened(
+                strategy.userId,
+                trade.id,
+                strategy.asset,
+                quantity,
+                latestCandle.close,
+                strategy.name
+              );
 
               tradesOpened++;
 

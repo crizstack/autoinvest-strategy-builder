@@ -10,6 +10,7 @@ import { eq } from 'drizzle-orm';
 import { getLatestCandle } from '../market/candles-service';
 import { PaperTradingEngine } from './paper-trading-engine';
 import { TradeLoggerService } from './trade-logger-service';
+import { TradingNotificationService } from './trading-notification-service';
 
 export interface MonitoringResult {
   tradeId: number;
@@ -113,6 +114,32 @@ export class TradeMonitorService {
         result.reason = exitReason;
         result.pnl = profitLoss;
         result.pnlPercent = profitLossPercent;
+
+        // Enviar notificação
+        if (slTriggered) {
+          await TradingNotificationService.notifyStopLossHit(
+            trade.userId,
+            trade.id,
+            trade.asset,
+            trade.quantity,
+            entryPrice,
+            stopLoss || 0,
+            exitPrice || latestCandle.close,
+            profitLoss
+          );
+        } else if (tpTriggered) {
+          await TradingNotificationService.notifyTakeProfitHit(
+            trade.userId,
+            trade.id,
+            trade.asset,
+            trade.quantity,
+            entryPrice,
+            takeProfit || 0,
+            exitPrice || latestCandle.close,
+            profitLoss,
+            profitLossPercent
+          );
+        }
 
         console.log(
           `[TradeMonitor] ✅ Posição fechada: ${trade.asset} | ${exitReason} | P&L: R$${profitLoss.toFixed(2)} (${profitLossPercent.toFixed(2)}%)`

@@ -213,12 +213,15 @@
 - [ ] Integrar notificações de trades abertos/fechados
 - [ ] Atualizar gráficos com dados em tempo real
 
-### Fase 5b: Notificações (PRÓXIMA)
-- [ ] Criar NotificationService para eventos de trading
-- [ ] Notificar ao abrir trade
-- [ ] Notificar ao fechar trade (SL/TP/Manual)
-- [ ] Notificar ao atingir metas de PnL
-- [ ] Integrar com sistema de notificações existente
+### Fase 5b: Notificações
+- [x] Criar TradingNotificationService para eventos de trading
+- [x] Notificar ao abrir trade (método notifyTradeOpened)
+- [x] Notificar ao fechar trade (método notifyTradeClosed)
+- [x] Notificar ao acionamento de Stop Loss (método notifyStopLossHit)
+- [x] Notificar ao acionamento de Take Profit (método notifyTakeProfitHit)
+- [x] Notificar ao atingir metas de PnL (método notifyPnLMilestone)
+- [x] Integrar com sistema de notificações existente (notifyOwner)
+- [x] Integrar ao TradeMonitorService para notificar SL/TP automático
 
 ### Fase 6: Testes e Validação
 - [x] Criar testes para StrategyExecutorService (6 testes)
