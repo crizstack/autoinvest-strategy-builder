@@ -40,13 +40,13 @@ export interface StrategyPerformance {
 export async function getDashboardMetrics(): Promise<DashboardMetrics> {
   try {
     // Buscar portfolio
-    const portfolio = await trpc.portfolio.getPortfolio.useQuery().data;
+    const portfolio = await trpc.portfolio.getPortfolio.query();
 
     // Buscar estatísticas de paper trading
-    const tradeStats = await trpc.paperTrading.getTradeStats.useQuery().data;
+    const tradeStats = await trpc.paperTrading.getTradeStats.query();
 
     // Buscar estratégias ativas
-    const strategies = await trpc.strategies.list.useQuery().data || [];
+    const strategies = await trpc.strategies.list.query() || [];
     const activeStrategies = strategies.filter((s: any) => s.status === 'active').length;
 
     return {
@@ -70,13 +70,13 @@ export async function getDashboardMetrics(): Promise<DashboardMetrics> {
 export async function getBalanceHistory(): Promise<BalancePoint[]> {
   try {
     // Buscar todos os trades fechados
-    const trades = await trpc.paperTrading.getClosedTrades.useQuery({ limit: 1000 }).data || [];
+    const trades = await trpc.paperTrading.getClosedTrades.query({ limit: 1000 }) || [];
 
     // Ordenar por data
     const sortedTrades = trades.sort((a: any, b: any) => new Date(a.exitTime!).getTime() - new Date(b.exitTime!).getTime());
 
     // Calcular saldo em cada ponto
-    const portfolio = await trpc.portfolio.getPortfolio.useQuery().data;
+    const portfolio = await trpc.portfolio.getPortfolio.query();
     const initialBalance = Number(portfolio?.initialBalance) || 10000;
 
     let runningBalance = initialBalance;
@@ -162,8 +162,8 @@ export async function getProfitabilityByWeek(): Promise<ProfitabilityData[]> {
  */
 export async function getTopStrategies(): Promise<StrategyPerformance[]> {
   try {
-    const strategies = await trpc.strategies.list.query();
-    const trades = await trpc.paperTrading.getClosedTrades.query({ limit: 1000 });
+    const strategies = await trpc.strategies.list.query() || [];
+    const trades = await trpc.paperTrading.getClosedTrades.query({ limit: 1000 }) || [];
 
     // Agrupar trades por estratégia
     const strategyStats: { [key: number]: { profit: number; trades: number; wins: number } } = {};
@@ -184,7 +184,7 @@ export async function getTopStrategies(): Promise<StrategyPerformance[]> {
 
     // Mapear estratégias com stats
     const result = strategies
-      .map((strategy) => {
+      .map((strategy: any) => {
         const stats = strategyStats[strategy.id];
         if (!stats || stats.trades === 0) {
           return {
@@ -208,7 +208,7 @@ export async function getTopStrategies(): Promise<StrategyPerformance[]> {
           winRate: Math.round(winRate),
         };
       })
-      .sort((a, b) => b.return - a.return)
+      .sort((a: any, b: any) => b.return - a.return)
       .slice(0, 3); // Top 3
 
     return result;
@@ -223,9 +223,9 @@ export async function getTopStrategies(): Promise<StrategyPerformance[]> {
  */
 export async function getMarketToday(): Promise<any[]> {
   try {
-    const watchlist = await trpc.watchlist.getWatchlist.query();
+    const watchlist = await trpc.watchlist.getAll.query() || [];
 
-    return watchlist.slice(0, 5).map((item) => ({
+    return watchlist.slice(0, 5).map((item: any) => ({
       symbol: item.asset,
       price: item.currentPrice || 0,
       change: item.change || 0,

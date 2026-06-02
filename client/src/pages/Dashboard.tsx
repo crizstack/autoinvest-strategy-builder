@@ -11,6 +11,7 @@ import HeatmapWidget from '@/components/dashboard/HeatmapWidget';
 import TopStrategiesWidget from '@/components/dashboard/TopStrategiesWidget';
 import MarketTodayWidget from '@/components/dashboard/MarketTodayWidget';
 import WatchlistWidget from '@/components/dashboard/WatchlistWidget';
+import OpenPositionsWidget from '@/components/dashboard/OpenPositionsWidget';
 import { trpc } from '@/lib/trpc';
 
 interface DashboardMetrics {
@@ -167,6 +168,9 @@ export default function Dashboard() {
           <p className="text-xs text-slate-500 mt-3">{metrics.totalTrades} operações</p>
         </Card>
       </div>
+
+      {/* Open Positions */}
+      <OpenPositionsWidget />
 
       {/* Charts Grid */}
       <div className="grid md:grid-cols-4 gap-6">

@@ -299,7 +299,7 @@ export class PaperTradingEngine {
   /**
    * Obter PnL de uma posição aberta
    */
-  static async getPositionPnL(tradeId: number): Promise<{ profitLoss: number; profitLossPercent: number } | null> {
+  static async getPositionPnL(tradeId: number): Promise<{ pnl: number; pnlPercent: number } | null> {
     const db = await getDb();
     if (!db) return null;
 
@@ -315,10 +315,10 @@ export class PaperTradingEngine {
       const latestCandle = await getLatestCandle(trade.asset);
       if (!latestCandle) return null;
 
-      const profitLoss = this.calculateProfitLoss(trade, latestCandle.close);
-      const profitLossPercent = (profitLoss / (Number(trade.entryPrice) * trade.quantity)) * 100;
+      const pnl = this.calculateProfitLoss(trade, latestCandle.close);
+      const pnlPercent = (pnl / (Number(trade.entryPrice) * trade.quantity)) * 100;
 
-      return { profitLoss, profitLossPercent };
+      return { pnl, pnlPercent };
     } catch (error) {
       console.error(`Erro ao calcular PnL de ${tradeId}:`, error);
       return null;

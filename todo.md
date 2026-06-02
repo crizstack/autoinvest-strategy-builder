@@ -193,16 +193,38 @@
 - [x] Mensagens formatadas com timestamps
 - [x] Logs em console (preparado para persistência futura)
 
-### Fase 5: Integração com Dashboard (PRÓXIMA)
-- [ ] Criar componente de posições abertas em tempo real
-- [ ] Atualizar portfolio com PnL unrealized
+### Fase 4b: PnL em Tempo Real
+- [x] Criar RealtimePnLService com atualização contínua
+- [x] Implementar getPositionPnLRealtime() para uma posição
+- [x] Implementar getMultiplePositionsPnL() para múltiplas posições
+- [x] Implementar getPortfolioPnLRealtime() para portfolio completo
+- [x] Implementar getPnLChanges() para detectar mudanças
+- [x] Adicionar endpoints ao paper-trading router
+- [x] Integrar ao PaperTradingEngine
+
+### Fase 5: Integração com Dashboard
+- [x] Criar OpenPositionsWidget com atualização a cada 5 segundos
+- [x] Integrar ao Dashboard com posições abertas em tempo real
+- [x] Mostrar PnL não realizado por posição
+- [x] Implementar fechamento manual de trades
+- [x] Mostrar total de PnL do portfolio
+- [ ] Atualizar portfolio com PnL unrealized (em progresso)
 - [ ] Mostrar histórico de operações
 - [ ] Integrar notificações de trades abertos/fechados
 - [ ] Atualizar gráficos com dados em tempo real
 
+### Fase 5b: Notificações (PRÓXIMA)
+- [ ] Criar NotificationService para eventos de trading
+- [ ] Notificar ao abrir trade
+- [ ] Notificar ao fechar trade (SL/TP/Manual)
+- [ ] Notificar ao atingir metas de PnL
+- [ ] Integrar com sistema de notificações existente
+
 ### Fase 6: Testes e Validação
 - [ ] Criar testes para StrategyExecutorService
 - [ ] Criar testes para TradeMonitorService
+- [ ] Criar testes para RealtimePnLService
 - [ ] Criar testes para TradeLoggerService
 - [ ] Testar fluxo completo de execução automática
 - [ ] Validar cálculos de SL/TP
+- [ ] Validar PnL em tempo real

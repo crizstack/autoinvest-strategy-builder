@@ -1,6 +1,7 @@
 import { router, protectedProcedure } from '../_core/trpc';
 import { z } from 'zod';
 import { PaperTradingEngine } from '../trading/paper-trading-engine';
+import { RealtimePnLService } from '../trading/realtime-pnl-service';
 import { getDb } from '../db';
 import { paperTrades } from '../../drizzle/schema';
 import { eq, and, desc } from 'drizzle-orm';
@@ -196,13 +197,83 @@ export const paperTradingRouter = router({
           throw new Error('Trade not found or unauthorized');
         }
 
-        const pnl = await PaperTradingEngine.getPositionPnL(input.tradeId);
-        return pnl;
+        const pnlData = await PaperTradingEngine.getPositionPnL(input.tradeId);
+        return pnlData || { pnl: 0, pnlPercent: 0 };
       } catch (error) {
         console.error('[PaperTrading] Error getting position PnL:', error);
         return { pnl: 0, pnlPercent: 0 };
       }
     }),
+
+  /**
+   * Obter PnL em tempo real do portfolio
+   */
+  getPortfolioPnLRealtime: protectedProcedure.query(async ({ ctx }) => {
+    try {
+      const portfolioPnL = await RealtimePnLService.getPortfolioPnLRealtime(ctx.user.id);
+      return portfolioPnL || {
+        userId: ctx.user.id,
+        totalUnrealizedPnL: 0,
+        totalUnrealizedPnLPercent: 0,
+        currentBalance: 0,
+        totalReturn: 0,
+        openPositionsCount: 0,
+        positions: [],
+      };
+    } catch (error) {
+      console.error('[PaperTrading] Error getting portfolio PnL realtime:', error);
+      return {
+        userId: ctx.user.id,
+        totalUnrealizedPnL: 0,
+        totalUnrealizedPnLPercent: 0,
+        currentBalance: 0,
+        totalReturn: 0,
+        openPositionsCount: 0,
+        positions: [],
+      };
+    }
+  }),
+
+  /**
+   * Obter PnL em tempo real de múltiplas posições
+   */
+  getMultiplePositionsPnL: protectedProcedure
+    .input(z.object({ tradeIds: z.array(z.number()) }))
+    .query(async ({ input }) => {
+      try {
+        const positions = await RealtimePnLService.getMultiplePositionsPnL(input.tradeIds);
+        return positions;
+      } catch (error) {
+        console.error('[PaperTrading] Error getting multiple positions PnL:', error);
+        return [];
+      }
+    }),
+
+  /**
+   * Obter mudanças de PnL desde a última verificação
+   */
+  getPnLChanges: protectedProcedure.query(async ({ ctx }) => {
+    try {
+      const changes = await RealtimePnLService.getPnLChanges(ctx.user.id);
+      return changes;
+    } catch (error) {
+      console.error('[PaperTrading] Error getting PnL changes:', error);
+      return { positions: [], totalChange: 0, totalChangePercent: 0 };
+    }
+  }),
+
+  /**
+   * Atualizar PnL não realizado no banco
+   */
+  updateUnrealizedPnL: protectedProcedure.mutation(async ({ ctx }) => {
+    try {
+      await RealtimePnLService.updateUnrealizedPnLInDatabase(ctx.user.id);
+      return { success: true };
+    } catch (error) {
+      console.error('[PaperTrading] Error updating unrealized PnL:', error);
+      return { success: false, error: error instanceof Error ? error.message : 'Unknown error' };
+    }
+  }),
 
   /**
    * Obter estatísticas de trades
