@@ -208,17 +208,17 @@
 - [x] Mostrar PnL não realizado por posição
 - [x] Implementar fechamento manual de trades
 - [x] Mostrar total de PnL do portfolio
-- [ ] Atualizar portfolio com PnL unrealized (em progresso)
+- [x] Atualizar portfolio com PnL unrealized (via RealtimePnLService)
 - [ ] Mostrar histórico de operações
-- [ ] Integrar notificações de trades abertos/fechados
+- [x] Integrar notificações de trades abertos/fechados (TradingNotificationService)
 - [ ] Atualizar gráficos com dados em tempo real
 
 ### Fase 5b: Notificações
 - [x] Criar TradingNotificationService para eventos de trading
-- [x] Notificar ao abrir trade (método notifyTradeOpened)
-- [x] Notificar ao fechar trade (método notifyTradeClosed)
-- [x] Notificar ao acionamento de Stop Loss (método notifyStopLossHit)
-- [x] Notificar ao acionamento de Take Profit (método notifyTakeProfitHit)
+- [x] Notificar ao abrir trade (método notifyTradeOpened, integrado ao StrategyExecutorService)
+- [x] Notificar ao fechar trade (método notifyTradeClosed, integrado ao paper-trading router)
+- [x] Notificar ao acionamento de Stop Loss (método notifyStopLossHit, integrado ao TradeMonitorService)
+- [x] Notificar ao acionamento de Take Profit (método notifyTakeProfitHit, integrado ao TradeMonitorService)
 - [x] Notificar ao atingir metas de PnL (método notifyPnLMilestone)
 - [x] Integrar com sistema de notificações existente (notifyOwner)
 - [x] Integrar ao TradeMonitorService para notificar SL/TP automático

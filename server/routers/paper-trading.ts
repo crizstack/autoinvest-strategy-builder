@@ -2,6 +2,7 @@ import { router, protectedProcedure } from '../_core/trpc';
 import { z } from 'zod';
 import { PaperTradingEngine } from '../trading/paper-trading-engine';
 import { RealtimePnLService } from '../trading/realtime-pnl-service';
+import { TradingNotificationService } from '../trading/trading-notification-service';
 import { getDb } from '../db';
 import { paperTrades } from '../../drizzle/schema';
 import { eq, and, desc } from 'drizzle-orm';
@@ -74,6 +75,22 @@ export const paperTradingRouter = router({
         exitPrice: input.exitPrice,
         exitReason: input.exitReason,
       });
+
+      // Calcular P&L e notificar
+      const pnl = PaperTradingEngine.calculateProfitLoss(trade, input.exitPrice);
+      const pnlPercent = (pnl / (Number(trade.entryPrice) * trade.quantity)) * 100;
+
+      await TradingNotificationService.notifyTradeClosed(
+        ctx.user.id,
+        trade.id,
+        trade.asset,
+        trade.quantity,
+        Number(trade.entryPrice),
+        input.exitPrice,
+        pnl,
+        pnlPercent,
+        input.exitReason || 'Fechamento manual'
+      );
 
       return { success: true, trade: closedTrade };
     }),
