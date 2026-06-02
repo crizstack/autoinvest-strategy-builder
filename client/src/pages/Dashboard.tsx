@@ -12,6 +12,7 @@ import TopStrategiesWidget from '@/components/dashboard/TopStrategiesWidget';
 import MarketTodayWidget from '@/components/dashboard/MarketTodayWidget';
 import WatchlistWidget from '@/components/dashboard/WatchlistWidget';
 import OpenPositionsWidget from '@/components/dashboard/OpenPositionsWidget';
+import { TradeHistoryWidget } from '@/components/dashboard/TradeHistoryWidget';
 import { trpc } from '@/lib/trpc';
 
 interface DashboardMetrics {
@@ -182,6 +183,9 @@ export default function Dashboard() {
       <div className="grid md:grid-cols-4 gap-6">
         <PerformanceComparison />
       </div>
+
+      {/* Trade History */}
+      <TradeHistoryWidget />
 
       {/* Widgets Grid */}
       <div className="grid md:grid-cols-4 gap-6">

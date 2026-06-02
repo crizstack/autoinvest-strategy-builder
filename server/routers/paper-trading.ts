@@ -292,6 +292,7 @@ export const paperTradingRouter = router({
     }
   }),
 
+
   /**
    * Obter estatísticas de trades
    */

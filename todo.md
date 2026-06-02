@@ -209,9 +209,9 @@
 - [x] Implementar fechamento manual de trades
 - [x] Mostrar total de PnL do portfolio
 - [x] Atualizar portfolio com PnL unrealized (via RealtimePnLService)
-- [ ] Mostrar histórico de operações
+- [x] Mostrar histórico de operações (TradeHistoryWidget integrado ao Dashboard)
 - [x] Integrar notificações de trades abertos/fechados (TradingNotificationService)
-- [ ] Atualizar gráficos com dados em tempo real
+- [x] Atualizar gráficos com dados em tempo real (BalanceChart, ProfitabilityChart e PerformanceComparison usam dados reais do backend com refetch a cada minuto)
 
 ### Fase 5b: Notificações
 - [x] Criar TradingNotificationService para eventos de trading
