@@ -1,27 +1,38 @@
-import { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Message, Suggestion, PageContext } from '@/types/ai';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { X, Send, Trash2 } from 'lucide-react';
+import { X, Send, Trash2, Zap } from 'lucide-react';
 import MessageBubble from './MessageBubble';
 import SuggestionChips from './SuggestionChips';
 import { trpc } from '@/lib/trpc';
+import { useAuth } from '@/_core/hooks/useAuth';
 import { toast } from 'sonner';
 
 interface ChatPanelProps {
   isOpen: boolean;
   onClose: () => void;
   pageContext: PageContext;
+  contextData?: {
+    strategyId?: number;
+    tradeId?: number;
+    backtestId?: number;
+    assetSymbol?: string;
+  };
 }
 
-export default function ChatPanel({ isOpen, onClose, pageContext }: ChatPanelProps) {
+export default function ChatPanel({ isOpen, onClose, pageContext, contextData }: ChatPanelProps) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
+  const [showAnalysis, setShowAnalysis] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const { user } = useAuth();
 
-  const aiChatMutation = trpc.ai.chat.useMutation();
+  // Usar chatContextual se autenticado, senão usar chat público
+  const aiChatMutation = trpc.ai.chatContextual.useMutation();
+  const aiAnalysisMutation = trpc.ai.getAnalysis.useMutation();
 
   // Scroll para última mensagem
   const scrollToBottom = () => {
@@ -36,8 +47,12 @@ export default function ChatPanel({ isOpen, onClose, pageContext }: ChatPanelPro
   useEffect(() => {
     if (isOpen && messages.length === 0) {
       loadInitialSuggestions();
+      // Se autenticado, carregar análise do portfolio
+      if (user?.id) {
+        loadPortfolioAnalysis();
+      }
     }
-  }, [isOpen]);
+  }, [isOpen, user?.id]);
 
   const loadInitialSuggestions = () => {
     const contextSuggestions: Record<PageContext, Suggestion[]> = {
@@ -91,6 +106,26 @@ export default function ChatPanel({ isOpen, onClose, pageContext }: ChatPanelPro
     setSuggestions(contextSuggestions[pageContext] || contextSuggestions.unknown);
   };
 
+  const loadPortfolioAnalysis = async () => {
+    try {
+      const analysis = await aiAnalysisMutation.mutateAsync(undefined);
+      
+      if (analysis) {
+        // Adicionar análise como mensagem do assistente
+        const analysisMessage: Message = {
+          id: Date.now().toString(),
+          role: 'assistant',
+          content: analysis,
+          timestamp: new Date(),
+        };
+        setMessages([analysisMessage]);
+        setShowAnalysis(true);
+      }
+    } catch (error) {
+      console.warn('Erro ao carregar análise do portfolio:', error);
+    }
+  };
+
   const handleSendMessage = async (messageText?: string) => {
     const text = messageText || input;
     if (!text.trim()) return;
@@ -109,11 +144,13 @@ export default function ChatPanel({ isOpen, onClose, pageContext }: ChatPanelPro
     setIsLoading(true);
 
     try {
-      // Chamar API de IA
+      // Chamar API de IA com contexto
       const response = await aiChatMutation.mutateAsync({
         message: text,
         context: {
           page: pageContext,
+          strategyName: contextData?.strategyId?.toString(),
+          selectedAsset: contextData?.assetSymbol,
         },
         conversationHistory: messages,
       });
@@ -145,6 +182,7 @@ export default function ChatPanel({ isOpen, onClose, pageContext }: ChatPanelPro
   const handleClearChat = () => {
     setMessages([]);
     setSuggestions([]);
+    setShowAnalysis(false);
     loadInitialSuggestions();
   };
 
@@ -155,8 +193,13 @@ export default function ChatPanel({ isOpen, onClose, pageContext }: ChatPanelPro
       {/* Header */}
       <div className="bg-gradient-to-r from-purple-600 to-blue-600 p-4 flex items-center justify-between">
         <div>
-          <h2 className="text-white font-semibold">AutoInvest AI</h2>
-          <p className="text-xs text-purple-100">Seu assistente inteligente</p>
+          <h2 className="text-white font-semibold flex items-center gap-2">
+            <Zap className="w-4 h-4" />
+            AutoInvest AI
+          </h2>
+          <p className="text-xs text-purple-100">
+            {user?.id ? '✓ Análise Contextual' : 'Assistente Geral'}
+          </p>
         </div>
         <div className="flex items-center gap-2">
           <button
@@ -182,7 +225,9 @@ export default function ChatPanel({ isOpen, onClose, pageContext }: ChatPanelPro
             <div className="text-4xl mb-3">🤖</div>
             <h3 className="text-white font-semibold mb-2">Olá! Sou seu assistente IA</h3>
             <p className="text-slate-400 text-sm mb-4">
-              Posso ajudar com dúvidas sobre a plataforma, indicadores financeiros e estratégias.
+              {user?.id 
+                ? 'Tenho acesso ao seu portfolio, trades e estratégias. Posso analisar sua performance e sugerir melhorias.'
+                : 'Posso ajudar com dúvidas sobre a plataforma, indicadores financeiros e estratégias.'}
             </p>
             <p className="text-slate-500 text-xs">
               ⚠️ Não sou consultor financeiro. Sempre faça sua própria pesquisa.
@@ -198,15 +243,15 @@ export default function ChatPanel({ isOpen, onClose, pageContext }: ChatPanelPro
 
         {isLoading && (
           <div className="group">
-            <MessageBubble
-              message={{
-                id: 'loading',
-                role: 'assistant',
-                content: '',
-                timestamp: new Date(),
-                isLoading: true,
-              }}
-            />
+            <div className="flex gap-2 items-end justify-start">
+              <div className="bg-blue-600 rounded-lg px-4 py-2 max-w-xs">
+                <div className="flex gap-1">
+                  <div className="w-2 h-2 bg-white rounded-full animate-bounce"></div>
+                  <div className="w-2 h-2 bg-white rounded-full animate-bounce delay-100"></div>
+                  <div className="w-2 h-2 bg-white rounded-full animate-bounce delay-200"></div>
+                </div>
+              </div>
+            </div>
           </div>
         )}
 
@@ -214,43 +259,35 @@ export default function ChatPanel({ isOpen, onClose, pageContext }: ChatPanelPro
       </div>
 
       {/* Suggestions */}
-      {messages.length > 0 && suggestions.length > 0 && !isLoading && (
-        <div className="px-4 pb-2">
-          <SuggestionChips
-            suggestions={suggestions}
-            onSelect={handleSuggestionClick}
-            isLoading={isLoading}
+      {suggestions.length > 0 && messages.length > 0 && (
+        <div className="px-4 py-2 border-t border-slate-800">
+          <SuggestionChips 
+            suggestions={suggestions} 
+            onSuggestionClick={handleSuggestionClick}
           />
         </div>
       )}
 
       {/* Input Area */}
-      <div className="border-t border-slate-800 p-4 bg-slate-950">
+      <div className="border-t border-slate-800 p-4">
         <div className="flex gap-2">
           <Input
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            onKeyPress={(e) => {
-              if (e.key === 'Enter' && !e.shiftKey) {
-                e.preventDefault();
-                handleSendMessage();
-              }
-            }}
-            placeholder="Faça uma pergunta..."
-            className="bg-slate-900 border-slate-700 text-white placeholder-slate-500"
+            onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
+            placeholder="Digite sua pergunta..."
+            className="bg-slate-800 border-slate-700 text-white placeholder-slate-500"
             disabled={isLoading}
           />
           <Button
             onClick={() => handleSendMessage()}
             disabled={isLoading || !input.trim()}
-            className="bg-blue-600 hover:bg-blue-700 px-3"
+            className="bg-blue-600 hover:bg-blue-700"
+            size="sm"
           >
             <Send className="w-4 h-4" />
           </Button>
         </div>
-        <p className="text-xs text-slate-500 mt-2">
-          Pressione Enter para enviar • Shift+Enter para nova linha
-        </p>
       </div>
     </div>
   );
