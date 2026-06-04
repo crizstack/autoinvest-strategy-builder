@@ -11,12 +11,12 @@ interface TradeHistoryItem {
   type: 'buy' | 'sell';
   quantity: number;
   entryPrice: number;
-  exitPrice?: number;
-  status: 'open' | 'closed';
-  pnl?: number;
-  pnlPercent?: number;
-  openedAt: Date;
-  closedAt?: Date;
+  exitPrice?: number | null;
+  status: 'open' | 'closed' | 'canceled';
+  profitLoss?: number | null;
+  profitLossPercent?: number | null;
+  entryTime: Date;
+  exitTime?: Date | null;
   strategyName?: string;
 }
 
@@ -107,12 +107,12 @@ export const TradeHistoryWidget: React.FC = () => {
                     {trade.exitPrice ? `R$ ${trade.exitPrice.toFixed(2)}` : '-'}
                   </td>
                   <td className="text-right py-2 px-2">
-                    {trade.pnl !== undefined ? (
-                      <span className={trade.pnl > 0 ? 'text-green-600' : 'text-red-600'}>
-                        {trade.pnl > 0 ? '+' : ''}R$ {trade.pnl.toFixed(2)}
-                        {trade.pnlPercent !== undefined && (
+                    {trade.profitLoss !== undefined && trade.profitLoss !== null ? (
+                      <span className={trade.profitLoss > 0 ? 'text-green-600' : 'text-red-600'}>
+                        {trade.profitLoss > 0 ? '+' : ''}R$ {trade.profitLoss.toFixed(2)}
+                        {trade.profitLossPercent !== undefined && trade.profitLossPercent !== null && (
                           <span className="text-xs ml-1">
-                            ({trade.pnlPercent > 0 ? '+' : ''}{trade.pnlPercent.toFixed(2)}%)
+                            ({trade.profitLossPercent > 0 ? '+' : ''}{trade.profitLossPercent.toFixed(2)}%)
                           </span>
                         )}
                       </span>
@@ -121,8 +121,8 @@ export const TradeHistoryWidget: React.FC = () => {
                     )}
                   </td>
                   <td className="py-2 px-2 text-xs text-muted-foreground">
-                    {trade.closedAt
-                      ? format(new Date(trade.closedAt), 'dd/MM HH:mm', { locale: ptBR })
+                    {trade.exitTime
+                      ? format(new Date(trade.exitTime), 'dd/MM HH:mm', { locale: ptBR })
                       : '-'}
                   </td>
                 </tr>
@@ -140,14 +140,14 @@ export const TradeHistoryWidget: React.FC = () => {
           <div>
             <p className="text-xs text-muted-foreground">Operações Lucrativas</p>
             <p className="text-2xl font-bold text-green-600">
-              {trades.filter((t) => t.pnl && t.pnl > 0).length}
+              {trades.filter((t) => t.profitLoss && t.profitLoss > 0).length}
             </p>
           </div>
           <div>
             <p className="text-xs text-muted-foreground">Taxa de Acerto</p>
             <p className="text-2xl font-bold">
               {trades.length > 0
-                ? ((trades.filter((t) => t.pnl && t.pnl > 0).length / trades.length) * 100).toFixed(1)
+                ? ((trades.filter((t) => t.profitLoss && t.profitLoss > 0).length / trades.length) * 100).toFixed(1)
                 : 0}
               %
             </p>

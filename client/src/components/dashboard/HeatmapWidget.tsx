@@ -40,11 +40,11 @@ export default function HeatmapWidget() {
       };
 
       for (const trade of trades) {
-        if (!trade.closedAt || !trade.pnl) continue;
+        if (!trade.exitTime || !trade.profitLoss) continue;
 
-        const date = new Date(trade.closedAt);
+        const date = new Date(trade.exitTime);
         const dayOfWeek = date.getDay();
-        dayPerformance[dayOfWeek].push(Number(trade.pnl));
+        dayPerformance[dayOfWeek].push(Number(trade.profitLoss));
       }
 
       // Calcular performance média por dia

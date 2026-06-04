@@ -296,9 +296,11 @@ export default function AuditLogs() {
                     {log.ipAddress || "-"}
                   </TableCell>
                   <TableCell className="text-sm text-muted-foreground">
-                    {format(new Date(log.timestamp), "dd MMM yyyy HH:mm", {
-                      locale: ptBR,
-                    })}
+                    {log.timestamp && !isNaN(new Date(log.timestamp).getTime())
+                      ? format(new Date(log.timestamp), "dd MMM yyyy HH:mm", {
+                          locale: ptBR,
+                        })
+                      : "-"}
                   </TableCell>
                 </TableRow>
               ))

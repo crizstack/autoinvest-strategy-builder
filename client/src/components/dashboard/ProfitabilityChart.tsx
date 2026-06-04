@@ -26,9 +26,9 @@ export default function ProfitabilityChart() {
       const weeklyData: { [key: string]: { profit: number; loss: number; date: Date } } = {};
 
       for (const trade of trades) {
-        if (!trade.closedAt) continue;
+        if (!trade.exitTime) continue;
 
-        const date = new Date(trade.closedAt);
+        const date = new Date(trade.exitTime);
         const weekStart = new Date(date);
         weekStart.setDate(date.getDate() - date.getDay());
         const weekKey = weekStart.toLocaleDateString('pt-BR');
@@ -37,8 +37,8 @@ export default function ProfitabilityChart() {
           weeklyData[weekKey] = { profit: 0, loss: 0, date: weekStart };
         }
 
-        if (trade.pnl) {
-          const pnlValue = Number(trade.pnl);
+        if (trade.profitLoss) {
+          const pnlValue = Number(trade.profitLoss);
           if (pnlValue > 0) {
             weeklyData[weekKey].profit += pnlValue;
           } else {

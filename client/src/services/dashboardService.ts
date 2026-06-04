@@ -1,9 +1,8 @@
 /**
  * Dashboard Service
- * Busca dados reais do backend para o dashboard
+ * Tipos e interfaces para o dashboard
+ * NOTA: Chamadas de tRPC devem ser feitas em componentes React com hooks
  */
-
-import { trpc } from '@/lib/trpc';
 
 export interface DashboardMetrics {
   balance: number;
@@ -34,204 +33,194 @@ export interface StrategyPerformance {
   winRate: number;
 }
 
-/**
- * Buscar métricas principais do dashboard
- */
-export async function getDashboardMetrics(): Promise<DashboardMetrics> {
-  try {
-    // Buscar portfolio
-    const portfolio = await trpc.portfolio.getPortfolio.query();
+export interface TradeData {
+  id: number;
+  strategyId: number;
+  asset: string;
+  type: 'buy' | 'sell';
+  quantity: number;
+  entryPrice: number;
+  entryTime: Date;
+  exitPrice?: number;
+  exitTime?: Date;
+  status: 'open' | 'closed' | 'canceled';
+  profitLoss?: number;
+  profitLossPercent?: number;
+}
 
-    // Buscar estatísticas de paper trading
-    const tradeStats = await trpc.paperTrading.getTradeStats.query();
+export interface PortfolioData {
+  id: number;
+  userId: number;
+  initialBalance: string | null;
+  currentBalance: string | null;
+  totalReturn: string | null;
+  totalTrades: number | null;
+  winningTrades: number | null;
+  winRate: string | null;
+  openPositions: unknown;
+  updatedAt: Date;
+}
 
-    // Buscar estratégias ativas
-    const strategies = await trpc.strategies.list.query() || [];
-    const activeStrategies = strategies.filter((s: any) => s.status === 'active').length;
-
-    return {
-      balance: Number(portfolio?.currentBalance) || 10000,
-      initialBalance: Number(portfolio?.initialBalance) || 10000,
-      totalReturn: Number(portfolio?.totalReturn) || 0,
-      activeStrategies,
-      winRate: tradeStats.winRate || 0,
-      totalTrades: tradeStats.totalTrades || 0,
-      profitFactor: tradeStats.profitFactor || 0,
-    };
-  } catch (error) {
-    console.error('Erro ao buscar métricas do dashboard:', error);
-    throw error;
-  }
+export interface StrategyData {
+  id: number;
+  userId: number;
+  name: string;
+  description: string | null;
+  asset: string;
+  status: 'draft' | 'active' | 'paused' | 'archived';
+  blocks: unknown;
+  connections: unknown;
+  maxDrawdown: string | null;
+  maxLossPerTrade: string | null;
+  riskPerTrade: string | null;
+  paperTradingActive: boolean;
+  liveExecutionActive: boolean;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 /**
- * Buscar histórico de saldo
+ * Calcular histórico de saldo a partir de trades
  */
-export async function getBalanceHistory(): Promise<BalancePoint[]> {
-  try {
-    // Buscar todos os trades fechados
-    const trades = await trpc.paperTrading.getClosedTrades.query({ limit: 1000 }) || [];
+export function calculateBalanceHistory(
+  trades: TradeData[],
+  initialBalance: number
+): BalancePoint[] {
+  // Ordenar por data
+  const sortedTrades = trades
+    .filter((t) => t.exitTime)
+    .sort(
+      (a, b) =>
+        new Date(a.exitTime!).getTime() - new Date(b.exitTime!).getTime()
+    );
 
-    // Ordenar por data
-    const sortedTrades = trades.sort((a: any, b: any) => new Date(a.exitTime!).getTime() - new Date(b.exitTime!).getTime());
+  let runningBalance = initialBalance;
+  const points: BalancePoint[] = [
+    {
+      date: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toLocaleDateString(
+        'pt-BR'
+      ),
+      balance: initialBalance,
+    },
+  ];
 
-    // Calcular saldo em cada ponto
-    const portfolio = await trpc.portfolio.getPortfolio.query();
-    const initialBalance = Number(portfolio?.initialBalance) || 10000;
-
-    let runningBalance = initialBalance;
-    const points: BalancePoint[] = [
-      {
-        date: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toLocaleDateString('pt-BR'),
-        balance: initialBalance,
-      },
-    ];
-
-    for (const trade of sortedTrades) {
-      if (trade.profitLoss) {
-        runningBalance += trade.profitLoss;
-        points.push({
-          date: new Date(trade.exitTime!).toLocaleDateString('pt-BR'),
-          balance: runningBalance,
-        });
-      }
+  for (const trade of sortedTrades) {
+    if (trade.profitLoss) {
+      runningBalance += trade.profitLoss;
+      points.push({
+        date: new Date(trade.exitTime!).toLocaleDateString('pt-BR'),
+        balance: runningBalance,
+      });
     }
-
-    // Se não há trades, retornar apenas o ponto inicial
-    if (points.length === 1) {
-      return Array.from({ length: 8 }, (_, i) => ({
-        date: new Date(Date.now() - (7 - i) * 24 * 60 * 60 * 1000).toLocaleDateString('pt-BR'),
-        balance: initialBalance,
-      }));
-    }
-
-    return points.slice(-8); // Últimos 8 pontos
-  } catch (error) {
-    console.error('Erro ao buscar histórico de saldo:', error);
-    throw error;
   }
+
+  // Se não há trades, retornar apenas o ponto inicial
+  if (points.length === 1) {
+    return Array.from({ length: 8 }, (_, i) => ({
+      date: new Date(
+        Date.now() - (7 - i) * 24 * 60 * 60 * 1000
+      ).toLocaleDateString('pt-BR'),
+      balance: initialBalance,
+    }));
+  }
+
+  return points.slice(-8); // Últimos 8 pontos
 }
 
 /**
- * Buscar dados de ganhos vs perdas por semana
+ * Calcular dados de ganhos vs perdas por semana
  */
-export async function getProfitabilityByWeek(): Promise<ProfitabilityData[]> {
-  try {
-    const trades = await trpc.paperTrading.getClosedTrades.useQuery({ limit: 1000 }).data || [];
+export function calculateProfitabilityByWeek(
+  trades: TradeData[]
+): ProfitabilityData[] {
+  // Agrupar por semana
+  const weeklyData: { [key: string]: { profit: number; loss: number } } = {};
 
-    // Agrupar por semana
-    const weeklyData: { [key: string]: { profit: number; loss: number } } = {};
+  for (const trade of trades) {
+    if (!trade.exitTime) continue;
 
-    for (const trade of trades) {
-      if (!trade.exitTime) continue;
+    const date = new Date(trade.exitTime);
+    const weekStart = new Date(date);
+    weekStart.setDate(date.getDate() - date.getDay());
+    const weekKey = weekStart.toLocaleDateString('pt-BR');
 
-      const date = new Date(trade.exitTime);
-      const weekStart = new Date(date);
-      weekStart.setDate(date.getDate() - date.getDay());
-      const weekKey = weekStart.toLocaleDateString('pt-BR');
-
-      if (!weeklyData[weekKey]) {
-        weeklyData[weekKey] = { profit: 0, loss: 0 };
-      }
-
-      if (trade.profitLoss) {
-        if (trade.profitLoss > 0) {
-          weeklyData[weekKey].profit += trade.profitLoss;
-        } else {
-          weeklyData[weekKey].loss += trade.profitLoss;
-        }
-      }
+    if (!weeklyData[weekKey]) {
+      weeklyData[weekKey] = { profit: 0, loss: 0 };
     }
 
-    // Converter para array
-    return Object.entries(weeklyData)
-      .map(([week, data], index) => ({
-        week: `Sem ${index + 1}`,
-        profit: Math.round(data.profit),
-        loss: Math.round(data.loss),
-      }))
-      .slice(-4); // Últimas 4 semanas
-  } catch (error) {
-    console.error('Erro ao buscar dados de rentabilidade:', error);
-    throw error;
+    if (trade.profitLoss) {
+      if (trade.profitLoss > 0) {
+        weeklyData[weekKey].profit += trade.profitLoss;
+      } else {
+        weeklyData[weekKey].loss += trade.profitLoss;
+      }
+    }
   }
+
+  // Converter para array
+  return Object.entries(weeklyData)
+    .map(([week, data], index) => ({
+      week: `Sem ${index + 1}`,
+      profit: Math.round(data.profit),
+      loss: Math.round(data.loss),
+    }))
+    .slice(-4); // Últimas 4 semanas
 }
 
 /**
- * Buscar top estratégias
+ * Calcular performance das estratégias
  */
-export async function getTopStrategies(): Promise<StrategyPerformance[]> {
-  try {
-    const strategies = await trpc.strategies.list.query() || [];
-    const trades = await trpc.paperTrading.getClosedTrades.query({ limit: 1000 }) || [];
+export function calculateStrategyPerformance(
+  strategies: StrategyData[],
+  trades: TradeData[],
+  initialBalance: number = 10000
+): StrategyPerformance[] {
+  // Agrupar trades por estratégia
+  const strategyStats: {
+    [key: number]: { profit: number; trades: number; wins: number };
+  } = {};
 
-    // Agrupar trades por estratégia
-    const strategyStats: { [key: number]: { profit: number; trades: number; wins: number } } = {};
-
-    for (const trade of trades) {
-      if (!strategyStats[trade.strategyId]) {
-        strategyStats[trade.strategyId] = { profit: 0, trades: 0, wins: 0 };
-      }
-
-      strategyStats[trade.strategyId].trades += 1;
-      if (trade.profitLoss && trade.profitLoss > 0) {
-        strategyStats[trade.strategyId].wins += 1;
-      }
-      if (trade.profitLoss) {
-        strategyStats[trade.strategyId].profit += trade.profitLoss;
-      }
+  for (const trade of trades) {
+    if (!strategyStats[trade.strategyId]) {
+      strategyStats[trade.strategyId] = { profit: 0, trades: 0, wins: 0 };
     }
 
-    // Mapear estratégias com stats
-    const result = strategies
-      .map((strategy: any) => {
-        const stats = strategyStats[strategy.id];
-        if (!stats || stats.trades === 0) {
-          return {
-            id: strategy.id,
-            name: strategy.name,
-            return: 0,
-            trades: 0,
-            winRate: 0,
-          };
-        }
+    strategyStats[trade.strategyId].trades += 1;
+    if (trade.profitLoss && trade.profitLoss > 0) {
+      strategyStats[trade.strategyId].wins += 1;
+    }
+    if (trade.profitLoss) {
+      strategyStats[trade.strategyId].profit += trade.profitLoss;
+    }
+  }
 
-        const initialBalance = 10000;
-        const returnPercent = (stats.profit / initialBalance) * 100;
-        const winRate = (stats.wins / stats.trades) * 100;
-
+  // Mapear estratégias com stats
+  const result = strategies
+    .map((strategy) => {
+      const stats = strategyStats[strategy.id];
+      if (!stats || stats.trades === 0) {
         return {
           id: strategy.id,
           name: strategy.name,
-          return: Math.round(returnPercent * 10) / 10,
-          trades: stats.trades,
-          winRate: Math.round(winRate),
+          return: 0,
+          trades: 0,
+          winRate: 0,
         };
-      })
-      .sort((a: any, b: any) => b.return - a.return)
-      .slice(0, 3); // Top 3
+      }
 
-    return result;
-  } catch (error) {
-    console.error('Erro ao buscar top estratégias:', error);
-    throw error;
-  }
-}
+      const returnPercent = (stats.profit / initialBalance) * 100;
+      const winRate = (stats.wins / stats.trades) * 100;
 
-/**
- * Buscar dados de mercado hoje
- */
-export async function getMarketToday(): Promise<any[]> {
-  try {
-    const watchlist = await trpc.watchlist.getAll.query() || [];
+      return {
+        id: strategy.id,
+        name: strategy.name,
+        return: Math.round(returnPercent * 10) / 10,
+        trades: stats.trades,
+        winRate: Math.round(winRate),
+      };
+    })
+    .sort((a, b) => b.return - a.return)
+    .slice(0, 3); // Top 3
 
-    return watchlist.slice(0, 5).map((item: any) => ({
-      symbol: item.asset,
-      price: item.currentPrice || 0,
-      change: item.change || 0,
-    }));
-  } catch (error) {
-    console.error('Erro ao buscar dados de mercado:', error);
-    return [];
-  }
+  return result;
 }

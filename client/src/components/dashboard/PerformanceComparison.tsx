@@ -50,10 +50,10 @@ export default function PerformanceComparison() {
       // Calcular rentabilidade do usuário por dia
       let cumulativePnL = 0;
       closedTrades?.forEach((trade) => {
-        if (trade.closedAt) {
-          const tradeDate = format(new Date(trade.closedAt), 'MMM dd');
+        if (trade.exitTime) {
+          const tradeDate = format(new Date(trade.exitTime), 'MMM dd');
           if (performanceByDay.hasOwnProperty(tradeDate)) {
-            cumulativePnL += Number(trade.pnl) || 0;
+            cumulativePnL += Number(trade.profitLoss) || 0;
             const returnPercent = (cumulativePnL / initialBalance) * 100;
             performanceByDay[tradeDate] = returnPercent;
           }

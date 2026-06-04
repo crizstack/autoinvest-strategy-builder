@@ -32,7 +32,7 @@ export default function ChatPanel({ isOpen, onClose, pageContext, contextData }:
 
   // Usar chatContextual se autenticado, senão usar chat público
   const aiChatMutation = trpc.ai.chatContextual.useMutation();
-  const aiAnalysisMutation = trpc.ai.getAnalysis.useMutation();
+  const aiAnalysisQuery = trpc.ai.getAnalysis.useQuery(undefined, { enabled: false });
 
   // Scroll para última mensagem
   const scrollToBottom = () => {
@@ -108,14 +108,14 @@ export default function ChatPanel({ isOpen, onClose, pageContext, contextData }:
 
   const loadPortfolioAnalysis = async () => {
     try {
-      const analysis = await aiAnalysisMutation.mutateAsync(undefined);
+      const analysis = await aiAnalysisQuery.refetch();
       
-      if (analysis) {
+      if (analysis.data) {
         // Adicionar análise como mensagem do assistente
         const analysisMessage: Message = {
           id: Date.now().toString(),
           role: 'assistant',
-          content: analysis,
+          content: JSON.stringify(analysis.data),
           timestamp: new Date(),
         };
         setMessages([analysisMessage]);
@@ -263,7 +263,7 @@ export default function ChatPanel({ isOpen, onClose, pageContext, contextData }:
         <div className="px-4 py-2 border-t border-slate-800">
           <SuggestionChips 
             suggestions={suggestions} 
-            onSuggestionClick={handleSuggestionClick}
+            onSelect={handleSuggestionClick}
           />
         </div>
       )}

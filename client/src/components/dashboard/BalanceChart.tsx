@@ -36,7 +36,7 @@ export default function BalanceChart() {
 
       // Ordenar trades por data
       const sortedTrades = [...(trades || [])].sort(
-        (a, b) => new Date(a.closedAt || 0).getTime() - new Date(b.closedAt || 0).getTime()
+        (a, b) => new Date(a.exitTime || 0).getTime() - new Date(b.exitTime || 0).getTime()
       );
 
       // Calcular saldo em cada ponto
@@ -46,17 +46,17 @@ export default function BalanceChart() {
       // Adicionar ponto inicial
       if (sortedTrades.length > 0) {
         points.push({
-          date: new Date(sortedTrades[0].closedAt || Date.now()).toLocaleDateString('pt-BR'),
+          date: new Date(sortedTrades[0].exitTime || Date.now()).toLocaleDateString('pt-BR'),
           balance: initialBalance,
         });
       }
 
       // Adicionar pontos para cada trade
       for (const trade of sortedTrades) {
-        if (trade.pnl !== undefined && trade.pnl !== null && trade.closedAt) {
-          runningBalance += Number(trade.pnl);
+        if (trade.profitLoss !== undefined && trade.profitLoss !== null && trade.exitTime) {
+          runningBalance += Number(trade.profitLoss);
           points.push({
-            date: new Date(trade.closedAt).toLocaleDateString('pt-BR'),
+            date: new Date(trade.exitTime).toLocaleDateString('pt-BR'),
             balance: Math.round(runningBalance),
           });
         }
