@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { Card } from '@/components/ui/card';
 import { trpc } from '@/lib/trpc';
-import { Loader } from 'lucide-react';
+import { Loader, TrendingUp } from 'lucide-react';
 
 interface BalancePoint {
   date: string;
@@ -13,62 +13,86 @@ export default function BalanceChart() {
   const [data, setData] = useState<BalancePoint[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // Buscar portfolio
-  const { data: portfolio } = trpc.portfolio.getPortfolio.useQuery();
+  // Buscar portfolio com refetch automático
+  const { data: portfolio, isLoading: portfolioLoading } = trpc.portfolio.getPortfolio.useQuery(undefined, {
+    refetchInterval: 30000,
+  });
 
-  // Buscar trades fechados
-  const { data: trades } = trpc.paperTrading.getClosedTrades.useQuery({ limit: 1000 });
+  // Buscar trades fechados com refetch automático
+  const { data: trades, isLoading: tradesLoading } = trpc.paperTrading.getClosedTrades.useQuery(
+    { limit: 1000 },
+    { refetchInterval: 30000 }
+  );
 
   useEffect(() => {
-    if (portfolio && trades) {
-      const initialBalance = Number(portfolio.initialBalance) || 10000;
+    if (portfolio && trades !== undefined) {
+      const initialBalance = Number(portfolio.initialBalance) || 0;
+
+      if (initialBalance === 0) {
+        setData([]);
+        setLoading(false);
+        return;
+      }
 
       // Ordenar trades por data
       const sortedTrades = [...(trades || [])].sort(
-        (a, b) => new Date(a.exitTime!).getTime() - new Date(b.exitTime!).getTime()
+        (a, b) => new Date(a.closedAt || 0).getTime() - new Date(b.closedAt || 0).getTime()
       );
 
       // Calcular saldo em cada ponto
       let runningBalance = initialBalance;
-      const points: BalancePoint[] = [
-        {
-          date: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toLocaleDateString('pt-BR'),
-          balance: initialBalance,
-        },
-      ];
+      const points: BalancePoint[] = [];
 
+      // Adicionar ponto inicial
+      if (sortedTrades.length > 0) {
+        points.push({
+          date: new Date(sortedTrades[0].closedAt || Date.now()).toLocaleDateString('pt-BR'),
+          balance: initialBalance,
+        });
+      }
+
+      // Adicionar pontos para cada trade
       for (const trade of sortedTrades) {
-        if (trade.profitLoss && trade.exitTime) {
-          runningBalance += trade.profitLoss;
+        if (trade.pnl !== undefined && trade.pnl !== null && trade.closedAt) {
+          runningBalance += Number(trade.pnl);
           points.push({
-            date: new Date(trade.exitTime).toLocaleDateString('pt-BR'),
+            date: new Date(trade.closedAt).toLocaleDateString('pt-BR'),
             balance: Math.round(runningBalance),
           });
         }
       }
 
-      // Se não há trades, preencher com dados de exemplo
-      if (points.length === 1) {
-        const today = new Date();
-        for (let i = 7; i >= 0; i--) {
-          const date = new Date(today);
-          date.setDate(date.getDate() - i);
-          points.push({
-            date: date.toLocaleDateString('pt-BR'),
-            balance: initialBalance,
-          });
-        }
+      // Se há dados, mostrar últimos 30 pontos
+      if (points.length > 0) {
+        setData(points.slice(-30));
+      } else {
+        setData([]);
       }
 
-      setData(points.slice(-8)); // Últimos 8 pontos
       setLoading(false);
     }
   }, [portfolio, trades]);
 
-  if (loading) {
+  if (portfolioLoading || tradesLoading) {
     return (
-      <Card className="p-6 bg-slate-900/50 border-slate-800 col-span-2 flex items-center justify-center">
+      <Card className="p-6 bg-slate-900/50 border-slate-800 col-span-2 flex items-center justify-center h-80">
         <Loader className="w-6 h-6 text-green-400 animate-spin" />
+      </Card>
+    );
+  }
+
+  if (!loading && data.length === 0) {
+    return (
+      <Card className="p-6 bg-slate-900/50 border-slate-800 col-span-2">
+        <div className="mb-6">
+          <h3 className="text-lg font-semibold text-white">Evolução do Saldo</h3>
+          <p className="text-sm text-slate-400 mt-1">Últimos 30 dias</p>
+        </div>
+        <div className="flex flex-col items-center justify-center h-80 text-center">
+          <TrendingUp className="w-12 h-12 text-slate-600 mb-4" />
+          <p className="text-slate-400 font-medium">Nenhum dado disponível</p>
+          <p className="text-slate-500 text-sm mt-1">Execute trades para ver o gráfico de evolução</p>
+        </div>
       </Card>
     );
   }

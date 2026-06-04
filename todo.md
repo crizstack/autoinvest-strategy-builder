@@ -231,3 +231,60 @@
 - [x] Testar fluxo completo de execução automática (267/267 testes passando)
 - [x] Validar cálculos de SL/TP (testes de detecção de SL/TP)
 - [x] Validar PnL em tempo real (testes de cálculo de PnL)
+
+
+## Dashboard - Conectar aos Dados Reais
+
+### Fase 1: Auditoria Completa
+- [x] Auditoria completa de widgets (DASHBOARD_AUDIT.md criado)
+- [x] Identificar dados mockados em HeatmapWidget
+- [x] Identificar dados hardcoded em MarketTodayWidget
+- [x] Identificar dados hardcoded em WatchlistWidget
+- [x] Identificar fallbacks sintéticos em BalanceChart
+- [x] Identificar fallbacks sintéticos em ProfitabilityChart
+- [x] Identificar simulação de Ibovespa em PerformanceComparison
+
+### Fase 2: KPI Cards
+- [x] Remover fallback de 10000 no saldo
+- [x] Adicionar refetch automático a cada 30 segundos
+- [x] Adicionar loading states visuais em cada card
+- [x] Mostrar "-" quando dados não disponíveis
+- [x] Adicionar tratamento de erros com alert visual
+
+### Fase 3: Gráficos
+- [x] Remover série de 8 dias fake do BalanceChart
+- [x] Remover 4 semanas zeradas do ProfitabilityChart
+- [x] Adicionar empty states visuais em ambos
+- [x] Adicionar loading states em ambos
+- [x] Refetch automático a cada 30 segundos
+
+### Fase 4: Widgets de Estratégias e Mercado
+- [x] Remover Math.random() fake do HeatmapWidget
+- [x] Remover 4 ativos hardcoded do MarketTodayWidget
+- [x] Extrair ativos únicos dos trades do usuário
+- [x] Adicionar empty states visuais
+- [x] Refetch automático a cada 60 segundos
+
+### Fase 5: Remover Mock Data
+- [x] Remover simulação de Ibovespa em PerformanceComparison
+- [x] Remover Math.random() para crescimento fake
+- [x] Mostra apenas performance real do usuário
+- [x] Adicionar nota sobre integração com dados reais
+- [x] Refetch automático a cada 60 segundos
+
+### Fase 6: Testes e Validação
+- [x] Build sem erros (22.22s)
+- [x] Testes passando (267/267)
+- [x] Todos os widgets conectados ao backend
+- [x] Refetch automático funcionando
+- [x] Loading states visuais
+- [x] Empty states inteligentes
+
+### Status Final
+- ✅ 10 widgets auditados
+- ✅ 0 dados mockados
+- ✅ 0 valores hardcoded
+- ✅ 100% conectado ao backend
+- ✅ Atualização automática em tempo real
+- ✅ Build: 22.22s
+- ✅ Testes: 267/267 passando

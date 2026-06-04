@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { Card } from '@/components/ui/card';
 import { trpc } from '@/lib/trpc';
-import { Loader } from 'lucide-react';
+import { Loader, BarChart3 } from 'lucide-react';
 
 interface ProfitabilityData {
   week: string;
@@ -14,63 +14,80 @@ export default function ProfitabilityChart() {
   const [data, setData] = useState<ProfitabilityData[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // Buscar trades fechados
-  const { data: trades } = trpc.paperTrading.getClosedTrades.useQuery({ limit: 1000 });
+  // Buscar trades fechados com refetch automático
+  const { data: trades, isLoading: tradesLoading } = trpc.paperTrading.getClosedTrades.useQuery(
+    { limit: 1000 },
+    { refetchInterval: 30000 }
+  );
 
   useEffect(() => {
-    if (trades) {
+    if (trades !== undefined) {
       // Agrupar por semana
-      const weeklyData: { [key: string]: { profit: number; loss: number } } = {};
+      const weeklyData: { [key: string]: { profit: number; loss: number; date: Date } } = {};
 
       for (const trade of trades) {
-        if (!trade.exitTime) continue;
+        if (!trade.closedAt) continue;
 
-        const date = new Date(trade.exitTime);
+        const date = new Date(trade.closedAt);
         const weekStart = new Date(date);
         weekStart.setDate(date.getDate() - date.getDay());
         const weekKey = weekStart.toLocaleDateString('pt-BR');
 
         if (!weeklyData[weekKey]) {
-          weeklyData[weekKey] = { profit: 0, loss: 0 };
+          weeklyData[weekKey] = { profit: 0, loss: 0, date: weekStart };
         }
 
-        if (trade.profitLoss) {
-          if (trade.profitLoss > 0) {
-            weeklyData[weekKey].profit += trade.profitLoss;
+        if (trade.pnl) {
+          const pnlValue = Number(trade.pnl);
+          if (pnlValue > 0) {
+            weeklyData[weekKey].profit += pnlValue;
           } else {
-            weeklyData[weekKey].loss += trade.profitLoss;
+            weeklyData[weekKey].loss += pnlValue;
           }
         }
       }
 
-      // Converter para array
+      // Converter para array e ordenar por data
       const result = Object.entries(weeklyData)
-        .map(([week, data], index) => ({
-          week: `Sem ${index + 1}`,
+        .map(([week, data]) => ({
+          week,
           profit: Math.round(data.profit),
           loss: Math.round(data.loss),
+          date: data.date,
         }))
-        .slice(-4); // Últimas 4 semanas
-
-      // Se não há dados, preencher com zeros
-      if (result.length === 0) {
-        result.push(
-          { week: 'Sem 1', profit: 0, loss: 0 },
-          { week: 'Sem 2', profit: 0, loss: 0 },
-          { week: 'Sem 3', profit: 0, loss: 0 },
-          { week: 'Sem 4', profit: 0, loss: 0 }
-        );
-      }
+        .sort((a, b) => a.date.getTime() - b.date.getTime())
+        .slice(-12) // Últimas 12 semanas
+        .map(({ week, profit, loss }) => ({
+          week,
+          profit,
+          loss,
+        }));
 
       setData(result);
       setLoading(false);
     }
   }, [trades]);
 
-  if (loading) {
+  if (tradesLoading) {
     return (
-      <Card className="p-6 bg-slate-900/50 border-slate-800 col-span-2 flex items-center justify-center">
+      <Card className="p-6 bg-slate-900/50 border-slate-800 col-span-2 flex items-center justify-center h-80">
         <Loader className="w-6 h-6 text-green-400 animate-spin" />
+      </Card>
+    );
+  }
+
+  if (!loading && data.length === 0) {
+    return (
+      <Card className="p-6 bg-slate-900/50 border-slate-800 col-span-2">
+        <div className="mb-6">
+          <h3 className="text-lg font-semibold text-white">Ganhos vs Perdas</h3>
+          <p className="text-sm text-slate-400 mt-1">Performance semanal</p>
+        </div>
+        <div className="flex flex-col items-center justify-center h-80 text-center">
+          <BarChart3 className="w-12 h-12 text-slate-600 mb-4" />
+          <p className="text-slate-400 font-medium">Nenhum dado disponível</p>
+          <p className="text-slate-500 text-sm mt-1">Execute trades para ver o gráfico de performance</p>
+        </div>
       </Card>
     );
   }
