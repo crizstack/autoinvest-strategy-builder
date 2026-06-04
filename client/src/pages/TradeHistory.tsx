@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { TradeLogDetail } from '@/components/TradeLogDetail';
+import type { TradeLog } from '@shared/types/tradeLog';
 import {
   Search,
   Filter,
@@ -13,7 +14,8 @@ import {
   Calendar,
   Zap,
 } from 'lucide-react';
-// TradeLog types
+
+// Local types for filtering/display only
 type IndicatorType = 'RSI' | 'MACD' | 'Bollinger' | 'MA' | 'Stochastic';
 
 interface IndicatorSignal {
@@ -36,7 +38,8 @@ interface TradeExplanation {
   notes: string;
 }
 
-interface TradeLog {
+// Local TradeLog interface for mock data
+interface LocalTradeLog {
   id: string;
   strategyId: string;
   symbol: string;
@@ -57,7 +60,7 @@ interface TradeLog {
 }
 
 // Mock data
-const MOCK_TRADES: TradeLog[] = [
+const MOCK_TRADES: LocalTradeLog[] = [
   {
     id: '1',
     strategyId: 'strategy-1',
@@ -190,7 +193,7 @@ export default function TradeHistory() {
 
   // Filtrar trades
   const filteredTrades = useMemo(() => {
-    return MOCK_TRADES.filter((trade: TradeLog) => {
+    return MOCK_TRADES.filter((trade: LocalTradeLog) => {
       // Busca por símbolo
       if (searchTerm && !trade.symbol.toLowerCase().includes(searchTerm.toLowerCase())) {
         return false;
@@ -362,7 +365,7 @@ export default function TradeHistory() {
             <p className="text-slate-400">Nenhum trade encontrado com os filtros selecionados</p>
           </Card>
         ) : (
-          filteredTrades.map((trade) => <TradeLogDetail key={trade.id} trade={trade} />)
+          filteredTrades.map((trade) => <TradeLogDetail key={trade.id} trade={trade as unknown as TradeLog} />)
         )}
       </div>
 

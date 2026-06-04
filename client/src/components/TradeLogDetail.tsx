@@ -13,7 +13,7 @@ import {
   CheckCircle,
   Zap,
 } from 'lucide-react';
-import type { TradeLog } from '@/shared/types/tradeLog';
+import type { TradeLog } from '@shared/types/tradeLog';
 
 interface TradeLogDetailProps {
   trade: TradeLog;
