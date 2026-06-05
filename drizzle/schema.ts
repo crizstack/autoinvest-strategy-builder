@@ -1,4 +1,4 @@
-import { int, mysqlEnum, mysqlTable, text, timestamp, varchar, decimal, boolean, json, date, bigint } from "drizzle-orm/mysql-core";
+import { int, mysqlEnum, mysqlTable, text, timestamp, varchar, decimal, boolean, json, date, bigint, index } from "drizzle-orm/mysql-core";
 
 /**
  * Core user table backing auth flow.
@@ -66,7 +66,9 @@ export const strategies = mysqlTable("strategies", {
   liveExecutionActive: boolean("liveExecutionActive").default(false),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
-});
+}, (table) => ({
+  idx_user_status: index("idx_strategy_user_status").on(table.userId, table.status),
+}));
 
 export type Strategy = typeof strategies.$inferSelect;
 export type InsertStrategy = typeof strategies.$inferInsert;
@@ -92,7 +94,9 @@ export const backtests = mysqlTable("backtests", {
   status: mysqlEnum("status", ["pending", "completed", "failed"]).default("pending"),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   completedAt: timestamp("completedAt"),
-});
+}, (table) => ({
+  idx_user_created: index("idx_backtest_user_created").on(table.userId, table.createdAt),
+}));
 
 export type Backtest = typeof backtests.$inferSelect;
 export type InsertBacktest = typeof backtests.$inferInsert;
@@ -119,7 +123,9 @@ export const paperTrades = mysqlTable("paperTrades", {
   entryReason: varchar("entryReason", { length: 255 }),
   exitReason: varchar("exitReason", { length: 255 }),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
-});
+}, (table) => ({
+  idx_user_status: index("idx_paper_user_status").on(table.userId, table.status),
+}));
 
 export type PaperTrade = typeof paperTrades.$inferSelect;
 export type InsertPaperTrade = typeof paperTrades.$inferInsert;
@@ -158,7 +164,9 @@ export const portfolioSnapshots = mysqlTable("portfolioSnapshots", {
   totalOpenValue: decimal("totalOpenValue", { precision: 15, scale: 2 }).default("0.00"),
   snapshotDate: date("snapshotDate").notNull(),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
-});
+}, (table) => ({
+  idx_portfolio_date: index("idx_portfolio_snapshot_date").on(table.portfolioId, table.snapshotDate),
+}));
 
 export type PortfolioSnapshot = typeof portfolioSnapshots.$inferSelect;
 export type InsertPortfolioSnapshot = typeof portfolioSnapshots.$inferInsert;
@@ -206,7 +214,9 @@ export const assetPrices = mysqlTable("assetPrices", {
   low: decimal("low", { precision: 10, scale: 4 }).notNull(),
   close: decimal("close", { precision: 10, scale: 4 }).notNull(),
   volume: bigint("volume", { mode: "bigint" }).notNull(),
-});
+}, (table) => ({
+  idx_asset_time: index("idx_asset_time").on(table.assetId, table.time),
+}));
 
 export type AssetPrice = typeof assetPrices.$inferSelect;
 export type InsertAssetPrice = typeof assetPrices.$inferInsert;
@@ -250,7 +260,9 @@ export const notifications = mysqlTable("notifications", {
   read: boolean("read").default(false),
   actionUrl: varchar("actionUrl", { length: 255 }),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
-});
+}, (table) => ({
+  idx_user_read: index("idx_notification_user_read").on(table.userId, table.read),
+}));
 
 export type Notification = typeof notifications.$inferSelect;
 export type InsertNotification = typeof notifications.$inferInsert;
