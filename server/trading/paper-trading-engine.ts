@@ -9,6 +9,7 @@ import { paperTrades, portfolios, users } from '../../drizzle/schema';
 import { eq, and, desc } from 'drizzle-orm';
 import { getLatestCandle } from '../market/candles-service';
 import { TradeLoggerService } from './trade-logger-service';
+import { TradingAutomationService } from './trading-automation-service';
 
 export interface OpenPositionRequest {
   strategyId: number;
@@ -48,15 +49,28 @@ export interface PaperTrade {
 
 export class PaperTradingEngine {
   /**
-   * Abrir uma posição
+   * Abrir uma posição com proteção contra duplicação
    */
   static async openPosition(request: OpenPositionRequest): Promise<PaperTrade> {
     const db = await getDb();
     if (!db) throw new Error('Database not available');
 
-    const now = new Date();
+    // Adquirir lock para evitar duplicação
+    const lockId = await TradingAutomationService.acquireLock(
+      request.strategyId,
+      request.userId,
+      request.asset,
+      'open'
+    );
 
-    // Inserir trade
+    if (!lockId) {
+      throw new Error(`Cannot acquire lock for ${request.asset}. Another process is opening a position.`);
+    }
+
+    try {
+      const now = new Date();
+
+      // Inserir trade
     const result = await db.insert(paperTrades).values({
       strategyId: request.strategyId,
       userId: request.userId,
@@ -97,18 +111,22 @@ export class PaperTradingEngine {
       request.entryReason
     );
 
-    return {
-      id: tradeId,
-      strategyId: request.strategyId,
-      userId: request.userId,
-      asset: request.asset,
-      type: request.type,
-      quantity: request.quantity,
-      entryPrice: request.entryPrice,
-      entryTime: now,
-      status: 'open',
-      entryReason: request.entryReason,
-    };
+      return {
+        id: tradeId,
+        strategyId: request.strategyId,
+        userId: request.userId,
+        asset: request.asset,
+        type: request.type,
+        quantity: request.quantity,
+        entryPrice: request.entryPrice,
+        entryTime: now,
+        status: 'open',
+        entryReason: request.entryReason,
+      };
+    } finally {
+      // Liberar lock
+      await TradingAutomationService.releaseLock(lockId);
+    }
   }
 
   /**

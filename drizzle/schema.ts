@@ -1,4 +1,4 @@
-import { int, mysqlEnum, mysqlTable, text, timestamp, varchar, decimal, boolean, json, date, bigint, index } from "drizzle-orm/mysql-core";
+import { int, mysqlEnum, mysqlTable, text, timestamp, varchar, decimal, boolean, json, date, bigint, index, uniqueIndex } from "drizzle-orm/mysql-core";
 
 /**
  * Core user table backing auth flow.
@@ -328,3 +328,104 @@ export const securityEvents = mysqlTable("securityEvents", {
 
 export type SecurityEvent = typeof securityEvents.$inferSelect;
 export type InsertSecurityEvent = typeof securityEvents.$inferInsert;
+
+// ============ TRADING ENGINE AUTOMATION ============
+
+// Execution Logs - Histórico de execução de estratégias
+export const executionLogs = mysqlTable("executionLogs", {
+  id: int("id").autoincrement().primaryKey(),
+  strategyId: int("strategyId").notNull().references(() => strategies.id, { onDelete: "cascade" }),
+  userId: int("userId").notNull().references(() => users.id, { onDelete: "cascade" }),
+  executedAt: timestamp("executedAt").defaultNow().notNull(),
+  status: mysqlEnum("status", ["success", "failed", "partial"]).notNull(),
+  tradesOpened: int("tradesOpened").default(0),
+  tradesClosedByTP: int("tradesClosedByTP").default(0),
+  tradesClosedBySL: int("tradesClosedBySL").default(0),
+  errors: json("errors"),
+  duration: int("duration"), // milliseconds
+  retryCount: int("retryCount").default(0),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+}, (table) => ({
+  idx_user_strategy: index("idx_execution_user_strategy").on(table.userId, table.strategyId),
+  idx_executed_at: index("idx_execution_executed_at").on(table.executedAt),
+}));
+
+export type ExecutionLog = typeof executionLogs.$inferSelect;
+export type InsertExecutionLog = typeof executionLogs.$inferInsert;
+
+// Trade Execution Locks - Proteção contra execução simultânea
+export const tradeExecutionLocks = mysqlTable("tradeExecutionLocks", {
+  id: int("id").autoincrement().primaryKey(),
+  strategyId: int("strategyId").notNull().references(() => strategies.id, { onDelete: "cascade" }),
+  userId: int("userId").notNull().references(() => users.id, { onDelete: "cascade" }),
+  asset: varchar("asset", { length: 20 }).notNull(),
+  lockType: mysqlEnum("lockType", ["open", "close", "monitor"]).notNull(),
+  acquiredAt: timestamp("acquiredAt").defaultNow().notNull(),
+  expiresAt: timestamp("expiresAt").notNull(),
+  lockId: varchar("lockId", { length: 64 }).unique().notNull(), // UUID para idempotência
+}, (table) => ({
+  idx_trade_lock_unique: uniqueIndex("idx_trade_lock_unique").on(table.strategyId, table.userId, table.asset, table.lockType),
+  idx_expires_at: index("idx_trade_lock_expires").on(table.expiresAt),
+}));
+
+export type TradeExecutionLock = typeof tradeExecutionLocks.$inferSelect;
+export type InsertTradeExecutionLock = typeof tradeExecutionLocks.$inferInsert;
+
+// Risk Controls - Configuração de limites de risco por usuário
+export const riskControls = mysqlTable("riskControls", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull().references(() => users.id, { onDelete: "cascade" }),
+  maxExposurePercent: decimal("maxExposurePercent", { precision: 5, scale: 2 }).default("100"),
+  maxSimultaneousTrades: int("maxSimultaneousTrades").default(10),
+  maxLossPercent: decimal("maxLossPercent", { precision: 5, scale: 2 }).default("10"),
+  maxLossPerTrade: decimal("maxLossPerTrade", { precision: 12, scale: 2 }),
+  dailyMaxLoss: decimal("dailyMaxLoss", { precision: 12, scale: 2 }),
+  enableAutoStop: boolean("enableAutoStop").default(true),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  idx_user_risk: uniqueIndex("idx_risk_controls_user").on(table.userId),
+}));
+
+export type RiskControl = typeof riskControls.$inferSelect;
+export type InsertRiskControl = typeof riskControls.$inferInsert;
+
+// Circuit Breaker Status - Rastreamento de falhas de API
+export const circuitBreakerStatus = mysqlTable("circuitBreakerStatus", {
+  id: int("id").autoincrement().primaryKey(),
+  serviceName: varchar("serviceName", { length: 100 }).notNull().unique(),
+  state: mysqlEnum("state", ["closed", "open", "half_open"]).default("closed").notNull(),
+  failureCount: int("failureCount").default(0),
+  lastFailureAt: timestamp("lastFailureAt"),
+  lastSuccessAt: timestamp("lastSuccessAt"),
+  openedAt: timestamp("openedAt"),
+  recoveryAttempts: int("recoveryAttempts").default(0),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  idx_service_name: index("idx_circuit_breaker_service").on(table.serviceName),
+}));
+
+export type CircuitBreakerStatus = typeof circuitBreakerStatus.$inferSelect;
+export type InsertCircuitBreakerStatus = typeof circuitBreakerStatus.$inferInsert;
+
+// Execution Queue - Fila de execução de estratégias
+export const executionQueue = mysqlTable("executionQueue", {
+  id: int("id").autoincrement().primaryKey(),
+  strategyId: int("strategyId").notNull().references(() => strategies.id, { onDelete: "cascade" }),
+  userId: int("userId").notNull().references(() => users.id, { onDelete: "cascade" }),
+  priority: int("priority").default(0), // 0 = normal, 1 = high, -1 = low
+  status: mysqlEnum("status", ["pending", "processing", "completed", "failed"]).default("pending").notNull(),
+  retryCount: int("retryCount").default(0),
+  maxRetries: int("maxRetries").default(3),
+  error: text("error"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  startedAt: timestamp("startedAt"),
+  completedAt: timestamp("completedAt"),
+}, (table) => ({
+  idx_user_status: index("idx_queue_user_status").on(table.userId, table.status),
+  idx_priority: index("idx_queue_priority").on(table.priority),
+  idx_created_at: index("idx_queue_created_at").on(table.createdAt),
+}));
+
+export type ExecutionQueue = typeof executionQueue.$inferSelect;
+export type InsertExecutionQueue = typeof executionQueue.$inferInsert;
