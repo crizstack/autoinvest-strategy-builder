@@ -1,6 +1,8 @@
 import { router, publicProcedure, protectedProcedure } from '../_core/trpc';
 import { z } from 'zod';
 import { generateAIResponse, formatAIResponse, generateContextualAnalysis } from '../ai-assistant';
+import { OptimizationSuggesterService } from '../ai/optimization-suggester-service';
+import { AutomaticInsightsService } from '../ai/automatic-insights-service';
 import type { Message } from '@/types/ai';
 
 export const aiRouter = router({
@@ -165,4 +167,111 @@ export const aiRouter = router({
 
       return suggestions[input.page] || suggestions.dashboard;
     }),
+
+  /**
+   * Gerar sugestões de otimização para estratégia
+   */
+  getOptimizationSuggestions: protectedProcedure
+    .input(
+      z.object({
+        strategyId: z.number(),
+      })
+    )
+    .query(async ({ ctx, input }) => {
+      try {
+        const suggestions = await OptimizationSuggesterService.generateOptimizationSuggestions(
+          ctx.user.id,
+          input.strategyId
+        );
+        return suggestions || { suggestions: [], priorityActions: [], estimatedImpact: {} };
+      } catch (error) {
+        console.error('Erro ao gerar sugestões de otimização:', error);
+        return { suggestions: [], priorityActions: [], estimatedImpact: {} };
+      }
+    }),
+
+  /**
+   * Comparar duas estratégias
+   */
+  compareStrategies: protectedProcedure
+    .input(
+      z.object({
+        strategyId1: z.number(),
+        strategyId2: z.number(),
+      })
+    )
+    .query(async ({ ctx, input }) => {
+      try {
+        const comparison = await OptimizationSuggesterService.compareStrategies(
+          ctx.user.id,
+          input.strategyId1,
+          input.strategyId2
+        );
+        return { comparison };
+      } catch (error) {
+        console.error('Erro ao comparar estratégias:', error);
+        return { comparison: 'Erro ao comparar estratégias.' };
+      }
+    }),
+
+  /**
+   * Sugerir parâmetros otimizados
+   */
+  getSuggestedParameters: protectedProcedure
+    .input(
+      z.object({
+        strategyId: z.number(),
+      })
+    )
+    .query(async ({ ctx, input }) => {
+      try {
+        const parameters = await OptimizationSuggesterService.suggestOptimalParameters(
+          ctx.user.id,
+          input.strategyId
+        );
+        return parameters;
+      } catch (error) {
+        console.error('Erro ao sugerir parâmetros:', error);
+        return {};
+      }
+    }),
+
+  /**
+   * Gerar insights automáticos
+   */
+  getAutomaticInsights: protectedProcedure.query(async ({ ctx }) => {
+    try {
+      const insights = await AutomaticInsightsService.generateInsights(ctx.user.id);
+      return { insights };
+    } catch (error) {
+      console.error('Erro ao gerar insights automáticos:', error);
+      return { insights: [] };
+    }
+  }),
+
+  /**
+   * Gerar relatório diário de insights
+   */
+  getDailyReport: protectedProcedure.query(async ({ ctx }) => {
+    try {
+      const report = await AutomaticInsightsService.generateDailyReport(ctx.user.id);
+      return { report };
+    } catch (error) {
+      console.error('Erro ao gerar relatório diário:', error);
+      return { report: 'Erro ao gerar relatório.' };
+    }
+  }),
+
+  /**
+   * Explicar drawdown
+   */
+  explainDrawdown: protectedProcedure.query(async ({ ctx }) => {
+    try {
+      const explanation = await AutomaticInsightsService.explainDrawdown(ctx.user.id);
+      return { explanation };
+    } catch (error) {
+      console.error('Erro ao explicar drawdown:', error);
+      return { explanation: 'Erro ao explicar drawdown.' };
+    }
+  }),
 });
