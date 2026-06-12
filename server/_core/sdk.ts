@@ -206,26 +206,47 @@ class SDKServer {
     }
 
     try {
-      const secretKey = this.getSessionSecret();
-      const { payload } = await jwtVerify(cookieValue, secretKey, {
-        algorithms: ["HS256"],
-      });
-      const { openId, appId, name } = payload as Record<string, unknown>;
+      // Try JWT verification first (Manus OAuth)
+      try {
+        const secretKey = this.getSessionSecret();
+        const { payload } = await jwtVerify(cookieValue, secretKey, {
+          algorithms: ["HS256"],
+        });
+        const { openId, appId, name } = payload as Record<string, unknown>;
 
-      if (
-        !isNonEmptyString(openId) ||
-        !isNonEmptyString(appId) ||
-        !isNonEmptyString(name)
-      ) {
-        console.warn("[Auth] Session payload missing required fields");
-        return null;
+        if (
+          !isNonEmptyString(openId) ||
+          !isNonEmptyString(appId) ||
+          !isNonEmptyString(name)
+        ) {
+          console.warn("[Auth] Session payload missing required fields");
+          return null;
+        }
+
+        return {
+          openId,
+          appId,
+          name,
+        };
+      } catch (jwtError) {
+        // Try custom token format (email/password login)
+        try {
+          const decoded = JSON.parse(Buffer.from(cookieValue, 'base64').toString('utf-8'));
+          if (decoded.exp < Date.now()) {
+            console.warn("[Auth] Custom token expired");
+            return null;
+          }
+          // Map custom token to session format
+          return {
+            openId: decoded.openId || decoded.id?.toString() || '',
+            appId: ENV.appId,
+            name: decoded.name || '',
+          };
+        } catch (customError) {
+          console.warn("[Auth] Custom token verification failed", String(customError));
+          return null;
+        }
       }
-
-      return {
-        openId,
-        appId,
-        name,
-      };
     } catch (error) {
       console.warn("[Auth] Session verification failed", String(error));
       return null;

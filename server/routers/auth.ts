@@ -38,10 +38,23 @@ export const authRouter = router({
    */
   login: publicProcedure
     .input(LoginSchema)
-    .mutation(async ({ input }) => {
+    .mutation(async ({ input, ctx }) => {
       try {
         const user = await AuthService.login(input.email, input.password);
         const token = AuthService.generateToken(user);
+        
+        // Set session cookie for authenticated requests
+        const cookieOptions = getSessionCookieOptions(ctx.req);
+        const cookieStr = [
+          `${COOKIE_NAME}=${token}`,
+          'Path=/',
+          'HttpOnly',
+          `SameSite=${cookieOptions.sameSite === 'lax' ? 'Lax' : 'Strict'}`,
+          cookieOptions.secure ? 'Secure' : '',
+          'Max-Age=86400',
+        ].filter(Boolean).join('; ');
+        ctx.res.setHeader('Set-Cookie', cookieStr);
+        
         return {
           success: true,
           message: 'Login realizado com sucesso',
