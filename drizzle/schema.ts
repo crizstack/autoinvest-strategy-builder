@@ -256,12 +256,27 @@ export const notifications = mysqlTable("notifications", {
   title: varchar("title", { length: 255 }).notNull(),
   message: text("message").notNull(),
   severity: mysqlEnum("severity", ["info", "warning", "error", "success"]).default("info"),
+  priority: mysqlEnum("priority", ["low", "normal", "high", "critical"]).default("normal"),
+  eventType: varchar("eventType", { length: 50 }),
   strategyId: int("strategyId").references(() => strategies.id, { onDelete: "set null" }),
   read: boolean("read").default(false),
   actionUrl: varchar("actionUrl", { length: 255 }),
+  soundEnabled: boolean("soundEnabled").default(false),
+  soundUrl: varchar("soundUrl", { length: 255 }),
+  pushNotificationSent: boolean("pushNotificationSent").default(false),
+  pushNotificationToken: varchar("pushNotificationToken", { length: 500 }),
+  emailNotificationSent: boolean("emailNotificationSent").default(false),
+  expiresAt: timestamp("expiresAt"),
+  dismissedAt: timestamp("dismissedAt"),
+  snoozedUntil: timestamp("snoozedUntil"),
+  metadata: text("metadata"),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
 }, (table) => ({
   idx_user_read: index("idx_notification_user_read").on(table.userId, table.read),
+  idx_user_priority: index("idx_notification_priority").on(table.userId, table.priority),
+  idx_event_type: index("idx_notification_event_type").on(table.userId, table.eventType),
+  idx_expires_at: index("idx_notification_expires").on(table.expiresAt),
 }));
 
 export type Notification = typeof notifications.$inferSelect;
