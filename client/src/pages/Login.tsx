@@ -15,13 +15,20 @@ export default function Login() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const [, setLocation] = useLocation();
+  const utils = trpc.useUtils();
 
   const loginMutation = trpc.auth.login.useMutation({
-    onSuccess: () => {
+    onSuccess: async () => {
       toast.success('Login realizado com sucesso!');
-      setTimeout(() => {
+      try {
+        // Refetch auth.me to verify cookie is recognized
+        await utils.auth.me.refetch();
+        // Navigate to dashboard after auth is verified
         setLocation('/dashboard');
-      }, 500);
+      } catch (err) {
+        console.error('Failed to verify auth after login:', err);
+        toast.error('Erro ao verificar autenticação');
+      }
     },
     onError: (error: any) => {
       setError(error.message || 'Erro ao fazer login');

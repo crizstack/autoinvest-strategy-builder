@@ -14,10 +14,10 @@
   ],
   "git_remote": {
     "repo_url": "s3://vida-prod-gitrepo/webdev-git/310519663581078632/MibUnB9pVE8XB5NiFzoXDr",
-    "access_key_id": "ASIAZV3A2ECZAK23JIFL",
-    "secret_access_key": "o/5nGlBVfaQF/BhphZgI/EpY4SscUBu/SMpxYmV0",
-    "session_token": "IQoJb3JpZ2luX2VjENH//////////wEaCXVzLWVhc3QtMSJHMEUCIH84bqMgpChTwnIqfDFnZFAFUYl5vPv7xVYPeI6cntaiAiEA1F+q68SluwMqih7tMFtM0CnTdt5NqiLxO8CEVnjXAeYq/wMImf//////////ARAEGgw2NjUzODYwOTg4NjYiDPXGpb+U051IOi9PMCrTA5NYKWzTUzIsbweOrJJPSLvgSmBiuLg32PcnVDeka5MdL2nW0uywyFwT5V+xCz/6+AGaXoUB7vc182qSWEHd7wYAW1oMWY1vgPtA4kzebsAwVKOgsHLmWSm+msnQ0tbgbdFwON8HVihjnOMbN6KTS66lDe5KKFhyloMo8Wq17uFS0spH/F9GwIY9kmHyrnimtqQtaVg4YNaJpLg+GyuT2ZSCM4reEijlslS9l0eZHbVMJaUz70OxQWQ2GlEuampdpRkuHL+AVD0RlcoWi460v0KuZU9lKZTrM7MzDiNWGhYQFby0J7eHHsog85E7SWZhkmFhlqGZOLJ+ciSa0S1EQv7+GLm2MbH8Xwt3R02YTNBJnUdCREt3p2sWO/k1XQqko4ud/AEdo5vzDSVTrTjNa4RKynZQo0a18VjwFzpOZ0b5O/0LyeBjL13fu6TnWaTea7j0SZ73OIPULBjqwTemihjchVQ0Z91n/i8blA85YveMiLPYEJDb84KoeHPBeLHP64wCXR0psZzbZWQqbK4Y9ZGINZ2xMyvRVnt002l/OnNVdDSagtTJ0KwQAtq61+M0XqGX8k8mY9jC+uz5SH1p6G4K8uclSb1z9XbU1n7lQmZOej4hMIGOpNAGOp0BdNQABaODF5LZBKA83HMyqDYzse0qJQtG1AXQrYdf4umdNP4Yvp3eTpcsG6Ey2beJwBao31k/iGPhX/no8KLwqliqzAkaZwaZ3C5IF7g2Eyhm8tPZFDkk0qNlzK8+lmFqXFsBiD6sliSscrF6mAWaJR6Ka2t0Jn09wj8mNszSKTen6ib5TcVR1KmggEEBWc64eIF7TiS9KHPEkm7vyg==",
-    "expiration": "2026-05-17T12:08:33.000Z"
+    "access_key_id": "ASIAZV3A2ECZHNKVMD7Z",
+    "secret_access_key": "lMdi4VnPNWVSnMztpxOILtS6e8KCkZJ7jPOtmctM",
+    "session_token": "IQoJb3JpZ2luX2VjEE4aCXVzLWVhc3QtMSJIMEYCIQDOSBBf03Cp9wJ2v1h8b/noVdCkhu3LObmODyeq5tt8fQIhAIX3xTXW4qyd5F5uYwJef6CT8RoWo3cY3/GO/2HfjlFwKvYDCBcQBBoMNjY1Mzg2MDk4ODY2IgwXNSCSZTjVIdw+chcq0wOoQXILz6uPxpBAiHuIeB2joCiILjW3KK9K0AnUVGMi8ShVc5v8/foKfGgsMvQA0wCxJtBbcPuyXBFwxdnpUEmhz+k/BZdGnWim/p+x7Gjs3EfagIXep91GZ+zkumqDZ7B1jh4PE7/izrIevpRR/kUvspAMUmPzYT3V1atlCE93E+9jaXQOFU4azBeQe83eVRIQRHtlnTdPHDdbimhoZ6KUhFtMQPDtMN8zydBOyBxNgSUv/MvEUmrgfLBotWSSvqbzoEuT6JEKaRhBlkuqgQsK8Uikr7qaYZvDbfvQxUkFQT8gJuMZQtJfMCM44Kq9+IMwRtvHHc+Qos6WMKEw6cZZcMq0JflmBQx9asmFSZ6UvrrFu/9rBC7yn7eY6YMYpkqEt+0+csxHEVlHdzcuZoiqQQVLZf2mpGoTTdaXrj+WiryAcSMJGMj4k2DjkfSj8dlJn1QxrxUd86IG5l6FDTsdUoYX509dvCl0ZXySBWhbveG9/2Hh1CeZzQ0OTG98jqzTEb67nVXbyBqQ//tJfJd7nn98YvRAMm+QxWxoZSP6STQMPkBvVzDjDbNesZBm02zA8Mi8If5sIZtAqpbjc+eQtrZRlhUj0Sa6JBk3rrYIgFxIGzCvorDRBjqcAaPjXVJRhEtzyKcOfveVvdnGoSm7eT65hDYL7zSsELEezrIOMu/uX1UvTDkfKZ28+DN8RS7jf/EFnuAZCZLLhQPLWzl6E7mDAGRMQVa6Djr2mQDH4QUzezb3dFCaPZTsmN6caSIORUoy4D3IJv0flvsZ5h66NlSFlrYKyfqhlToDeAqnEsQQArOfl9rgjHQrS4tviGafbiGPe5dWig==",
+    "expiration": "2026-06-13T02:01:19.000Z"
   },
   "name": "autoinvest-strategy-builder",
   "path": "/home/ubuntu/autoinvest-strategy-builder",
