@@ -77,19 +77,19 @@ export function BacktestReplay({ trades, equityCurve, onTradeSelect }: BacktestR
   return (
     <div className="space-y-6">
       {/* Controls */}
-      <Card className="p-6 bg-slate-900/50 border-slate-800">
+      <Card className="p-6 bg-[#0B110B]/50 border-[#235317]/30">
         <div className="space-y-4">
           {/* Timeline */}
           <div>
             <div className="flex items-center justify-between mb-2">
-              <p className="text-slate-400 text-sm">Progresso do Replay</p>
+              <p className="text-[#B8C2B8] text-sm">Progresso do Replay</p>
               <p className="text-white font-semibold">
                 {currentStep + 1} / {trades.length}
               </p>
             </div>
-            <div className="w-full bg-slate-950 border border-slate-800 rounded-lg overflow-hidden">
+            <div className="w-full bg-[#050805] border border-[#235317]/30 rounded-lg overflow-hidden">
               <div
-                className="h-2 bg-gradient-to-r from-blue-500 to-blue-600 transition-all duration-300"
+                className="h-2 bg-gradient-to-r from-[#235317] to-[#76E821] transition-all duration-300"
                 style={{ width: `${((currentStep + 1) / trades.length) * 100}%` }}
               />
             </div>
@@ -121,7 +121,7 @@ export function BacktestReplay({ trades, equityCurve, onTradeSelect }: BacktestR
             <Button
               onClick={() => setIsPlaying(!isPlaying)}
               size="sm"
-              className="bg-blue-600 hover:bg-blue-700 flex items-center gap-2"
+              className="bg-[#38A636] hover:bg-[#4CB22F] flex items-center gap-2"
             >
               {isPlaying ? (
                 <>
@@ -149,11 +149,11 @@ export function BacktestReplay({ trades, equityCurve, onTradeSelect }: BacktestR
 
             {/* Speed Control */}
             <div className="ml-auto flex items-center gap-2">
-              <label className="text-slate-400 text-sm">Velocidade:</label>
+              <label className="text-[#B8C2B8] text-sm">Velocidade:</label>
               <select
                 value={speed}
                 onChange={(e) => setSpeed(parseFloat(e.target.value))}
-                className="px-2 py-1 bg-slate-950 border border-slate-800 text-white rounded text-sm"
+                className="px-2 py-1 bg-[#050805] border border-[#235317]/30 text-white rounded text-sm"
               >
                 <option value={0.5}>0.5x</option>
                 <option value={1}>1x</option>
@@ -167,31 +167,31 @@ export function BacktestReplay({ trades, equityCurve, onTradeSelect }: BacktestR
 
       {/* Current Trade Info */}
       {currentTrade && (
-        <Card className="p-6 bg-slate-900/50 border-slate-800 border-l-4 border-l-blue-500">
+        <Card className="p-6 bg-[#0B110B]/50 border-[#235317]/30 border-l-4 border-l-[#4CB22F]">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <div>
-              <p className="text-slate-400 text-sm">Data</p>
+              <p className="text-[#B8C2B8] text-sm">Data</p>
               <p className="text-white font-semibold">{currentTrade.date}</p>
             </div>
             <div>
-              <p className="text-slate-400 text-sm">Tipo</p>
+              <p className="text-[#B8C2B8] text-sm">Tipo</p>
               <p
                 className={`font-semibold ${
-                  currentTrade.type === 'BUY' ? 'text-green-400' : 'text-red-400'
+                  currentTrade.type === 'BUY' ? 'text-[#76E821]' : 'text-red-400'
                 }`}
               >
                 {currentTrade.type}
               </p>
             </div>
             <div>
-              <p className="text-slate-400 text-sm">Preço</p>
+              <p className="text-[#B8C2B8] text-sm">Preço</p>
               <p className="text-white font-semibold">R$ {currentTrade.price.toFixed(2)}</p>
             </div>
             <div>
-              <p className="text-slate-400 text-sm">Resultado</p>
+              <p className="text-[#B8C2B8] text-sm">Resultado</p>
               <p
                 className={`font-semibold ${
-                  currentTrade.result > 0 ? 'text-green-400' : 'text-red-400'
+                  currentTrade.result > 0 ? 'text-[#76E821]' : 'text-red-400'
                 }`}
               >
                 {currentTrade.result > 0 ? '+' : ''}R$ {currentTrade.result.toLocaleString('pt-BR')}
@@ -203,22 +203,22 @@ export function BacktestReplay({ trades, equityCurve, onTradeSelect }: BacktestR
 
       {/* Statistics */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <Card className="p-4 bg-slate-900/50 border-slate-800">
-          <p className="text-slate-400 text-sm mb-1">Lucro Acumulado</p>
-          <p className={`text-2xl font-bold ${totalProfit > 0 ? 'text-green-400' : 'text-red-400'}`}>
+        <Card className="p-4 bg-[#0B110B]/50 border-[#235317]/30">
+          <p className="text-[#B8C2B8] text-sm mb-1">Lucro Acumulado</p>
+          <p className={`text-2xl font-bold ${totalProfit > 0 ? 'text-[#76E821]' : 'text-red-400'}`}>
             {totalProfit > 0 ? '+' : ''}R$ {totalProfit.toLocaleString('pt-BR')}
           </p>
         </Card>
 
-        <Card className="p-4 bg-slate-900/50 border-slate-800">
-          <p className="text-slate-400 text-sm mb-1">Ganhos / Perdas</p>
+        <Card className="p-4 bg-[#0B110B]/50 border-[#235317]/30">
+          <p className="text-[#B8C2B8] text-sm mb-1">Ganhos / Perdas</p>
           <p className="text-white font-semibold">
-            <span className="text-green-400">{wins}W</span> / <span className="text-red-400">{losses}L</span>
+            <span className="text-[#76E821]">{wins}W</span> / <span className="text-red-400">{losses}L</span>
           </p>
         </Card>
 
-        <Card className="p-4 bg-slate-900/50 border-slate-800">
-          <p className="text-slate-400 text-sm mb-1">Taxa de Acerto</p>
+        <Card className="p-4 bg-[#0B110B]/50 border-[#235317]/30">
+          <p className="text-[#B8C2B8] text-sm mb-1">Taxa de Acerto</p>
           <p className="text-white font-semibold">
             {displayedTrades.length > 0
               ? Math.round((wins / displayedTrades.length) * 100)
@@ -229,7 +229,7 @@ export function BacktestReplay({ trades, equityCurve, onTradeSelect }: BacktestR
       </div>
 
       {/* Equity Curve */}
-      <Card className="p-6 bg-slate-900/50 border-slate-800">
+      <Card className="p-6 bg-[#0B110B]/50 border-[#235317]/30">
         <h3 className="text-lg font-semibold text-white mb-4">Curva de Equity</h3>
         <ResponsiveContainer width="100%" height={250}>
           <LineChart data={displayedEquity}>
@@ -238,7 +238,7 @@ export function BacktestReplay({ trades, equityCurve, onTradeSelect }: BacktestR
             <YAxis stroke="#94a3b8" />
             <Tooltip
               contentStyle={{
-                backgroundColor: '#1e293b',
+                backgroundColor: '#141C14',
                 border: '1px solid #475569',
                 borderRadius: '8px',
               }}
@@ -246,8 +246,8 @@ export function BacktestReplay({ trades, equityCurve, onTradeSelect }: BacktestR
             <Line
               type="monotone"
               dataKey="value"
-              stroke="#3b82f6"
-              dot={{ fill: '#3b82f6' }}
+              stroke="#38A636"
+              dot={{ fill: '#38A636' }}
               strokeWidth={2}
             />
           </LineChart>
@@ -255,7 +255,7 @@ export function BacktestReplay({ trades, equityCurve, onTradeSelect }: BacktestR
       </Card>
 
       {/* Trades List */}
-      <Card className="p-6 bg-slate-900/50 border-slate-800">
+      <Card className="p-6 bg-[#0B110B]/50 border-[#235317]/30">
         <h3 className="text-lg font-semibold text-white mb-4">Operações Executadas</h3>
         <div className="space-y-2 max-h-64 overflow-y-auto">
           {displayedTrades.map((trade, idx) => (
@@ -264,18 +264,18 @@ export function BacktestReplay({ trades, equityCurve, onTradeSelect }: BacktestR
               onClick={() => handleTradeClick(trade)}
               className={`w-full p-3 rounded-lg text-left transition-colors ${
                 currentTrade?.id === trade.id
-                  ? 'bg-blue-500/20 border border-blue-500'
-                  : 'bg-slate-950 border border-slate-800 hover:bg-slate-900'
+                  ? 'bg-[#4CB22F]/20 border border-[#4CB22F]'
+                  : 'bg-[#050805] border border-[#235317]/30 hover:bg-[#0B110B]'
               }`}
             >
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <span className="text-slate-400 text-sm">#{idx + 1}</span>
+                  <span className="text-[#B8C2B8] text-sm">#{idx + 1}</span>
                   <span className="text-white font-semibold">{trade.date}</span>
                   <span
                     className={`px-2 py-1 rounded text-xs font-medium ${
                       trade.type === 'BUY'
-                        ? 'bg-green-600/20 text-green-400'
+                        ? 'bg-[#38A636]/20 text-[#76E821]'
                         : 'bg-red-600/20 text-red-400'
                     }`}
                   >
@@ -284,7 +284,7 @@ export function BacktestReplay({ trades, equityCurve, onTradeSelect }: BacktestR
                 </div>
                 <span
                   className={`font-semibold ${
-                    trade.result > 0 ? 'text-green-400' : 'text-red-400'
+                    trade.result > 0 ? 'text-[#76E821]' : 'text-red-400'
                   }`}
                 >
                   {trade.result > 0 ? '+' : ''}R$ {trade.result.toLocaleString('pt-BR')}

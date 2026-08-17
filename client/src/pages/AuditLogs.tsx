@@ -75,23 +75,23 @@ export default function AuditLogs() {
   const getEventIcon = (action: string) => {
     switch (action) {
       case "login_success":
-        return <CheckCircle className="w-4 h-4 text-green-500" />;
+        return <CheckCircle className="w-4 h-4 text-[#4CB22F]" />;
       case "login_failed":
         return <AlertCircle className="w-4 h-4 text-red-500" />;
       case "login_2fa":
-        return <Shield className="w-4 h-4 text-blue-500" />;
+        return <Shield className="w-4 h-4 text-[#4CB22F]" />;
       case "suspicious_activity":
         return <AlertCircle className="w-4 h-4 text-orange-500" />;
       case "session_revoked":
         return <LogOut className="w-4 h-4 text-red-500" />;
       case "password_changed":
-        return <Shield className="w-4 h-4 text-blue-500" />;
+        return <Shield className="w-4 h-4 text-[#4CB22F]" />;
       case "2fa_enabled":
-        return <Shield className="w-4 h-4 text-green-500" />;
+        return <Shield className="w-4 h-4 text-[#4CB22F]" />;
       case "2fa_disabled":
         return <AlertCircle className="w-4 h-4 text-orange-500" />;
       default:
-        return <Clock className="w-4 h-4 text-gray-500" />;
+        return <Clock className="w-4 h-4 text-[#6B756B]" />;
     }
   };
 
@@ -99,15 +99,15 @@ export default function AuditLogs() {
   const getSeverityColor = (severity: string) => {
     switch (severity) {
       case "critical":
-        return "bg-red-100 text-red-800";
+        return "bg-red-500/10 text-red-300 border border-red-500/30";
       case "high":
-        return "bg-orange-100 text-orange-800";
+        return "bg-orange-500/10 text-orange-300 border border-orange-500/30";
       case "medium":
-        return "bg-yellow-100 text-yellow-800";
+        return "bg-yellow-500/10 text-yellow-300 border border-yellow-500/30";
       case "low":
-        return "bg-green-100 text-green-800";
+        return "bg-[#38A636]/10 text-[#76E821] border border-[#38A636]/30";
       default:
-        return "bg-gray-100 text-gray-800";
+        return "bg-[#141C14] text-[#B8C2B8] border border-[#235317]/30";
     }
   };
 
@@ -232,7 +232,7 @@ export default function AuditLogs() {
                 {filteredLogs.filter((l: any) => l.action.includes("login")).length}
               </p>
             </div>
-            <User className="w-8 h-8 text-blue-500 opacity-50" />
+            <User className="w-8 h-8 text-[#4CB22F] opacity-50" />
           </div>
         </Card>
 

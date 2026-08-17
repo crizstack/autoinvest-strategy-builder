@@ -75,33 +75,33 @@ export default function BalanceChart() {
 
   if (portfolioLoading || tradesLoading) {
     return (
-      <Card className="p-6 bg-slate-900/50 border-slate-800 col-span-2 flex items-center justify-center h-80">
-        <Loader className="w-6 h-6 text-green-400 animate-spin" />
+      <Card className="p-6 bg-[#0B110B]/50 border-[#235317]/30 col-span-2 flex items-center justify-center h-80">
+        <Loader className="w-6 h-6 text-[#76E821] animate-spin" />
       </Card>
     );
   }
 
   if (!loading && data.length === 0) {
     return (
-      <Card className="p-6 bg-slate-900/50 border-slate-800 col-span-2">
+      <Card className="p-6 bg-[#0B110B]/50 border-[#235317]/30 col-span-2">
         <div className="mb-6">
           <h3 className="text-lg font-semibold text-white">Evolução do Saldo</h3>
-          <p className="text-sm text-slate-400 mt-1">Últimos 30 dias</p>
+          <p className="text-sm text-[#B8C2B8] mt-1">Últimos 30 dias</p>
         </div>
         <div className="flex flex-col items-center justify-center h-80 text-center">
-          <TrendingUp className="w-12 h-12 text-slate-600 mb-4" />
-          <p className="text-slate-400 font-medium">Nenhum dado disponível</p>
-          <p className="text-slate-500 text-sm mt-1">Execute trades para ver o gráfico de evolução</p>
+          <TrendingUp className="w-12 h-12 text-[#6B756B] mb-4" />
+          <p className="text-[#B8C2B8] font-medium">Nenhum dado disponível</p>
+          <p className="text-[#6B756B] text-sm mt-1">Execute trades para ver o gráfico de evolução</p>
         </div>
       </Card>
     );
   }
 
   return (
-    <Card className="p-6 bg-slate-900/50 border-slate-800 col-span-2">
+    <Card className="p-6 bg-[#0B110B]/50 border-[#235317]/30 col-span-2">
       <div className="mb-6">
         <h3 className="text-lg font-semibold text-white">Evolução do Saldo</h3>
-        <p className="text-sm text-slate-400 mt-1">Últimos 30 dias</p>
+        <p className="text-sm text-[#B8C2B8] mt-1">Últimos 30 dias</p>
       </div>
       <ResponsiveContainer width="100%" height={300}>
         <LineChart data={data} margin={{ top: 5, right: 30, left: 0, bottom: 5 }}>
@@ -110,7 +110,7 @@ export default function BalanceChart() {
           <YAxis stroke="#94a3b8" style={{ fontSize: '12px' }} />
           <Tooltip
             contentStyle={{
-              backgroundColor: '#1e293b',
+              backgroundColor: '#141C14',
               border: '1px solid #475569',
               borderRadius: '8px',
               color: '#e2e8f0',

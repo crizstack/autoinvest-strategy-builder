@@ -51,7 +51,7 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 flex items-center justify-center px-4">
+    <div className="min-h-screen bg-gradient-to-br from-[#050805] via-[#0B110B] to-[#050805] flex items-center justify-center px-4">
       {/* Background Grid */}
       <div className="absolute inset-0 opacity-10">
         <div className="absolute inset-0" style={{
@@ -64,17 +64,17 @@ export default function Login() {
         {/* Header */}
         <div className="text-center mb-8">
           <div className="flex items-center justify-center gap-2 mb-4">
-            <div className="w-10 h-10 bg-green-600 rounded-lg flex items-center justify-center">
+            <div className="w-10 h-10 bg-[#38A636] rounded-lg flex items-center justify-center">
               <Cpu className="w-6 h-6 text-white" />
             </div>
             <span className="text-2xl font-bold text-white">AutoInvest</span>
           </div>
           <h1 className="text-3xl font-bold text-white mb-2">Bem-vindo de volta</h1>
-          <p className="text-slate-400">Entre em sua conta para continuar</p>
+          <p className="text-[#B8C2B8]">Entre em sua conta para continuar</p>
         </div>
 
         {/* Login Card */}
-        <Card className="p-8 bg-slate-900/50 border-slate-800 backdrop-blur-sm">
+        <Card className="p-8 bg-[#0B110B]/50 border-[#235317]/30 backdrop-blur-sm">
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Error Message */}
             {error && (
@@ -86,18 +86,18 @@ export default function Login() {
 
             {/* Email Field */}
             <div className="space-y-2">
-              <Label htmlFor="email" className="text-slate-300">
+              <Label htmlFor="email" className="text-[#B8C2B8]">
                 Email
               </Label>
               <div className="relative">
-                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500" />
+                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-[#6B756B]" />
                 <Input
                   id="email"
                   type="email"
                   placeholder="seu@email.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="pl-10 bg-slate-950 border-slate-800 text-white placeholder-slate-600"
+                  className="pl-10 bg-[#050805] border-[#235317]/30 text-white placeholder-[#6B756B]"
                   required
                 />
               </div>
@@ -106,22 +106,22 @@ export default function Login() {
             {/* Password Field */}
             <div className="space-y-2">
               <div className="flex items-center justify-between">
-                <Label htmlFor="password" className="text-slate-300">
+                <Label htmlFor="password" className="text-[#B8C2B8]">
                   Senha
                 </Label>
-                <a href="/forgot-password" className="text-sm text-green-400 hover:text-green-300">
+                <a href="/forgot-password" className="text-sm text-[#76E821] hover:text-[#76E821]">
                   Esqueceu?
                 </a>
               </div>
               <div className="relative">
-                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500" />
+                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-[#6B756B]" />
                 <Input
                   id="password"
                   type="password"
                   placeholder="••••••••"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="pl-10 bg-slate-950 border-slate-800 text-white placeholder-slate-600"
+                  className="pl-10 bg-[#050805] border-[#235317]/30 text-white placeholder-[#6B756B]"
                   required
                 />
               </div>
@@ -131,7 +131,7 @@ export default function Login() {
             <Button
               type="submit"
               disabled={isLoading}
-              className="w-full bg-green-600 hover:bg-green-700 text-white font-medium py-2 flex items-center justify-center gap-2"
+              className="w-full bg-[#38A636] hover:bg-[#4CB22F] text-white font-medium py-2 flex items-center justify-center gap-2"
             >
               <LogIn className="w-5 h-5" />
               {isLoading ? 'Entrando...' : 'Entrar'}
@@ -140,16 +140,16 @@ export default function Login() {
 
           {/* Divider */}
           <div className="my-6 flex items-center gap-3">
-            <div className="flex-1 h-px bg-slate-800" />
-            <span className="text-slate-500 text-sm">ou</span>
-            <div className="flex-1 h-px bg-slate-800" />
+            <div className="flex-1 h-px bg-[#141C14]" />
+            <span className="text-[#6B756B] text-sm">ou</span>
+            <div className="flex-1 h-px bg-[#141C14]" />
           </div>
 
           {/* Google Login */}
           <Button
             type="button"
             variant="outline"
-            className="w-full border-slate-800 text-slate-300 hover:bg-slate-800"
+            className="w-full border-[#235317]/30 text-[#B8C2B8] hover:bg-[#141C14]"
             onClick={() => window.location.href = getLoginUrl()}
           >
             <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24">
@@ -162,16 +162,16 @@ export default function Login() {
           </Button>
 
           {/* Sign Up Link */}
-          <p className="text-center text-slate-400 text-sm mt-6">
+          <p className="text-center text-[#B8C2B8] text-sm mt-6">
             Não tem conta?{' '}
-            <a href="/register" className="text-green-400 hover:text-green-300 font-medium">
+            <a href="/register" className="text-[#76E821] hover:text-[#76E821] font-medium">
               Criar conta
             </a>
           </p>
         </Card>
 
         {/* Footer Note */}
-        <p className="text-center text-slate-500 text-xs mt-8">
+        <p className="text-center text-[#6B756B] text-xs mt-8">
           AutoInvest é uma plataforma de simulação de trading. Não é um serviço de investimento real.
         </p>
       </div>

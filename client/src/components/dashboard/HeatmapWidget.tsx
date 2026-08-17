@@ -10,8 +10,8 @@ interface HeatmapData {
 }
 
 const getHeatmapColor = (value: number): string => {
-  if (value > 5) return 'bg-green-600';
-  if (value > 0) return 'bg-green-500/50';
+  if (value > 5) return 'bg-[#38A636]';
+  if (value > 0) return 'bg-[#4CB22F]/50';
   if (value > -5) return 'bg-red-500/50';
   return 'bg-red-600';
 };
@@ -67,23 +67,23 @@ export default function HeatmapWidget() {
 
   if (tradesLoading || loading) {
     return (
-      <Card className="p-6 bg-slate-900/50 border-slate-800 flex items-center justify-center h-64">
-        <Loader className="w-6 h-6 text-green-400 animate-spin" />
+      <Card className="p-6 bg-[#0B110B]/50 border-[#235317]/30 flex items-center justify-center h-64">
+        <Loader className="w-6 h-6 text-[#76E821] animate-spin" />
       </Card>
     );
   }
 
   if (data.every((d) => d.performance === 0)) {
     return (
-      <Card className="p-6 bg-slate-900/50 border-slate-800">
+      <Card className="p-6 bg-[#0B110B]/50 border-[#235317]/30">
         <div className="mb-6">
           <h3 className="text-lg font-semibold text-white">Heatmap Semanal</h3>
-          <p className="text-sm text-slate-400 mt-1">Performance diária (R$)</p>
+          <p className="text-sm text-[#B8C2B8] mt-1">Performance diária (R$)</p>
         </div>
         <div className="flex items-center justify-center h-40 text-center">
           <div>
-            <p className="text-slate-400 font-medium">Nenhum dado disponível</p>
-            <p className="text-slate-500 text-sm mt-1">Execute trades para ver o heatmap</p>
+            <p className="text-[#B8C2B8] font-medium">Nenhum dado disponível</p>
+            <p className="text-[#6B756B] text-sm mt-1">Execute trades para ver o heatmap</p>
           </div>
         </div>
       </Card>
@@ -91,10 +91,10 @@ export default function HeatmapWidget() {
   }
 
   return (
-    <Card className="p-6 bg-slate-900/50 border-slate-800">
+    <Card className="p-6 bg-[#0B110B]/50 border-[#235317]/30">
       <div className="mb-6">
         <h3 className="text-lg font-semibold text-white">Heatmap Semanal</h3>
-        <p className="text-sm text-slate-400 mt-1">Performance média por dia (R$)</p>
+        <p className="text-sm text-[#B8C2B8] mt-1">Performance média por dia (R$)</p>
       </div>
       <div className="flex gap-3 items-end justify-between">
         {data.map((item) => (
@@ -103,18 +103,18 @@ export default function HeatmapWidget() {
               className={`w-12 h-20 rounded-lg ${getHeatmapColor(item.performance)} transition-all hover:scale-105 cursor-pointer`}
               title={`${item.day}: R$ ${item.performance.toFixed(2)}`}
             />
-            <span className="text-xs text-slate-400">{item.day}</span>
+            <span className="text-xs text-[#B8C2B8]">{item.day}</span>
           </div>
         ))}
       </div>
       <div className="mt-6 flex gap-4 text-xs">
         <div className="flex items-center gap-2">
-          <div className="w-4 h-4 rounded bg-green-600" />
-          <span className="text-slate-400">Ganho forte</span>
+          <div className="w-4 h-4 rounded bg-[#38A636]" />
+          <span className="text-[#B8C2B8]">Ganho forte</span>
         </div>
         <div className="flex items-center gap-2">
           <div className="w-4 h-4 rounded bg-red-600" />
-          <span className="text-slate-400">Perda forte</span>
+          <span className="text-[#B8C2B8]">Perda forte</span>
         </div>
       </div>
     </Card>

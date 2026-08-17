@@ -71,11 +71,11 @@ export default function Settings() {
       {/* Header */}
       <div>
         <h1 className="text-3xl font-bold text-white mb-2">Configurações</h1>
-        <p className="text-slate-400">Gerencie suas preferências e informações de conta</p>
+        <p className="text-[#B8C2B8]">Gerencie suas preferências e informações de conta</p>
       </div>
 
       {/* Tabs */}
-      <div className="flex gap-2 border-b border-slate-800">
+      <div className="flex gap-2 border-b border-[#235317]/30">
         {tabs.map((tab) => {
           const Icon = tab.icon;
           return (
@@ -84,8 +84,8 @@ export default function Settings() {
               onClick={() => setActiveTab(tab.id)}
               className={`flex items-center gap-2 px-4 py-3 border-b-2 transition-colors ${
                 activeTab === tab.id
-                  ? 'border-green-600 text-green-400'
-                  : 'border-transparent text-slate-400 hover:text-white'
+                  ? 'border-[#38A636] text-[#76E821]'
+                  : 'border-transparent text-[#B8C2B8] hover:text-white'
               }`}
             >
               <Icon className="w-4 h-4" />
@@ -97,16 +97,16 @@ export default function Settings() {
 
       {/* Profile Tab */}
       {activeTab === 'profile' && (
-        <Card className="p-6 bg-slate-900/50 border-slate-800">
+        <Card className="p-6 bg-[#0B110B]/50 border-[#235317]/30">
           <div className="space-y-6">
             {/* Avatar */}
             <div className="flex items-center gap-4">
-              <div className="w-16 h-16 rounded-full bg-green-600 flex items-center justify-center text-white text-2xl font-bold">
+              <div className="w-16 h-16 rounded-full bg-[#38A636] flex items-center justify-center text-white text-2xl font-bold">
                 {(user?.name || user?.email || 'U')[0].toUpperCase()}
               </div>
               <div>
-                <p className="text-sm text-slate-400">Foto de Perfil</p>
-                <Button variant="outline" className="mt-2 border-slate-700">
+                <p className="text-sm text-[#B8C2B8]">Foto de Perfil</p>
+                <Button variant="outline" className="mt-2 border-[#235317]/45">
                   Alterar Foto
                 </Button>
               </div>
@@ -115,39 +115,39 @@ export default function Settings() {
             {/* Form */}
             <div className="space-y-4">
               <div>
-                <Label className="text-slate-300 mb-2 block">Nome</Label>
+                <Label className="text-[#B8C2B8] mb-2 block">Nome</Label>
                 <Input
                   type="text"
                   name="name"
                   value={formData.name}
                   onChange={handleInputChange}
                   disabled={!isEditing}
-                  className="bg-slate-950 border-slate-800 text-white disabled:opacity-50"
+                  className="bg-[#050805] border-[#235317]/30 text-white disabled:opacity-50"
                 />
               </div>
 
               <div>
-                <Label className="text-slate-300 mb-2 block">Email</Label>
+                <Label className="text-[#B8C2B8] mb-2 block">Email</Label>
                 <Input
                   type="email"
                   name="email"
                   value={formData.email}
                   onChange={handleInputChange}
                   disabled={!isEditing}
-                  className="bg-slate-950 border-slate-800 text-white disabled:opacity-50"
+                  className="bg-[#050805] border-[#235317]/30 text-white disabled:opacity-50"
                 />
               </div>
 
               <div>
-                <Label className="text-slate-300 mb-2 block">Plano Atual</Label>
-                <div className="px-4 py-2 bg-slate-950 border border-slate-800 rounded-lg text-white">
+                <Label className="text-[#B8C2B8] mb-2 block">Plano Atual</Label>
+                <div className="px-4 py-2 bg-[#050805] border border-[#235317]/30 rounded-lg text-white">
                   Free
                 </div>
               </div>
 
               <div>
-                <Label className="text-slate-300 mb-2 block">Membro desde</Label>
-                <div className="px-4 py-2 bg-slate-950 border border-slate-800 rounded-lg text-white">
+                <Label className="text-[#B8C2B8] mb-2 block">Membro desde</Label>
+                <div className="px-4 py-2 bg-[#050805] border border-[#235317]/30 rounded-lg text-white">
                   {new Date().toLocaleDateString('pt-BR')}
                 </div>
               </div>
@@ -156,18 +156,18 @@ export default function Settings() {
             {/* Buttons */}
             <div className="flex gap-3">
               {!isEditing ? (
-                <Button onClick={() => setIsEditing(true)} className="bg-green-600 hover:bg-green-700">
+                <Button onClick={() => setIsEditing(true)} className="bg-[#38A636] hover:bg-[#4CB22F]">
                   Editar Perfil
                 </Button>
               ) : (
                 <>
-                  <Button onClick={handleSaveProfile} className="bg-green-600 hover:bg-green-700">
+                  <Button onClick={handleSaveProfile} className="bg-[#38A636] hover:bg-[#4CB22F]">
                     Salvar Alterações
                   </Button>
                   <Button
                     onClick={() => setIsEditing(false)}
                     variant="outline"
-                    className="border-slate-700"
+                    className="border-[#235317]/45"
                   >
                     Cancelar
                   </Button>
@@ -180,45 +180,45 @@ export default function Settings() {
 
       {/* Password Tab */}
       {activeTab === 'password' && (
-        <Card className="p-6 bg-slate-900/50 border-slate-800">
+        <Card className="p-6 bg-[#0B110B]/50 border-[#235317]/30">
           <div className="space-y-4 max-w-md">
             <div>
-              <Label className="text-slate-300 mb-2 block">Senha Atual</Label>
+              <Label className="text-[#B8C2B8] mb-2 block">Senha Atual</Label>
               <Input
                 type="password"
                 name="currentPassword"
                 value={formData.currentPassword}
                 onChange={handleInputChange}
                 placeholder="Digite sua senha atual"
-                className="bg-slate-950 border-slate-800 text-white"
+                className="bg-[#050805] border-[#235317]/30 text-white"
               />
             </div>
 
             <div>
-              <Label className="text-slate-300 mb-2 block">Nova Senha</Label>
+              <Label className="text-[#B8C2B8] mb-2 block">Nova Senha</Label>
               <Input
                 type="password"
                 name="newPassword"
                 value={formData.newPassword}
                 onChange={handleInputChange}
                 placeholder="Mínimo 8 caracteres"
-                className="bg-slate-950 border-slate-800 text-white"
+                className="bg-[#050805] border-[#235317]/30 text-white"
               />
             </div>
 
             <div>
-              <Label className="text-slate-300 mb-2 block">Confirmar Nova Senha</Label>
+              <Label className="text-[#B8C2B8] mb-2 block">Confirmar Nova Senha</Label>
               <Input
                 type="password"
                 name="confirmPassword"
                 value={formData.confirmPassword}
                 onChange={handleInputChange}
                 placeholder="Confirme a nova senha"
-                className="bg-slate-950 border-slate-800 text-white"
+                className="bg-[#050805] border-[#235317]/30 text-white"
               />
             </div>
 
-            <Button onClick={handleChangePassword} className="bg-green-600 hover:bg-green-700 w-full">
+            <Button onClick={handleChangePassword} className="bg-[#38A636] hover:bg-[#4CB22F] w-full">
               Alterar Senha
             </Button>
           </div>
@@ -227,28 +227,28 @@ export default function Settings() {
 
       {/* Notifications Tab */}
       {activeTab === 'notifications' && (
-        <Card className="p-6 bg-slate-900/50 border-slate-800">
+        <Card className="p-6 bg-[#0B110B]/50 border-[#235317]/30">
           <div className="space-y-4">
-            <div className="flex items-center justify-between py-4 border-b border-slate-800">
+            <div className="flex items-center justify-between py-4 border-b border-[#235317]/30">
               <div>
                 <p className="text-white font-medium">Notificações de Trades</p>
-                <p className="text-sm text-slate-400">Receba alertas quando um trade for executado</p>
+                <p className="text-sm text-[#B8C2B8]">Receba alertas quando um trade for executado</p>
               </div>
               <input type="checkbox" defaultChecked className="w-5 h-5 rounded" />
             </div>
 
-            <div className="flex items-center justify-between py-4 border-b border-slate-800">
+            <div className="flex items-center justify-between py-4 border-b border-[#235317]/30">
               <div>
                 <p className="text-white font-medium">Alertas de Risco</p>
-                <p className="text-sm text-slate-400">Notificações quando o drawdown atingir limite</p>
+                <p className="text-sm text-[#B8C2B8]">Notificações quando o drawdown atingir limite</p>
               </div>
               <input type="checkbox" defaultChecked className="w-5 h-5 rounded" />
             </div>
 
-            <div className="flex items-center justify-between py-4 border-b border-slate-800">
+            <div className="flex items-center justify-between py-4 border-b border-[#235317]/30">
               <div>
                 <p className="text-white font-medium">Relatórios Semanais</p>
-                <p className="text-sm text-slate-400">Receba resumo de performance toda segunda</p>
+                <p className="text-sm text-[#B8C2B8]">Receba resumo de performance toda segunda</p>
               </div>
               <input type="checkbox" className="w-5 h-5 rounded" />
             </div>
@@ -256,12 +256,12 @@ export default function Settings() {
             <div className="flex items-center justify-between py-4">
               <div>
                 <p className="text-white font-medium">Newsletter</p>
-                <p className="text-sm text-slate-400">Dicas e atualizações do produto</p>
+                <p className="text-sm text-[#B8C2B8]">Dicas e atualizações do produto</p>
               </div>
               <input type="checkbox" className="w-5 h-5 rounded" />
             </div>
 
-            <Button onClick={() => toast.success('Preferências salvas!')} className="bg-green-600 hover:bg-green-700 w-full mt-6">
+            <Button onClick={() => toast.success('Preferências salvas!')} className="bg-[#38A636] hover:bg-[#4CB22F] w-full mt-6">
               Salvar Preferências
             </Button>
           </div>
@@ -270,36 +270,36 @@ export default function Settings() {
 
       {/* Security Tab */}
       {activeTab === 'security' && (
-        <Card className="p-6 bg-slate-900/50 border-slate-800">
+        <Card className="p-6 bg-[#0B110B]/50 border-[#235317]/30">
           <div className="space-y-6">
             <div>
               <h3 className="text-lg font-semibold text-white mb-4">Autenticação de Dois Fatores</h3>
-              <p className="text-slate-400 mb-4">
+              <p className="text-[#B8C2B8] mb-4">
                 Adicione uma camada extra de segurança à sua conta
               </p>
-              <Button className="bg-green-600 hover:bg-green-700">
+              <Button className="bg-[#38A636] hover:bg-[#4CB22F]">
                 Ativar 2FA
               </Button>
             </div>
 
-            <div className="border-t border-slate-800 pt-6">
+            <div className="border-t border-[#235317]/30 pt-6">
               <h3 className="text-lg font-semibold text-white mb-4">Sessões Ativas</h3>
               <div className="space-y-3">
-                <div className="p-4 bg-slate-950 border border-slate-800 rounded-lg flex items-center justify-between">
+                <div className="p-4 bg-[#050805] border border-[#235317]/30 rounded-lg flex items-center justify-between">
                   <div>
                     <p className="text-white font-medium">Navegador Atual</p>
-                    <p className="text-sm text-slate-400">Chrome no Windows</p>
+                    <p className="text-sm text-[#B8C2B8]">Chrome no Windows</p>
                   </div>
-                  <span className="text-xs bg-green-600/20 text-green-400 px-2 py-1 rounded">
+                  <span className="text-xs bg-[#38A636]/20 text-[#76E821] px-2 py-1 rounded">
                     Ativo
                   </span>
                 </div>
               </div>
             </div>
 
-            <div className="border-t border-slate-800 pt-6">
+            <div className="border-t border-[#235317]/30 pt-6">
               <h3 className="text-lg font-semibold text-white mb-4">Deletar Conta</h3>
-              <p className="text-slate-400 mb-4">
+              <p className="text-[#B8C2B8] mb-4">
                 Esta ação é irreversível. Todos os seus dados serão permanentemente deletados.
               </p>
               <Button variant="outline" className="border-red-600/50 text-red-400 hover:bg-red-600/10">
@@ -312,22 +312,22 @@ export default function Settings() {
 
       {/* Display Tab */}
       {activeTab === 'display' && (
-        <Card className="p-6 bg-slate-900/50 border-slate-800">
+        <Card className="p-6 bg-[#0B110B]/50 border-[#235317]/30">
           <div className="space-y-6">
             <div>
               <h3 className="text-lg font-semibold text-white mb-4">Preferências de Exibição</h3>
             </div>
 
             {/* Compact Mode Toggle */}
-            <div className="flex items-center justify-between p-4 bg-slate-950 border border-slate-800 rounded-lg">
+            <div className="flex items-center justify-between p-4 bg-[#050805] border border-[#235317]/30 rounded-lg">
               <div>
                 <p className="text-white font-medium">Modo Compacto</p>
-                <p className="text-sm text-slate-400 mt-1">Reduz espaçamento e tamanhos para mais densidade</p>
+                <p className="text-sm text-[#B8C2B8] mt-1">Reduz espaçamento e tamanhos para mais densidade</p>
               </div>
               <button
                 onClick={handleToggleCompactMode}
                 className={`relative inline-flex h-8 w-14 items-center rounded-full transition-colors ${
-                  isCompact ? 'bg-green-600' : 'bg-slate-700'
+                  isCompact ? 'bg-[#38A636]' : 'bg-[#1D2A1D]'
                 }`}
               >
                 <span
@@ -339,12 +339,12 @@ export default function Settings() {
             </div>
 
             {/* Preview */}
-            <div className="p-4 bg-slate-950 border border-slate-800 rounded-lg">
-              <p className="text-sm text-slate-400 mb-3">Pré-visualização:</p>
+            <div className="p-4 bg-[#050805] border border-[#235317]/30 rounded-lg">
+              <p className="text-sm text-[#B8C2B8] mb-3">Pré-visualização:</p>
               <div className={isCompact ? 'compact-mode' : ''}>
-                <Card className="p-4 bg-slate-900">
+                <Card className="p-4 bg-[#0B110B]">
                   <p className="text-sm font-medium text-white">Exemplo de Card</p>
-                  <p className="text-xs text-slate-400 mt-2">Este é um exemplo de como o conteúdo aparecerá</p>
+                  <p className="text-xs text-[#B8C2B8] mt-2">Este é um exemplo de como o conteúdo aparecerá</p>
                 </Card>
               </div>
             </div>

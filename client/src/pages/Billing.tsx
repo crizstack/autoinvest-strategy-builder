@@ -86,16 +86,16 @@ export default function Billing() {
       {/* Header */}
       <div>
         <h1 className="text-3xl font-bold text-white mb-2">Planos e Billing</h1>
-        <p className="text-slate-400">Escolha o plano ideal para suas necessidades</p>
+        <p className="text-[#B8C2B8]">Escolha o plano ideal para suas necessidades</p>
       </div>
 
       {/* Current Plan */}
-      <Card className="p-6 bg-gradient-to-r from-blue-600/20 to-purple-600/20 border-green-600/30">
+      <Card className="p-6 bg-gradient-to-r from-[#235317]/20 to-[#235317]/20 border-[#38A636]/30">
         <div className="flex items-center justify-between">
           <div>
-            <p className="text-slate-400 text-sm mb-1">Plano Atual</p>
+            <p className="text-[#B8C2B8] text-sm mb-1">Plano Atual</p>
             <p className="text-2xl font-bold text-white">Free</p>
-            <p className="text-slate-400 text-sm mt-2">Próxima renovação: -</p>
+            <p className="text-[#B8C2B8] text-sm mt-2">Próxima renovação: -</p>
           </div>
           <Button
             onClick={handleCancel}
@@ -114,13 +114,13 @@ export default function Billing() {
             key={plan.id}
             className={`p-6 border transition-all ${
               plan.popular
-                ? 'bg-slate-900/80 border-green-600/50 ring-2 ring-blue-600/30 relative'
-                : 'bg-slate-900/50 border-slate-800 hover:border-slate-700'
+                ? 'bg-[#0B110B]/80 border-[#38A636]/50 ring-2 ring-[#38A636]/30 relative'
+                : 'bg-[#0B110B]/50 border-[#235317]/30 hover:border-[#235317]/45'
             }`}
           >
             {plan.popular && (
               <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                <span className="bg-green-600 text-white text-xs font-bold px-3 py-1 rounded-full">
+                <span className="bg-[#38A636] text-white text-xs font-bold px-3 py-1 rounded-full">
                   MAIS POPULAR
                 </span>
               </div>
@@ -128,11 +128,11 @@ export default function Billing() {
 
             <div className="mb-6 pt-2">
               <h3 className="text-xl font-bold text-white mb-2">{plan.name}</h3>
-              <p className="text-slate-400 text-sm mb-4">{plan.description}</p>
+              <p className="text-[#B8C2B8] text-sm mb-4">{plan.description}</p>
 
               <div className="flex items-baseline gap-1">
                 <span className="text-3xl font-bold text-white">{plan.price}</span>
-                {plan.period && <span className="text-slate-400">{plan.period}</span>}
+                {plan.period && <span className="text-[#B8C2B8]">{plan.period}</span>}
               </div>
             </div>
 
@@ -141,8 +141,8 @@ export default function Billing() {
               variant={plan.ctaVariant}
               className={`w-full mb-6 ${
                 plan.ctaVariant === 'default'
-                  ? 'bg-green-600 hover:bg-green-700'
-                  : 'border-slate-700 hover:bg-slate-800'
+                  ? 'bg-[#38A636] hover:bg-[#4CB22F]'
+                  : 'border-[#235317]/45 hover:bg-[#141C14]'
               }`}
               disabled={plan.id === currentPlan}
             >
@@ -154,13 +154,13 @@ export default function Billing() {
               {plan.features.map((feature, idx) => (
                 <div key={idx} className="flex items-center gap-3">
                   {feature.included ? (
-                    <Check className="w-5 h-5 text-green-400 flex-shrink-0" />
+                    <Check className="w-5 h-5 text-[#76E821] flex-shrink-0" />
                   ) : (
-                    <X className="w-5 h-5 text-slate-600 flex-shrink-0" />
+                    <X className="w-5 h-5 text-[#6B756B] flex-shrink-0" />
                   )}
                   <span
                     className={`text-sm ${
-                      feature.included ? 'text-white' : 'text-slate-500 line-through'
+                      feature.included ? 'text-white' : 'text-[#6B756B] line-through'
                     }`}
                   >
                     {feature.name}
@@ -173,34 +173,34 @@ export default function Billing() {
       </div>
 
       {/* FAQ */}
-      <Card className="p-6 bg-slate-900/50 border-slate-800">
+      <Card className="p-6 bg-[#0B110B]/50 border-[#235317]/30">
         <h2 className="text-lg font-semibold text-white mb-6">Perguntas Frequentes</h2>
 
         <div className="space-y-6">
           <div>
             <h3 className="font-semibold text-white mb-2">Posso cancelar a qualquer momento?</h3>
-            <p className="text-slate-400 text-sm">
+            <p className="text-[#B8C2B8] text-sm">
               Sim, você pode cancelar sua assinatura a qualquer momento. O acesso será mantido até o final do período de cobrança.
             </p>
           </div>
 
           <div>
             <h3 className="font-semibold text-white mb-2">Qual é a diferença entre Paper Trading e Execução Real?</h3>
-            <p className="text-slate-400 text-sm">
+            <p className="text-[#B8C2B8] text-sm">
               Paper Trading simula operações sem usar dinheiro real. Execução Real permite que suas estratégias executem operações reais na bolsa.
             </p>
           </div>
 
           <div>
             <h3 className="font-semibold text-white mb-2">Posso fazer upgrade ou downgrade?</h3>
-            <p className="text-slate-400 text-sm">
+            <p className="text-[#B8C2B8] text-sm">
               Sim, você pode mudar de plano a qualquer momento. As mudanças serão refletidas na próxima cobrança.
             </p>
           </div>
 
           <div>
             <h3 className="font-semibold text-white mb-2">Vocês oferecem período de teste?</h3>
-            <p className="text-slate-400 text-sm">
+            <p className="text-[#B8C2B8] text-sm">
               O plano Free oferece acesso completo com limitações. Comece gratuitamente e faça upgrade quando estiver pronto.
             </p>
           </div>
@@ -208,10 +208,10 @@ export default function Billing() {
       </Card>
 
       {/* Contact */}
-      <Card className="p-6 bg-gradient-to-r from-slate-900/50 to-slate-900/50 border-slate-800 text-center">
+      <Card className="p-6 bg-gradient-to-r from-[#0B110B]/50 to-[#0B110B]/50 border-[#235317]/30 text-center">
         <h3 className="text-lg font-semibold text-white mb-2">Precisa de ajuda?</h3>
-        <p className="text-slate-400 mb-4">Entre em contato com nosso time de suporte</p>
-        <Button variant="outline" className="border-slate-700">
+        <p className="text-[#B8C2B8] mb-4">Entre em contato com nosso time de suporte</p>
+        <Button variant="outline" className="border-[#235317]/45">
           Enviar Email
         </Button>
       </Card>

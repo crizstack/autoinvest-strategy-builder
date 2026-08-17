@@ -44,23 +44,23 @@ export default function MarketTodayWidget() {
 
   if (tradesLoading || loading) {
     return (
-      <Card className="p-6 bg-slate-900/50 border-slate-800 flex items-center justify-center h-64">
-        <Loader className="w-6 h-6 text-green-400 animate-spin" />
+      <Card className="p-6 bg-[#0B110B]/50 border-[#235317]/30 flex items-center justify-center h-64">
+        <Loader className="w-6 h-6 text-[#76E821] animate-spin" />
       </Card>
     );
   }
 
   if (data.length === 0) {
     return (
-      <Card className="p-6 bg-slate-900/50 border-slate-800">
+      <Card className="p-6 bg-[#0B110B]/50 border-[#235317]/30">
         <div className="mb-6">
           <h3 className="text-lg font-semibold text-white">Mercado Hoje</h3>
-          <p className="text-sm text-slate-400 mt-1">Ativos do seu portfolio</p>
+          <p className="text-sm text-[#B8C2B8] mt-1">Ativos do seu portfolio</p>
         </div>
         <div className="flex items-center justify-center h-40 text-center">
           <div>
-            <p className="text-slate-400 font-medium">Nenhum ativo no portfolio</p>
-            <p className="text-slate-500 text-sm mt-1">Execute trades para ver dados de mercado</p>
+            <p className="text-[#B8C2B8] font-medium">Nenhum ativo no portfolio</p>
+            <p className="text-[#6B756B] text-sm mt-1">Execute trades para ver dados de mercado</p>
           </div>
         </div>
       </Card>
@@ -68,25 +68,25 @@ export default function MarketTodayWidget() {
   }
 
   return (
-    <Card className="p-6 bg-slate-900/50 border-slate-800">
+    <Card className="p-6 bg-[#0B110B]/50 border-[#235317]/30">
       <div className="mb-6">
         <h3 className="text-lg font-semibold text-white">Mercado Hoje</h3>
-        <p className="text-sm text-slate-400 mt-1">Ativos do seu portfolio</p>
+        <p className="text-sm text-[#B8C2B8] mt-1">Ativos do seu portfolio</p>
       </div>
       <div className="space-y-3">
         {data.map((asset) => (
           <div
             key={asset.symbol}
-            className="flex items-center justify-between p-3 rounded-lg bg-slate-800/50 border border-slate-700/50 hover:border-slate-600 transition-colors cursor-pointer"
+            className="flex items-center justify-between p-3 rounded-lg bg-[#141C14]/50 border border-[#235317]/35 hover:border-[#6B756B]/40 transition-colors cursor-pointer"
           >
             <div className="flex-1">
               <div className="flex items-center gap-2">
                 <span className="font-semibold text-white">{asset.symbol}</span>
-                <span className="text-xs text-slate-400">{asset.name}</span>
+                <span className="text-xs text-[#B8C2B8]">{asset.name}</span>
               </div>
-              <p className="text-sm text-slate-400 mt-1">R$ {asset.price.toFixed(2)}</p>
+              <p className="text-sm text-[#B8C2B8] mt-1">R$ {asset.price.toFixed(2)}</p>
             </div>
-            <div className={`flex items-center gap-1 ${asset.changePercent >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+            <div className={`flex items-center gap-1 ${asset.changePercent >= 0 ? 'text-[#76E821]' : 'text-red-400'}`}>
               {asset.changePercent >= 0 ? (
                 <TrendingUp className="w-4 h-4" />
               ) : (
@@ -100,7 +100,7 @@ export default function MarketTodayWidget() {
           </div>
         ))}
       </div>
-      <p className="text-xs text-slate-500 mt-4">
+      <p className="text-xs text-[#6B756B] mt-4">
         💡 Nota: Dados de mercado em tempo real requerem integração com API de dados (BRAPI, etc)
       </p>
     </Card>

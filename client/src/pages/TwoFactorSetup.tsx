@@ -49,12 +49,12 @@ export default function TwoFactorSetupPage({ onComplete }: TwoFactorSetupPagePro
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 p-6">
+    <div className="min-h-screen bg-[#050805] p-6">
       <div className="max-w-2xl mx-auto">
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-white mb-2">Autenticação de Dois Fatores</h1>
-          <p className="text-slate-400">Adicione uma camada extra de segurança à sua conta</p>
+          <p className="text-[#B8C2B8]">Adicione uma camada extra de segurança à sua conta</p>
         </div>
 
         {/* Progress */}
@@ -64,33 +64,33 @@ export default function TwoFactorSetupPage({ onComplete }: TwoFactorSetupPagePro
               key={s}
               className={`h-2 flex-1 rounded-full transition-colors ${
                 ['intro', 'qr', 'verify', 'backup', 'complete'].indexOf(step) >= idx
-                  ? 'bg-green-600'
-                  : 'bg-slate-800'
+                  ? 'bg-[#38A636]'
+                  : 'bg-[#141C14]'
               }`}
             />
           ))}
         </div>
 
         {/* Content */}
-        <Card className="p-8 bg-slate-900/50 border-slate-800">
+        <Card className="p-8 bg-[#0B110B]/50 border-[#235317]/30">
           {step === 'intro' && (
             <div className="space-y-6">
               <div>
                 <h2 className="text-xl font-semibold text-white mb-3">O que é 2FA?</h2>
-                <p className="text-slate-400 mb-4">
+                <p className="text-[#B8C2B8] mb-4">
                   A autenticação de dois fatores adiciona uma camada extra de segurança exigindo um código além da sua senha.
                 </p>
-                <ul className="space-y-2 text-slate-400">
+                <ul className="space-y-2 text-[#B8C2B8]">
                   <li className="flex items-center gap-2">
-                    <Check className="w-4 h-4 text-green-400" />
+                    <Check className="w-4 h-4 text-[#76E821]" />
                     Protege contra roubo de senha
                   </li>
                   <li className="flex items-center gap-2">
-                    <Check className="w-4 h-4 text-green-400" />
+                    <Check className="w-4 h-4 text-[#76E821]" />
                     Acesso seguro mesmo se a senha vazar
                   </li>
                   <li className="flex items-center gap-2">
-                    <Check className="w-4 h-4 text-green-400" />
+                    <Check className="w-4 h-4 text-[#76E821]" />
                     Códigos de backup para recuperação
                   </li>
                 </ul>
@@ -106,7 +106,7 @@ export default function TwoFactorSetupPage({ onComplete }: TwoFactorSetupPagePro
             <div className="space-y-6">
               <div>
                 <h2 className="text-xl font-semibold text-white mb-3">Escanear Código QR</h2>
-                <p className="text-slate-400 mb-4">
+                <p className="text-[#B8C2B8] mb-4">
                   Use um aplicativo de autenticação como Google Authenticator, Microsoft Authenticator ou Authy
                 </p>
               </div>
@@ -115,9 +115,9 @@ export default function TwoFactorSetupPage({ onComplete }: TwoFactorSetupPagePro
                 <img src={qrCodeUrl} alt="QR Code" className="w-48 h-48" />
               </div>
 
-              <div className="p-4 bg-slate-950 border border-slate-800 rounded-lg">
-                <p className="text-sm text-slate-400 mb-2">Ou insira manualmente:</p>
-                <code className="text-sm text-green-400 font-mono break-all">
+              <div className="p-4 bg-[#050805] border border-[#235317]/30 rounded-lg">
+                <p className="text-sm text-[#B8C2B8] mb-2">Ou insira manualmente:</p>
+                <code className="text-sm text-[#76E821] font-mono break-all">
                   JBSWY3DPEBLW64TMMQ======
                 </code>
               </div>
@@ -132,20 +132,20 @@ export default function TwoFactorSetupPage({ onComplete }: TwoFactorSetupPagePro
             <div className="space-y-6">
               <div>
                 <h2 className="text-xl font-semibold text-white mb-3">Verificar Código</h2>
-                <p className="text-slate-400 mb-4">
+                <p className="text-[#B8C2B8] mb-4">
                   Digite o código de 6 dígitos do seu aplicativo de autenticação
                 </p>
               </div>
 
               <div>
-                <Label className="text-slate-300 mb-2 block">Código de Verificação</Label>
+                <Label className="text-[#B8C2B8] mb-2 block">Código de Verificação</Label>
                 <Input
                   type="text"
                   value={verificationCode}
                   onChange={(e) => setVerificationCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
                   placeholder="000000"
                   maxLength={6}
-                  className="text-center text-2xl tracking-widest font-mono bg-slate-950 border-slate-800"
+                  className="text-center text-2xl tracking-widest font-mono bg-[#050805] border-[#235317]/30"
                 />
               </div>
 
@@ -178,9 +178,9 @@ export default function TwoFactorSetupPage({ onComplete }: TwoFactorSetupPagePro
                 </div>
               </div>
 
-              <div className="p-4 bg-slate-950 border border-slate-800 rounded-lg font-mono text-sm">
+              <div className="p-4 bg-[#050805] border border-[#235317]/30 rounded-lg font-mono text-sm">
                 {backupCodes.map((code, idx) => (
-                  <div key={idx} className="text-slate-300 py-1">
+                  <div key={idx} className="text-[#B8C2B8] py-1">
                     {code}
                   </div>
                 ))}
@@ -213,14 +213,14 @@ export default function TwoFactorSetupPage({ onComplete }: TwoFactorSetupPagePro
           {step === 'complete' && (
             <div className="space-y-6 text-center">
               <div className="flex justify-center">
-                <div className="w-16 h-16 bg-green-500/10 border border-green-500/30 rounded-full flex items-center justify-center">
-                  <Check className="w-8 h-8 text-green-400" />
+                <div className="w-16 h-16 bg-[#4CB22F]/10 border border-[#4CB22F]/30 rounded-full flex items-center justify-center">
+                  <Check className="w-8 h-8 text-[#76E821]" />
                 </div>
               </div>
 
               <div>
                 <h2 className="text-xl font-semibold text-white mb-2">2FA Ativado com Sucesso!</h2>
-                <p className="text-slate-400">
+                <p className="text-[#B8C2B8]">
                   Sua conta agora está protegida com autenticação de dois fatores
                 </p>
               </div>

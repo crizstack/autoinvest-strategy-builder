@@ -244,19 +244,19 @@ export default function TradeHistory() {
       {/* Header */}
       <div>
         <h1 className="text-3xl font-bold text-white mb-2">Histórico de Operações</h1>
-        <p className="text-slate-400">Visualize detalhes completos de cada trade com explicações claras</p>
+        <p className="text-[#B8C2B8]">Visualize detalhes completos de cada trade com explicações claras</p>
       </div>
 
       {/* Estatísticas */}
       <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-        <Card className="p-4 bg-slate-900/50 border-slate-800">
-          <p className="text-slate-400 text-sm mb-1">Total de Trades</p>
+        <Card className="p-4 bg-[#0B110B]/50 border-[#235317]/30">
+          <p className="text-[#B8C2B8] text-sm mb-1">Total de Trades</p>
           <p className="text-2xl font-bold text-white">{stats.total}</p>
         </Card>
 
-        <Card className="p-4 bg-green-600/10 border-green-600/30">
-          <p className="text-green-400 text-sm mb-1">Vencedores</p>
-          <p className="text-2xl font-bold text-green-400">{stats.winning}</p>
+        <Card className="p-4 bg-[#38A636]/10 border-[#38A636]/30">
+          <p className="text-[#76E821] text-sm mb-1">Vencedores</p>
+          <p className="text-2xl font-bold text-[#76E821]">{stats.winning}</p>
         </Card>
 
         <Card className="p-4 bg-red-600/10 border-red-600/30">
@@ -264,30 +264,30 @@ export default function TradeHistory() {
           <p className="text-2xl font-bold text-red-400">{stats.losing}</p>
         </Card>
 
-        <Card className="p-4 bg-blue-600/10 border-blue-600/30">
-          <p className="text-blue-400 text-sm mb-1">Taxa de Acerto</p>
-          <p className="text-2xl font-bold text-blue-400">{stats.winRate}%</p>
+        <Card className="p-4 bg-[#38A636]/10 border-[#38A636]/30">
+          <p className="text-[#76E821] text-sm mb-1">Taxa de Acerto</p>
+          <p className="text-2xl font-bold text-[#76E821]">{stats.winRate}%</p>
         </Card>
 
-        <Card className="p-4 bg-purple-600/10 border-purple-600/30">
-          <p className="text-purple-400 text-sm mb-1">Lucro Total</p>
-          <p className={`text-2xl font-bold ${stats.totalProfit > 0 ? 'text-green-400' : 'text-red-400'}`}>
+        <Card className="p-4 bg-[#235317]/10 border-[#38A636]/30">
+          <p className="text-[#76E821] text-sm mb-1">Lucro Total</p>
+          <p className={`text-2xl font-bold ${stats.totalProfit > 0 ? 'text-[#76E821]' : 'text-red-400'}`}>
             R$ {stats.totalProfit.toLocaleString('pt-BR')}
           </p>
         </Card>
       </div>
 
       {/* Filtros */}
-      <Card className="p-4 bg-slate-900/50 border-slate-800">
+      <Card className="p-4 bg-[#0B110B]/50 border-[#235317]/30">
         <div className="space-y-4">
           {/* Busca */}
           <div className="relative">
-            <Search className="absolute left-3 top-3 w-4 h-4 text-slate-400" />
+            <Search className="absolute left-3 top-3 w-4 h-4 text-[#B8C2B8]" />
             <Input
               placeholder="Buscar por símbolo..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-10 bg-slate-950 border-slate-800"
+              className="pl-10 bg-[#050805] border-[#235317]/30"
             />
           </div>
 
@@ -295,11 +295,11 @@ export default function TradeHistory() {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
             {/* Indicador */}
             <div>
-              <label className="text-xs text-slate-400 mb-2 block">Indicador</label>
+              <label className="text-xs text-[#B8C2B8] mb-2 block">Indicador</label>
               <select
                 value={selectedIndicator}
                 onChange={(e) => setSelectedIndicator(e.target.value as IndicatorType | 'all')}
-                className="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-md text-sm text-white"
+                className="w-full px-3 py-2 bg-[#050805] border border-[#235317]/30 rounded-md text-sm text-white"
               >
                 <option value="all">Todos</option>
                 {indicators.map((ind) => (
@@ -312,11 +312,11 @@ export default function TradeHistory() {
 
             {/* Status */}
             <div>
-              <label className="text-xs text-slate-400 mb-2 block">Status</label>
+              <label className="text-xs text-[#B8C2B8] mb-2 block">Status</label>
               <select
                 value={filterStatus}
                 onChange={(e) => setFilterStatus(e.target.value as 'all' | 'open' | 'closed')}
-                className="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-md text-sm text-white"
+                className="w-full px-3 py-2 bg-[#050805] border border-[#235317]/30 rounded-md text-sm text-white"
               >
                 <option value="all">Todos</option>
                 <option value="open">Abertos</option>
@@ -326,11 +326,11 @@ export default function TradeHistory() {
 
             {/* Resultado */}
             <div>
-              <label className="text-xs text-slate-400 mb-2 block">Resultado</label>
+              <label className="text-xs text-[#B8C2B8] mb-2 block">Resultado</label>
               <select
                 value={filterResult}
                 onChange={(e) => setFilterResult(e.target.value as 'all' | 'profit' | 'loss')}
-                className="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-md text-sm text-white"
+                className="w-full px-3 py-2 bg-[#050805] border border-[#235317]/30 rounded-md text-sm text-white"
               >
                 <option value="all">Todos</option>
                 <option value="profit">Lucro</option>
@@ -361,8 +361,8 @@ export default function TradeHistory() {
       {/* Lista de Trades */}
       <div className="space-y-3">
         {filteredTrades.length === 0 ? (
-          <Card className="p-8 bg-slate-900/50 border-slate-800 text-center">
-            <p className="text-slate-400">Nenhum trade encontrado com os filtros selecionados</p>
+          <Card className="p-8 bg-[#0B110B]/50 border-[#235317]/30 text-center">
+            <p className="text-[#B8C2B8]">Nenhum trade encontrado com os filtros selecionados</p>
           </Card>
         ) : (
           filteredTrades.map((trade) => <TradeLogDetail key={trade.id} trade={trade as unknown as TradeLog} />)
@@ -371,23 +371,23 @@ export default function TradeHistory() {
 
       {/* Insights */}
       {filteredTrades.length > 0 && (
-        <Card className="p-6 bg-slate-900/50 border-slate-800">
+        <Card className="p-6 bg-[#0B110B]/50 border-[#235317]/30">
           <h3 className="text-lg font-semibold text-white mb-4">Insights</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="p-4 bg-slate-950 rounded-lg">
-              <p className="text-slate-400 text-sm mb-2">Indicador Mais Lucrativo</p>
+            <div className="p-4 bg-[#050805] rounded-lg">
+              <p className="text-[#B8C2B8] text-sm mb-2">Indicador Mais Lucrativo</p>
               <p className="text-white font-semibold">RSI (85% de acerto)</p>
             </div>
-            <div className="p-4 bg-slate-950 rounded-lg">
-              <p className="text-slate-400 text-sm mb-2">Melhor Horário</p>
+            <div className="p-4 bg-[#050805] rounded-lg">
+              <p className="text-[#B8C2B8] text-sm mb-2">Melhor Horário</p>
               <p className="text-white font-semibold">10:00 - 12:00 (3 trades, 100% acerto)</p>
             </div>
-            <div className="p-4 bg-slate-950 rounded-lg">
-              <p className="text-slate-400 text-sm mb-2">Ativo Mais Lucrativo</p>
+            <div className="p-4 bg-[#050805] rounded-lg">
+              <p className="text-[#B8C2B8] text-sm mb-2">Ativo Mais Lucrativo</p>
               <p className="text-white font-semibold">VALE3 (R$ 1.245 de lucro)</p>
             </div>
-            <div className="p-4 bg-slate-950 rounded-lg">
-              <p className="text-slate-400 text-sm mb-2">Confiança Média</p>
+            <div className="p-4 bg-[#050805] rounded-lg">
+              <p className="text-[#B8C2B8] text-sm mb-2">Confiança Média</p>
               <p className="text-white font-semibold">{stats.avgConfidence}%</p>
             </div>
           </div>

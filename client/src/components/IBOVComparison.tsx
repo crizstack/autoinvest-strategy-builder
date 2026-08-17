@@ -58,46 +58,46 @@ export function IBOVComparison({
     <div className="space-y-6">
       {/* Comparison Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <Card className="p-6 bg-slate-900/50 border-slate-800">
+        <Card className="p-6 bg-[#0B110B]/50 border-[#235317]/30">
           <div className="flex items-center justify-between mb-4">
-            <p className="text-slate-400 text-sm">Retorno da Estratégia</p>
+            <p className="text-[#B8C2B8] text-sm">Retorno da Estratégia</p>
             {strategyReturn > ibovReturn ? (
-              <TrendingUp className="w-5 h-5 text-green-400" />
+              <TrendingUp className="w-5 h-5 text-[#76E821]" />
             ) : (
               <TrendingDown className="w-5 h-5 text-red-400" />
             )}
           </div>
           <p className="text-3xl font-bold text-white mb-2">{strategyReturn.toFixed(2)}%</p>
-          <p className="text-slate-400 text-sm">{strategyName}</p>
+          <p className="text-[#B8C2B8] text-sm">{strategyName}</p>
         </Card>
 
-        <Card className="p-6 bg-slate-900/50 border-slate-800">
+        <Card className="p-6 bg-[#0B110B]/50 border-[#235317]/30">
           <div className="flex items-center justify-between mb-4">
-            <p className="text-slate-400 text-sm">Retorno do IBOV</p>
-            <Award className="w-5 h-5 text-blue-400" />
+            <p className="text-[#B8C2B8] text-sm">Retorno do IBOV</p>
+            <Award className="w-5 h-5 text-[#76E821]" />
           </div>
           <p className="text-3xl font-bold text-white mb-2">{ibovReturn.toFixed(2)}%</p>
-          <p className="text-slate-400 text-sm">Índice de Referência</p>
+          <p className="text-[#B8C2B8] text-sm">Índice de Referência</p>
         </Card>
 
-        <Card className="p-6 bg-slate-900/50 border-slate-800">
+        <Card className="p-6 bg-[#0B110B]/50 border-[#235317]/30">
           <div className="flex items-center justify-between mb-4">
-            <p className="text-slate-400 text-sm">Outperformance</p>
+            <p className="text-[#B8C2B8] text-sm">Outperformance</p>
             {outperformance > 0 ? (
-              <TrendingUp className="w-5 h-5 text-green-400" />
+              <TrendingUp className="w-5 h-5 text-[#76E821]" />
             ) : (
               <TrendingDown className="w-5 h-5 text-red-400" />
             )}
           </div>
-          <p className={`text-3xl font-bold mb-2 ${outperformance > 0 ? 'text-green-400' : 'text-red-400'}`}>
+          <p className={`text-3xl font-bold mb-2 ${outperformance > 0 ? 'text-[#76E821]' : 'text-red-400'}`}>
             {outperformance > 0 ? '+' : ''}{outperformance.toFixed(2)}%
           </p>
-          <p className="text-slate-400 text-sm">Diferença de Performance</p>
+          <p className="text-[#B8C2B8] text-sm">Diferença de Performance</p>
         </Card>
       </div>
 
       {/* Performance Chart */}
-      <Card className="p-6 bg-slate-900/50 border-slate-800">
+      <Card className="p-6 bg-[#0B110B]/50 border-[#235317]/30">
         <h3 className="text-lg font-semibold text-white mb-4">Performance Comparativa</h3>
         <ResponsiveContainer width="100%" height={300}>
           <LineChart data={data}>
@@ -106,7 +106,7 @@ export function IBOVComparison({
             <YAxis stroke="#94a3b8" />
             <Tooltip
               contentStyle={{
-                backgroundColor: '#1e293b',
+                backgroundColor: '#141C14',
                 border: '1px solid #475569',
                 borderRadius: '8px',
               }}
@@ -116,8 +116,8 @@ export function IBOVComparison({
             <Line
               type="monotone"
               dataKey="strategy"
-              stroke="#3b82f6"
-              dot={{ fill: '#3b82f6' }}
+              stroke="#38A636"
+              dot={{ fill: '#38A636' }}
               name={strategyName}
               strokeWidth={2}
             />
@@ -134,13 +134,13 @@ export function IBOVComparison({
       </Card>
 
       {/* Statistics */}
-      <Card className="p-6 bg-slate-900/50 border-slate-800">
+      <Card className="p-6 bg-[#0B110B]/50 border-[#235317]/30">
         <h3 className="text-lg font-semibold text-white mb-4">Estatísticas</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="p-4 bg-slate-950 border border-slate-800 rounded-lg">
-            <p className="text-slate-400 text-sm mb-2">Correlação com IBOV</p>
+          <div className="p-4 bg-[#050805] border border-[#235317]/30 rounded-lg">
+            <p className="text-[#B8C2B8] text-sm mb-2">Correlação com IBOV</p>
             <p className="text-2xl font-bold text-white">{correlation.toFixed(2)}</p>
-            <p className="text-slate-400 text-xs mt-2">
+            <p className="text-[#B8C2B8] text-xs mt-2">
               {Math.abs(correlation) > 0.7
                 ? 'Altamente correlacionada'
                 : Math.abs(correlation) > 0.4
@@ -149,13 +149,13 @@ export function IBOVComparison({
             </p>
           </div>
 
-          <div className="p-4 bg-slate-950 border border-slate-800 rounded-lg">
-            <p className="text-slate-400 text-sm mb-2">Diferença de Volatilidade</p>
+          <div className="p-4 bg-[#050805] border border-[#235317]/30 rounded-lg">
+            <p className="text-[#B8C2B8] text-sm mb-2">Diferença de Volatilidade</p>
             <p className="text-2xl font-bold text-white">
               {strategyReturn > ibovReturn ? '-' : '+'}
               {Math.abs(strategyReturn - ibovReturn).toFixed(2)}%
             </p>
-            <p className="text-slate-400 text-xs mt-2">
+            <p className="text-[#B8C2B8] text-xs mt-2">
               {strategyReturn > ibovReturn ? 'Menos volátil' : 'Mais volátil'} que IBOV
             </p>
           </div>
@@ -163,15 +163,15 @@ export function IBOVComparison({
       </Card>
 
       {/* Insights */}
-      <Card className="p-6 bg-slate-900/50 border-slate-800">
+      <Card className="p-6 bg-[#0B110B]/50 border-[#235317]/30">
         <h3 className="text-lg font-semibold text-white mb-4">Insights</h3>
         <div className="space-y-3">
           {outperformance > 0 ? (
-            <div className="flex items-start gap-3 p-3 bg-green-500/10 border border-green-500/30 rounded-lg">
-              <TrendingUp className="w-5 h-5 text-green-400 flex-shrink-0 mt-0.5" />
+            <div className="flex items-start gap-3 p-3 bg-[#4CB22F]/10 border border-[#4CB22F]/30 rounded-lg">
+              <TrendingUp className="w-5 h-5 text-[#76E821] flex-shrink-0 mt-0.5" />
               <div>
-                <p className="text-green-300 font-semibold">Estratégia Superando o Mercado</p>
-                <p className="text-green-200 text-sm">
+                <p className="text-[#76E821] font-semibold">Estratégia Superando o Mercado</p>
+                <p className="text-[#B8C2B8] text-sm">
                   Sua estratégia está gerando {outperformance.toFixed(2)}% a mais de retorno que o IBOV
                 </p>
               </div>
@@ -189,11 +189,11 @@ export function IBOVComparison({
           )}
 
           {Math.abs(correlation) < 0.4 && (
-            <div className="flex items-start gap-3 p-3 bg-blue-500/10 border border-blue-500/30 rounded-lg">
-              <Award className="w-5 h-5 text-blue-400 flex-shrink-0 mt-0.5" />
+            <div className="flex items-start gap-3 p-3 bg-[#4CB22F]/10 border border-[#4CB22F]/30 rounded-lg">
+              <Award className="w-5 h-5 text-[#76E821] flex-shrink-0 mt-0.5" />
               <div>
-                <p className="text-blue-300 font-semibold">Diversificação Efetiva</p>
-                <p className="text-blue-200 text-sm">
+                <p className="text-[#76E821] font-semibold">Diversificação Efetiva</p>
+                <p className="text-[#B8C2B8] text-sm">
                   Baixa correlação com IBOV oferece benefícios de diversificação em portfólio
                 </p>
               </div>

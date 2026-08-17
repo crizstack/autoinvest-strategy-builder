@@ -8,7 +8,7 @@ interface TemplateGalleryProps {
 }
 
 const difficultyColors = {
-  beginner: 'bg-green-600/20 border-green-600/50 text-green-300',
+  beginner: 'bg-[#38A636]/20 border-[#38A636]/50 text-[#76E821]',
   intermediate: 'bg-yellow-600/20 border-yellow-600/50 text-yellow-300',
   advanced: 'bg-red-600/20 border-red-600/50 text-red-300',
 };
@@ -24,7 +24,7 @@ export default function TemplateGallery({ onSelectTemplate }: TemplateGalleryPro
     <div className="space-y-6">
       <div>
         <h2 className="text-2xl font-bold text-white mb-2">Templates de Estratégias</h2>
-        <p className="text-slate-400">
+        <p className="text-[#B8C2B8]">
           Escolha um template pronto e customize conforme necessário
         </p>
       </div>
@@ -33,22 +33,22 @@ export default function TemplateGallery({ onSelectTemplate }: TemplateGalleryPro
         {strategyTemplates.map((template) => (
           <Card
             key={template.id}
-            className="p-6 bg-slate-900/50 border-slate-800 hover:border-slate-700 transition-all cursor-pointer group"
+            className="p-6 bg-[#0B110B]/50 border-[#235317]/30 hover:border-[#235317]/45 transition-all cursor-pointer group"
           >
             <div className="flex items-start justify-between mb-4">
               <div className="flex items-center gap-3">
                 <span className="text-3xl">{template.icon}</span>
                 <div>
                   <h3 className="text-lg font-bold text-white">{template.name}</h3>
-                  <p className="text-xs text-slate-400 mt-1">{template.description}</p>
+                  <p className="text-xs text-[#B8C2B8] mt-1">{template.description}</p>
                 </div>
               </div>
             </div>
 
             {/* Stats */}
             <div className="grid grid-cols-3 gap-2 mb-4">
-              <div className="p-2 rounded bg-slate-800/50">
-                <p className="text-xs text-slate-400">Dificuldade</p>
+              <div className="p-2 rounded bg-[#141C14]/50">
+                <p className="text-xs text-[#B8C2B8]">Dificuldade</p>
                 <p
                   className={`text-xs font-semibold ${
                     difficultyColors[template.difficulty].split(' ')[2]
@@ -57,13 +57,13 @@ export default function TemplateGallery({ onSelectTemplate }: TemplateGalleryPro
                   {difficultyLabels[template.difficulty]}
                 </p>
               </div>
-              <div className="p-2 rounded bg-slate-800/50">
-                <p className="text-xs text-slate-400">Taxa</p>
-                <p className="text-xs font-semibold text-green-400">{template.winRate}%</p>
+              <div className="p-2 rounded bg-[#141C14]/50">
+                <p className="text-xs text-[#B8C2B8]">Taxa</p>
+                <p className="text-xs font-semibold text-[#76E821]">{template.winRate}%</p>
               </div>
-              <div className="p-2 rounded bg-slate-800/50">
-                <p className="text-xs text-slate-400">Blocos</p>
-                <p className="text-xs font-semibold text-blue-400">{template.blocks.length}</p>
+              <div className="p-2 rounded bg-[#141C14]/50">
+                <p className="text-xs text-[#B8C2B8]">Blocos</p>
+                <p className="text-xs font-semibold text-[#76E821]">{template.blocks.length}</p>
               </div>
             </div>
 
@@ -72,7 +72,7 @@ export default function TemplateGallery({ onSelectTemplate }: TemplateGalleryPro
               {template.tags.map((tag) => (
                 <span
                   key={tag}
-                  className="px-2 py-1 rounded text-xs bg-slate-800 text-slate-300"
+                  className="px-2 py-1 rounded text-xs bg-[#141C14] text-[#B8C2B8]"
                 >
                   {tag}
                 </span>
@@ -81,7 +81,7 @@ export default function TemplateGallery({ onSelectTemplate }: TemplateGalleryPro
 
             {/* Button */}
             <Button
-              className="w-full bg-blue-600 hover:bg-blue-700 group-hover:bg-blue-600"
+              className="w-full bg-[#38A636] hover:bg-[#4CB22F] group-hover:bg-[#38A636]"
               onClick={() => onSelectTemplate(template)}
             >
               <Download className="w-4 h-4 mr-2" />

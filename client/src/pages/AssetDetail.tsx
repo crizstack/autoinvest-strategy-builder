@@ -30,8 +30,8 @@ export default function AssetDetail() {
   if (!quote && !quoteLoading) {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen">
-        <p className="text-slate-400 mb-4">Ativo não encontrado</p>
-        <Button onClick={() => setLocation('/mercado')} className="bg-green-600 hover:bg-green-700">
+        <p className="text-[#B8C2B8] mb-4">Ativo não encontrado</p>
+        <Button onClick={() => setLocation('/mercado')} className="bg-[#38A636] hover:bg-[#4CB22F]">
           Voltar para Mercado
         </Button>
       </div>
@@ -59,27 +59,27 @@ export default function AssetDetail() {
       <div className="flex items-center gap-4 mb-6">
         <button
           onClick={() => setLocation('/mercado')}
-          className="p-2 hover:bg-slate-800 rounded-lg transition-colors"
+          className="p-2 hover:bg-[#141C14] rounded-lg transition-colors"
         >
-          <ArrowLeft className="w-5 h-5 text-slate-400" />
+          <ArrowLeft className="w-5 h-5 text-[#B8C2B8]" />
         </button>
         <div className="flex-1">
           {quoteLoading ? (
             <>
-              <Skeleton className="h-8 w-32 bg-slate-800 mb-2" />
-              <Skeleton className="h-4 w-24 bg-slate-800" />
+              <Skeleton className="h-8 w-32 bg-[#141C14] mb-2" />
+              <Skeleton className="h-4 w-24 bg-[#141C14]" />
             </>
           ) : quote ? (
             <>
               <div className="flex items-center gap-3 mb-2">
                 <h1 className="text-3xl font-bold text-white">{quote.symbol}</h1>
                 {quote.sector && (
-                  <span className="px-3 py-1 bg-slate-800 text-slate-300 text-sm rounded-full">
+                  <span className="px-3 py-1 bg-[#141C14] text-[#B8C2B8] text-sm rounded-full">
                     {quote.sector}
                   </span>
                 )}
               </div>
-              <p className="text-slate-400">{quote.name}</p>
+              <p className="text-[#B8C2B8]">{quote.name}</p>
             </>
           ) : null}
         </div>
@@ -89,7 +89,7 @@ export default function AssetDetail() {
             refreshHistory();
           }}
           disabled={quoteRefreshing || historyRefreshing}
-          className="bg-green-600 hover:bg-green-700 flex items-center gap-2"
+          className="bg-[#38A636] hover:bg-[#4CB22F] flex items-center gap-2"
         >
           <RefreshCw className={`w-4 h-4 ${quoteRefreshing || historyRefreshing ? 'animate-spin' : ''}`} />
           Atualizar
@@ -105,28 +105,28 @@ export default function AssetDetail() {
 
       {/* Preço e Variação */}
       {quoteLoading ? (
-        <Card className="p-6 bg-slate-900/50 border-slate-800">
-          <Skeleton className="h-12 w-32 bg-slate-800 mb-4" />
-          <Skeleton className="h-8 w-24 bg-slate-800" />
+        <Card className="p-6 bg-[#0B110B]/50 border-[#235317]/30">
+          <Skeleton className="h-12 w-32 bg-[#141C14] mb-4" />
+          <Skeleton className="h-8 w-24 bg-[#141C14]" />
         </Card>
       ) : quote ? (
-        <Card className="p-6 bg-slate-900/50 border-slate-800">
+        <Card className="p-6 bg-[#0B110B]/50 border-[#235317]/30">
           <div className="flex items-end gap-4 mb-4">
             <div>
-              <p className="text-slate-400 text-sm mb-2">Preço Atual</p>
+              <p className="text-[#B8C2B8] text-sm mb-2">Preço Atual</p>
               <p className="text-4xl font-bold text-white">{formatCurrency(quote.regularMarketPrice)}</p>
             </div>
             <div
               className={`flex items-center gap-2 px-4 py-2 rounded-lg ${
-                isPositive ? 'bg-green-600/20' : 'bg-red-600/20'
+                isPositive ? 'bg-[#38A636]/20' : 'bg-red-600/20'
               }`}
             >
               {isPositive ? (
-                <TrendingUp className="w-5 h-5 text-green-400" />
+                <TrendingUp className="w-5 h-5 text-[#76E821]" />
               ) : (
                 <TrendingDown className="w-5 h-5 text-red-400" />
               )}
-              <span className={isPositive ? 'text-green-400' : 'text-red-400'}>
+              <span className={isPositive ? 'text-[#76E821]' : 'text-red-400'}>
                 {isPositive ? '+' : ''}{quote.regularMarketChangePercent.toFixed(2)}%
               </span>
             </div>
@@ -134,20 +134,20 @@ export default function AssetDetail() {
 
           {/* Dados Adicionais */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div className="p-3 bg-slate-950/50 rounded-lg">
-              <p className="text-slate-400 text-sm mb-1">Fechamento Anterior</p>
+            <div className="p-3 bg-[#050805]/50 rounded-lg">
+              <p className="text-[#B8C2B8] text-sm mb-1">Fechamento Anterior</p>
               <p className="text-white font-semibold">{formatCurrency(quote.regularMarketPreviousClose)}</p>
             </div>
-            <div className="p-3 bg-slate-950/50 rounded-lg">
-              <p className="text-slate-400 text-sm mb-1">Máxima do Dia</p>
+            <div className="p-3 bg-[#050805]/50 rounded-lg">
+              <p className="text-[#B8C2B8] text-sm mb-1">Máxima do Dia</p>
               <p className="text-white font-semibold">{formatCurrency(quote.regularMarketDayHigh)}</p>
             </div>
-            <div className="p-3 bg-slate-950/50 rounded-lg">
-              <p className="text-slate-400 text-sm mb-1">Mínima do Dia</p>
+            <div className="p-3 bg-[#050805]/50 rounded-lg">
+              <p className="text-[#B8C2B8] text-sm mb-1">Mínima do Dia</p>
               <p className="text-white font-semibold">{formatCurrency(quote.regularMarketDayLow)}</p>
             </div>
-            <div className="p-3 bg-slate-950/50 rounded-lg">
-              <p className="text-slate-400 text-sm mb-1">Volume</p>
+            <div className="p-3 bg-[#050805]/50 rounded-lg">
+              <p className="text-[#B8C2B8] text-sm mb-1">Volume</p>
               <p className="text-white font-semibold">{formatNumber(quote.regularMarketVolume)}</p>
             </div>
           </div>
@@ -155,7 +155,7 @@ export default function AssetDetail() {
           {/* Botão Criar Estratégia */}
           <Button
             onClick={() => setLocation(`/estrategias/builder?asset=${quote.symbol}`)}
-            className="mt-6 bg-green-600 hover:bg-green-700 w-full flex items-center justify-center gap-2"
+            className="mt-6 bg-[#38A636] hover:bg-[#4CB22F] w-full flex items-center justify-center gap-2"
           >
             <Zap className="w-4 h-4" />
             Criar Estratégia com {quote.symbol}
@@ -164,7 +164,7 @@ export default function AssetDetail() {
       ) : null}
 
       {/* Gráfico */}
-      <Card className="p-6 bg-slate-900/50 border-slate-800">
+      <Card className="p-6 bg-[#0B110B]/50 border-[#235317]/30">
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-xl font-semibold text-white">Gráfico de Preço</h2>
           <div className="flex gap-2">
@@ -174,8 +174,8 @@ export default function AssetDetail() {
                 onClick={() => setPeriod(p)}
                 className={`px-3 py-1 rounded text-sm font-medium transition-colors ${
                   period === p
-                    ? 'bg-green-600 text-white'
-                    : 'bg-slate-800 text-slate-400 hover:text-white'
+                    ? 'bg-[#38A636] text-white'
+                    : 'bg-[#141C14] text-[#B8C2B8] hover:text-white'
                 }`}
               >
                 {p.toUpperCase()}
@@ -185,7 +185,7 @@ export default function AssetDetail() {
         </div>
 
         {historyLoading ? (
-          <Skeleton className="h-96 w-full bg-slate-800" />
+          <Skeleton className="h-96 w-full bg-[#141C14]" />
         ) : historyError ? (
           <div className="p-4 bg-red-600/20 border border-red-600/50 rounded-lg text-red-400">
             {historyError}
@@ -195,12 +195,12 @@ export default function AssetDetail() {
             {/* Gráfico de Linha */}
             <ResponsiveContainer width="100%" height={400}>
               <LineChart data={priceData}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
+                <CartesianGrid strokeDasharray="3 3" stroke="#235317" />
                 <XAxis dataKey="date" stroke="#94a3b8" />
                 <YAxis stroke="#94a3b8" />
                 <Tooltip
                   contentStyle={{
-                    backgroundColor: '#1e293b',
+                    backgroundColor: '#141C14',
                     border: '1px solid #475569',
                     borderRadius: '8px',
                   }}
@@ -209,7 +209,7 @@ export default function AssetDetail() {
                 <Line
                   type="monotone"
                   dataKey="close"
-                  stroke="#3b82f6"
+                  stroke="#38A636"
                   dot={false}
                   strokeWidth={2}
                   isAnimationActive={false}
@@ -220,16 +220,16 @@ export default function AssetDetail() {
             {/* Estatísticas do Período */}
             {stats && (
               <div className="grid grid-cols-3 gap-4 mt-6">
-                <div className="p-3 bg-slate-950/50 rounded-lg">
-                  <p className="text-slate-400 text-sm mb-1">Máxima do Período</p>
+                <div className="p-3 bg-[#050805]/50 rounded-lg">
+                  <p className="text-[#B8C2B8] text-sm mb-1">Máxima do Período</p>
                   <p className="text-white font-semibold">{formatCurrency(stats.highest)}</p>
                 </div>
-                <div className="p-3 bg-slate-950/50 rounded-lg">
-                  <p className="text-slate-400 text-sm mb-1">Mínima do Período</p>
+                <div className="p-3 bg-[#050805]/50 rounded-lg">
+                  <p className="text-[#B8C2B8] text-sm mb-1">Mínima do Período</p>
                   <p className="text-white font-semibold">{formatCurrency(stats.lowest)}</p>
                 </div>
-                <div className="p-3 bg-slate-950/50 rounded-lg">
-                  <p className="text-slate-400 text-sm mb-1">Preço Médio</p>
+                <div className="p-3 bg-[#050805]/50 rounded-lg">
+                  <p className="text-[#B8C2B8] text-sm mb-1">Preço Médio</p>
                   <p className="text-white font-semibold">{formatCurrency(stats.avgPrice)}</p>
                 </div>
               </div>
@@ -237,29 +237,29 @@ export default function AssetDetail() {
           </>
         ) : (
           <div className="text-center py-8">
-            <p className="text-slate-400">Nenhum dado disponível para este período</p>
+            <p className="text-[#B8C2B8]">Nenhum dado disponível para este período</p>
           </div>
         )}
       </Card>
 
       {/* Volume */}
       {priceData.length > 0 && (
-        <Card className="p-6 bg-slate-900/50 border-slate-800">
+        <Card className="p-6 bg-[#0B110B]/50 border-[#235317]/30">
           <h2 className="text-xl font-semibold text-white mb-6">Volume de Negociação</h2>
           <ResponsiveContainer width="100%" height={300}>
             <BarChart data={priceData}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
+              <CartesianGrid strokeDasharray="3 3" stroke="#235317" />
               <XAxis dataKey="date" stroke="#94a3b8" />
               <YAxis stroke="#94a3b8" />
               <Tooltip
                 contentStyle={{
-                  backgroundColor: '#1e293b',
+                  backgroundColor: '#141C14',
                   border: '1px solid #475569',
                   borderRadius: '8px',
                 }}
                 formatter={(value: any) => formatNumber(value)}
               />
-              <Bar dataKey="volume" fill="#8b5cf6" radius={[8, 8, 0, 0]} />
+              <Bar dataKey="volume" fill="#76E821" radius={[8, 8, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
         </Card>

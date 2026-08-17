@@ -15,9 +15,9 @@ export function PaperTradingDisclaimer() {
 
 export function BacktestDisclaimer() {
   return (
-    <Alert className="bg-blue-500/10 border-blue-500/30 mb-4">
-      <AlertCircle className="h-4 w-4 text-blue-500" />
-      <AlertDescription className="text-blue-200">
+    <Alert className="bg-[#4CB22F]/10 border-[#4CB22F]/30 mb-4">
+      <AlertCircle className="h-4 w-4 text-[#4CB22F]" />
+      <AlertDescription className="text-[#B8C2B8]">
         <strong>Aviso de Backtest:</strong> Resultados passados não garantem desempenho futuro. 
         O backtest usa dados históricos e não considera custos reais, slippage ou gaps de preço.
       </AlertDescription>
@@ -75,12 +75,12 @@ export function OperationConfirmation({
   const total = quantity * price;
   
   return (
-    <div className="bg-slate-800 border border-slate-700 rounded-lg p-4 mb-4">
+    <div className="bg-[#141C14] border border-[#235317]/45 rounded-lg p-4 mb-4">
       <h4 className="text-white font-semibold mb-3">Confirmar Operação</h4>
-      <div className="space-y-2 text-sm text-slate-300">
+      <div className="space-y-2 text-sm text-[#B8C2B8]">
         <div className="flex justify-between">
           <span>Tipo:</span>
-          <span className={type === 'buy' ? 'text-green-400' : 'text-red-400'}>
+          <span className={type === 'buy' ? 'text-[#76E821]' : 'text-red-400'}>
             {type === 'buy' ? 'COMPRA' : 'VENDA'}
           </span>
         </div>
@@ -96,7 +96,7 @@ export function OperationConfirmation({
           <span>Preço:</span>
           <span className="text-white">R$ {price.toFixed(2)}</span>
         </div>
-        <div className="border-t border-slate-700 pt-2 mt-2 flex justify-between font-semibold">
+        <div className="border-t border-[#235317]/45 pt-2 mt-2 flex justify-between font-semibold">
           <span>Total:</span>
           <span className="text-white">R$ {total.toFixed(2)}</span>
         </div>

@@ -46,10 +46,10 @@ export function TradeLogDetail({ trade, isExpanded: initialExpanded = false }: T
   };
 
   return (
-    <Card className="bg-slate-900/50 border-slate-800 overflow-hidden">
+    <Card className="bg-[#0B110B]/50 border-[#235317]/30 overflow-hidden">
       {/* Header - Resumo */}
       <div
-        className="p-4 cursor-pointer hover:bg-slate-800/30 transition-colors"
+        className="p-4 cursor-pointer hover:bg-[#141C14]/30 transition-colors"
         onClick={() => setIsExpanded(!isExpanded)}
       >
         <div className="flex items-center justify-between">
@@ -58,7 +58,7 @@ export function TradeLogDetail({ trade, isExpanded: initialExpanded = false }: T
             <div
               className={`p-2 rounded-lg ${
                 trade.signal === 'BUY'
-                  ? 'bg-green-600/20 text-green-400'
+                  ? 'bg-[#38A636]/20 text-[#76E821]'
                   : 'bg-red-600/20 text-red-400'
               }`}
             >
@@ -77,28 +77,28 @@ export function TradeLogDetail({ trade, isExpanded: initialExpanded = false }: T
                   {trade.signal}
                 </Badge>
                 {isOpen && (
-                  <Badge variant="secondary" className="text-xs bg-blue-600/20 text-blue-400">
+                  <Badge variant="secondary" className="text-xs bg-[#38A636]/20 text-[#76E821]">
                     Aberto
                   </Badge>
                 )}
               </div>
-              <p className="text-sm text-slate-400">
+              <p className="text-sm text-[#B8C2B8]">
                 {formatTime(trade.entryTime)}
               </p>
             </div>
 
             {/* Resultado */}
             <div className="text-right">
-              <p className={`text-lg font-bold ${isProfit ? 'text-green-400' : 'text-red-400'}`}>
+              <p className={`text-lg font-bold ${isProfit ? 'text-[#76E821]' : 'text-red-400'}`}>
                 {isProfit ? '+' : ''}R$ {trade.result.toLocaleString('pt-BR')}
               </p>
-              <p className={`text-sm ${isProfit ? 'text-green-400' : 'text-red-400'}`}>
+              <p className={`text-sm ${isProfit ? 'text-[#76E821]' : 'text-red-400'}`}>
                 {isProfit ? '+' : ''}{trade.resultPercent.toFixed(2)}%
               </p>
             </div>
 
             {/* Botão expandir */}
-            <button className="p-1 text-slate-400 hover:text-white transition-colors">
+            <button className="p-1 text-[#B8C2B8] hover:text-white transition-colors">
               {isExpanded ? <ChevronUp className="w-5 h-5" /> : <ChevronDown className="w-5 h-5" />}
             </button>
           </div>
@@ -107,14 +107,14 @@ export function TradeLogDetail({ trade, isExpanded: initialExpanded = false }: T
 
       {/* Detalhes expandidos */}
       {isExpanded && (
-        <div className="border-t border-slate-800 p-4 space-y-4">
+        <div className="border-t border-[#235317]/30 p-4 space-y-4">
           {/* Explicação de Entrada */}
           <div className="space-y-2">
             <div className="flex items-start gap-2">
               <Zap className="w-4 h-4 text-amber-400 mt-1 flex-shrink-0" />
               <div className="flex-1">
                 <p className="text-sm font-semibold text-white mb-1">Motivo da Entrada</p>
-                <p className="text-sm text-slate-300">{trade.explanation.entryReason}</p>
+                <p className="text-sm text-[#B8C2B8]">{trade.explanation.entryReason}</p>
                 <div className="mt-2 flex flex-wrap gap-1">
                   {trade.explanation.entryIndicators.map((ind: any, idx: number) => (
                     <Badge key={idx} variant="outline" className="text-xs">
@@ -122,7 +122,7 @@ export function TradeLogDetail({ trade, isExpanded: initialExpanded = false }: T
                     </Badge>
                   ))}
                 </div>
-                <p className="text-xs text-slate-400 mt-2">
+                <p className="text-xs text-[#B8C2B8] mt-2">
                   Confiança: {trade.explanation.entryConfidence}%
                 </p>
               </div>
@@ -133,10 +133,10 @@ export function TradeLogDetail({ trade, isExpanded: initialExpanded = false }: T
           {trade.status === 'closed' && (
             <div className="space-y-2">
               <div className="flex items-start gap-2">
-                <Target className="w-4 h-4 text-blue-400 mt-1 flex-shrink-0" />
+                <Target className="w-4 h-4 text-[#76E821] mt-1 flex-shrink-0" />
                 <div className="flex-1">
                   <p className="text-sm font-semibold text-white mb-1">Motivo da Saída</p>
-                  <p className="text-sm text-slate-300">{trade.explanation.exitReason}</p>
+                  <p className="text-sm text-[#B8C2B8]">{trade.explanation.exitReason}</p>
                   <div className="mt-2 flex flex-wrap gap-1">
                     {trade.explanation.exitIndicators.map((ind: any, idx: number) => (
                       <Badge key={idx} variant="outline" className="text-xs">
@@ -144,7 +144,7 @@ export function TradeLogDetail({ trade, isExpanded: initialExpanded = false }: T
                       </Badge>
                     ))}
                   </div>
-                  <p className="text-xs text-slate-400 mt-2">
+                  <p className="text-xs text-[#B8C2B8] mt-2">
                     Tipo: {trade.explanation.exitType}
                   </p>
                 </div>
@@ -155,18 +155,18 @@ export function TradeLogDetail({ trade, isExpanded: initialExpanded = false }: T
           {/* Contexto de Mercado */}
           <div className="space-y-2">
             <div className="flex items-start gap-2">
-              <AlertCircle className="w-4 h-4 text-purple-400 mt-1 flex-shrink-0" />
+              <AlertCircle className="w-4 h-4 text-[#76E821] mt-1 flex-shrink-0" />
               <div className="flex-1">
                 <p className="text-sm font-semibold text-white mb-1">Contexto de Mercado</p>
-                <p className="text-sm text-slate-300">{trade.explanation.marketContext}</p>
+                <p className="text-sm text-[#B8C2B8]">{trade.explanation.marketContext}</p>
               </div>
             </div>
           </div>
 
           {/* Detalhes Técnicos */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 pt-2 border-t border-slate-800">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 pt-2 border-t border-[#235317]/30">
             <div>
-              <p className="text-xs text-slate-400 mb-1">Preço Entrada</p>
+              <p className="text-xs text-[#B8C2B8] mb-1">Preço Entrada</p>
               <p className="text-sm font-semibold text-white">
                 R$ {trade.entryPrice.toFixed(2)}
               </p>
@@ -174,7 +174,7 @@ export function TradeLogDetail({ trade, isExpanded: initialExpanded = false }: T
 
             {trade.exitPrice && (
               <div>
-                <p className="text-xs text-slate-400 mb-1">Preço Saída</p>
+                <p className="text-xs text-[#B8C2B8] mb-1">Preço Saída</p>
                 <p className="text-sm font-semibold text-white">
                   R$ {trade.exitPrice.toFixed(2)}
                 </p>
@@ -182,26 +182,26 @@ export function TradeLogDetail({ trade, isExpanded: initialExpanded = false }: T
             )}
 
             <div>
-              <p className="text-xs text-slate-400 mb-1">Quantidade</p>
+              <p className="text-xs text-[#B8C2B8] mb-1">Quantidade</p>
               <p className="text-sm font-semibold text-white">{trade.quantity}</p>
             </div>
 
             <div>
-              <p className="text-xs text-slate-400 mb-1">Duração</p>
+              <p className="text-xs text-[#B8C2B8] mb-1">Duração</p>
               <p className="text-sm font-semibold text-white">
                 {formatDuration(trade.duration)}
               </p>
             </div>
 
             <div>
-              <p className="text-xs text-slate-400 mb-1">Risco/Recompensa</p>
+              <p className="text-xs text-[#B8C2B8] mb-1">Risco/Recompensa</p>
               <p className="text-sm font-semibold text-white">
                 {trade.explanation.riskReward}:1
               </p>
             </div>
 
             <div>
-              <p className="text-xs text-slate-400 mb-1">Confiança</p>
+              <p className="text-xs text-[#B8C2B8] mb-1">Confiança</p>
               <p className="text-sm font-semibold text-white">
                 {trade.confidence}%
               </p>
@@ -209,7 +209,7 @@ export function TradeLogDetail({ trade, isExpanded: initialExpanded = false }: T
 
             {trade.exitTime && (
               <div>
-                <p className="text-xs text-slate-400 mb-1">Saída</p>
+                <p className="text-xs text-[#B8C2B8] mb-1">Saída</p>
                 <p className="text-xs font-semibold text-white">
                   {new Date(trade.exitTime).toLocaleTimeString('pt-BR')}
                 </p>
@@ -219,8 +219,8 @@ export function TradeLogDetail({ trade, isExpanded: initialExpanded = false }: T
 
           {/* Tags */}
           {trade.tags.length > 0 && (
-            <div className="pt-2 border-t border-slate-800">
-              <p className="text-xs text-slate-400 mb-2">Tags</p>
+            <div className="pt-2 border-t border-[#235317]/30">
+              <p className="text-xs text-[#B8C2B8] mb-2">Tags</p>
               <div className="flex flex-wrap gap-1">
                 {trade.tags.map((tag: string, idx: number) => (
                   <Badge key={idx} variant="secondary" className="text-xs">
@@ -233,14 +233,14 @@ export function TradeLogDetail({ trade, isExpanded: initialExpanded = false }: T
 
           {/* Notas */}
           {trade.explanation.notes && (
-            <div className="pt-2 border-t border-slate-800">
-              <p className="text-xs text-slate-400 mb-2">Notas</p>
-              <p className="text-sm text-slate-300">{trade.explanation.notes}</p>
+            <div className="pt-2 border-t border-[#235317]/30">
+              <p className="text-xs text-[#B8C2B8] mb-2">Notas</p>
+              <p className="text-sm text-[#B8C2B8]">{trade.explanation.notes}</p>
             </div>
           )}
 
           {/* Ações */}
-          <div className="pt-2 border-t border-slate-800 flex gap-2">
+          <div className="pt-2 border-t border-[#235317]/30 flex gap-2">
             <Button variant="outline" size="sm" className="text-xs">
               Duplicar Estratégia
             </Button>

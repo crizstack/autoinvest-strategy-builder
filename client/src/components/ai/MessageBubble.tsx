@@ -29,8 +29,8 @@ export default function MessageBubble({ message }: MessageBubbleProps) {
       <div
         className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
           isUser
-            ? 'bg-blue-600 text-white'
-            : 'bg-gradient-to-br from-purple-600 to-blue-600 text-white'
+            ? 'bg-[#38A636] text-white'
+            : 'bg-gradient-to-br from-[#235317] to-[#76E821] text-white'
         }`}
       >
         {isUser ? '👤' : '🤖'}
@@ -41,18 +41,18 @@ export default function MessageBubble({ message }: MessageBubbleProps) {
         <div
           className={`inline-block px-4 py-3 rounded-lg ${
             isUser
-              ? 'bg-blue-600 text-white rounded-br-none'
-              : 'bg-slate-800 text-slate-100 rounded-bl-none border border-slate-700'
+              ? 'bg-[#38A636] text-white rounded-br-none'
+              : 'bg-[#141C14] text-white rounded-bl-none border border-[#235317]/45'
           }`}
         >
           {message.isLoading ? (
             <div className="flex items-center gap-2">
               <div className="flex gap-1">
-                <div className="w-2 h-2 bg-slate-400 rounded-full animate-bounce" />
-                <div className="w-2 h-2 bg-slate-400 rounded-full animate-bounce delay-100" />
-                <div className="w-2 h-2 bg-slate-400 rounded-full animate-bounce delay-200" />
+                <div className="w-2 h-2 bg-[#6B756B] rounded-full animate-bounce" />
+                <div className="w-2 h-2 bg-[#6B756B] rounded-full animate-bounce delay-100" />
+                <div className="w-2 h-2 bg-[#6B756B] rounded-full animate-bounce delay-200" />
               </div>
-              <span className="text-sm text-slate-400">Digitando...</span>
+              <span className="text-sm text-[#B8C2B8]">Digitando...</span>
             </div>
           ) : (
             <div className="text-sm leading-relaxed">
@@ -71,13 +71,13 @@ export default function MessageBubble({ message }: MessageBubbleProps) {
           <div className="flex items-center gap-2 mt-2 opacity-0 group-hover:opacity-100 transition-opacity">
             <button
               onClick={handleCopy}
-              className="p-1 hover:bg-slate-700 rounded transition-colors"
+              className="p-1 hover:bg-[#1D2A1D] rounded transition-colors"
               title="Copiar mensagem"
             >
               {copied ? (
-                <Check className="w-4 h-4 text-green-400" />
+                <Check className="w-4 h-4 text-[#76E821]" />
               ) : (
-                <Copy className="w-4 h-4 text-slate-400" />
+                <Copy className="w-4 h-4 text-[#B8C2B8]" />
               )}
             </button>
           </div>

@@ -147,9 +147,9 @@ export default function Strategies() {
   }, [strategies, searchTerm]);
 
   const statusColors: Record<string, { bg: string; text: string; label: string }> = {
-    active: { bg: 'bg-green-500/20', text: 'text-green-400', label: 'Ativa' },
+    active: { bg: 'bg-[#4CB22F]/20', text: 'text-[#76E821]', label: 'Ativa' },
     paused: { bg: 'bg-amber-500/20', text: 'text-amber-400', label: 'Pausada' },
-    draft: { bg: 'bg-slate-700/50', text: 'text-slate-400', label: 'Rascunho' },
+    draft: { bg: 'bg-[#1D2A1D]/50', text: 'text-[#B8C2B8]', label: 'Rascunho' },
     archived: { bg: 'bg-red-500/20', text: 'text-red-400', label: 'Arquivada' },
   };
 
@@ -164,7 +164,7 @@ export default function Strategies() {
           <div className="flex gap-3">
             <Button
               onClick={() => setLocation('/estrategias/builder')}
-              className="bg-purple-600 hover:bg-purple-700 flex items-center gap-2"
+              className="bg-[#235317] hover:bg-[#235317] flex items-center gap-2"
             >
               <Zap className="w-5 h-5" />
               Builder Visual
@@ -175,12 +175,12 @@ export default function Strategies() {
         {/* Search and Filter */}
         <div className="flex gap-4">
           <div className="flex-1 relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-[#6B756B]" />
             <Input
               placeholder="Buscar por nome ou ativo..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-10 bg-slate-950 border-slate-800 text-white placeholder-slate-600"
+              className="pl-10 bg-[#050805] border-[#235317]/30 text-white placeholder-[#6B756B]"
             />
           </div>
 
@@ -188,7 +188,7 @@ export default function Strategies() {
             <select
               value={filterStatus}
               onChange={(e) => setFilterStatus(e.target.value)}
-              className="bg-slate-950 border border-slate-800 text-white rounded-lg px-4 py-2 pr-10"
+              className="bg-[#050805] border border-[#235317]/30 text-white rounded-lg px-4 py-2 pr-10"
             >
               <option value="all">Todos os Status</option>
               <option value="draft">Rascunho</option>
@@ -203,19 +203,19 @@ export default function Strategies() {
       {/* Content */}
       {strategiesQuery.isLoading ? (
         <div className="flex items-center justify-center py-12">
-          <Loader2 className="w-8 h-8 text-green-600 animate-spin" />
+          <Loader2 className="w-8 h-8 text-[#38A636] animate-spin" />
         </div>
       ) : filteredStrategies.length === 0 ? (
-        <Card className="p-12 bg-slate-900/50 border-slate-800 text-center">
-          <BarChart3 className="w-12 h-12 text-slate-600 mx-auto mb-4 opacity-50" />
+        <Card className="p-12 bg-[#0B110B]/50 border-[#235317]/30 text-center">
+          <BarChart3 className="w-12 h-12 text-[#6B756B] mx-auto mb-4 opacity-50" />
           <h3 className="text-lg font-semibold text-white mb-2">Nenhuma estratégia encontrada</h3>
-          <p className="text-slate-400 mb-6">
+          <p className="text-[#B8C2B8] mb-6">
             {searchTerm ? 'Tente refinar sua busca' : 'Crie sua primeira estratégia para começar'}
           </p>
           {!searchTerm && (
             <Button
               onClick={() => setLocation('/estrategias/builder')}
-              className="bg-green-600 hover:bg-green-700"
+              className="bg-[#38A636] hover:bg-[#4CB22F]"
             >
               Criar Estratégia
             </Button>
@@ -228,7 +228,7 @@ export default function Strategies() {
             return (
               <Card
                 key={strategy.id}
-                className="p-6 bg-slate-900/50 border-slate-800 hover:border-slate-700 transition-colors"
+                className="p-6 bg-[#0B110B]/50 border-[#235317]/30 hover:border-[#235317]/45 transition-colors"
               >
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
@@ -239,31 +239,31 @@ export default function Strategies() {
                       </span>
                     </div>
                     <div className="flex items-center gap-4 mb-4">
-                      <span className="text-sm text-slate-400">
-                        Ativo: <span className="text-green-400 font-medium">{strategy.asset}</span>
+                      <span className="text-sm text-[#B8C2B8]">
+                        Ativo: <span className="text-[#76E821] font-medium">{strategy.asset}</span>
                       </span>
                       {strategy.description && (
-                        <span className="text-sm text-slate-400">{strategy.description}</span>
+                        <span className="text-sm text-[#B8C2B8]">{strategy.description}</span>
                       )}
                     </div>
 
                     {/* Stats */}
-                    <div className="grid grid-cols-4 gap-4 pt-4 border-t border-slate-800">
+                    <div className="grid grid-cols-4 gap-4 pt-4 border-t border-[#235317]/30">
                       <div>
-                        <p className="text-xs text-slate-500 mb-1">Operações</p>
+                        <p className="text-xs text-[#6B756B] mb-1">Operações</p>
                         <p className="text-lg font-semibold text-white">0</p>
                       </div>
                       <div>
-                        <p className="text-xs text-slate-500 mb-1">Taxa de Acerto</p>
+                        <p className="text-xs text-[#6B756B] mb-1">Taxa de Acerto</p>
                         <p className="text-lg font-semibold text-white">-</p>
                       </div>
                       <div>
-                        <p className="text-xs text-slate-500 mb-1">Drawdown</p>
+                        <p className="text-xs text-[#6B756B] mb-1">Drawdown</p>
                         <p className="text-lg font-semibold text-white">-</p>
                       </div>
                       <div>
-                        <p className="text-xs text-slate-500 mb-1">Criada em</p>
-                        <p className="text-sm font-medium text-slate-300">
+                        <p className="text-xs text-[#6B756B] mb-1">Criada em</p>
+                        <p className="text-sm font-medium text-[#B8C2B8]">
                           {strategy.createdAt ? new Date(strategy.createdAt).toLocaleDateString('pt-BR') : '-'}
                         </p>
                       </div>
@@ -276,7 +276,7 @@ export default function Strategies() {
                       variant="ghost"
                       size="icon"
                       onClick={() => handleEditClick(strategy)}
-                      className="text-slate-400 hover:text-white"
+                      className="text-[#B8C2B8] hover:text-white"
                       title="Editar"
                     >
                       <Edit2 className="w-5 h-5" />
@@ -286,7 +286,7 @@ export default function Strategies() {
                       variant="ghost"
                       size="icon"
                       onClick={() => handleDuplicateStrategy(strategy)}
-                      className="text-slate-400 hover:text-white"
+                      className="text-[#B8C2B8] hover:text-white"
                       title="Duplicar"
                     >
                       <Copy className="w-5 h-5" />
@@ -296,7 +296,7 @@ export default function Strategies() {
                       variant="ghost"
                       size="icon"
                       onClick={() => handleToggleStatus(strategy.id, strategy.status)}
-                      className={strategy.status === 'active' ? 'text-green-400' : 'text-slate-400 hover:text-white'}
+                      className={strategy.status === 'active' ? 'text-[#76E821]' : 'text-[#B8C2B8] hover:text-white'}
                       title={strategy.status === 'active' ? 'Pausar' : 'Ativar'}
                     >
                       {strategy.status === 'active' ? (
@@ -326,44 +326,44 @@ export default function Strategies() {
       {/* Create Strategy Modal */}
       {showCreateModal && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <Card className="w-full max-w-md bg-slate-900 border-slate-800">
-            <div className="p-6 border-b border-slate-800">
+          <Card className="w-full max-w-md bg-[#0B110B] border-[#235317]/30">
+            <div className="p-6 border-b border-[#235317]/30">
               <h2 className="text-xl font-bold text-white">Nova Estratégia</h2>
             </div>
 
             <div className="p-6 space-y-4">
               <div>
-                <Label className="text-sm font-medium text-slate-300 mb-2 block">
+                <Label className="text-sm font-medium text-[#B8C2B8] mb-2 block">
                   Nome da Estratégia
                 </Label>
                 <Input
                   placeholder="Ex: Estratégia RSI"
                   value={newStrategyName}
                   onChange={(e) => setNewStrategyName(e.target.value)}
-                  className="bg-slate-950 border-slate-800 text-white placeholder-slate-600"
+                  className="bg-[#050805] border-[#235317]/30 text-white placeholder-[#6B756B]"
                 />
               </div>
 
               <div>
-                <Label className="text-sm font-medium text-slate-300 mb-2 block">
+                <Label className="text-sm font-medium text-[#B8C2B8] mb-2 block">
                   Descrição (Opcional)
                 </Label>
                 <Input
                   placeholder="Descreva sua estratégia..."
                   value={newStrategyDescription}
                   onChange={(e) => setNewStrategyDescription(e.target.value)}
-                  className="bg-slate-950 border-slate-800 text-white placeholder-slate-600"
+                  className="bg-[#050805] border-[#235317]/30 text-white placeholder-[#6B756B]"
                 />
               </div>
 
               <div>
-                <Label className="text-sm font-medium text-slate-300 mb-2 block">
+                <Label className="text-sm font-medium text-[#B8C2B8] mb-2 block">
                   Ativo (B3)
                 </Label>
                 <select
                   value={newStrategyAsset}
                   onChange={(e) => setNewStrategyAsset(e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-800 text-white rounded-lg px-3 py-2"
+                  className="w-full bg-[#050805] border border-[#235317]/30 text-white rounded-lg px-3 py-2"
                 >
                   {assets.map(asset => (
                     <option key={asset} value={asset}>{asset}</option>
@@ -372,16 +372,16 @@ export default function Strategies() {
               </div>
             </div>
 
-            <div className="p-6 border-t border-slate-800 flex gap-3">
+            <div className="p-6 border-t border-[#235317]/30 flex gap-3">
               <Button
                 variant="outline"
-                className="flex-1 border-slate-700"
+                className="flex-1 border-[#235317]/45"
                 onClick={() => setShowCreateModal(false)}
               >
                 Cancelar
               </Button>
               <Button
-                className="flex-1 bg-green-600 hover:bg-green-700"
+                className="flex-1 bg-[#38A636] hover:bg-[#4CB22F]"
                 onClick={handleCreateStrategy}
                 disabled={createMutation.isPending}
               >
@@ -395,47 +395,47 @@ export default function Strategies() {
       {/* Edit Strategy Modal */}
       {showEditModal && editingStrategy && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <Card className="w-full max-w-md bg-slate-900 border-slate-800">
-            <div className="p-6 border-b border-slate-800">
+          <Card className="w-full max-w-md bg-[#0B110B] border-[#235317]/30">
+            <div className="p-6 border-b border-[#235317]/30">
               <h2 className="text-xl font-bold text-white">Editar Estratégia</h2>
             </div>
 
             <div className="p-6 space-y-4">
               <div>
-                <Label className="text-sm font-medium text-slate-300 mb-2 block">
+                <Label className="text-sm font-medium text-[#B8C2B8] mb-2 block">
                   Nome da Estratégia
                 </Label>
                 <Input
                   placeholder="Ex: Estratégia RSI"
                   value={newStrategyName}
                   onChange={(e) => setNewStrategyName(e.target.value)}
-                  className="bg-slate-950 border-slate-800 text-white placeholder-slate-600"
+                  className="bg-[#050805] border-[#235317]/30 text-white placeholder-[#6B756B]"
                 />
               </div>
 
               <div>
-                <Label className="text-sm font-medium text-slate-300 mb-2 block">
+                <Label className="text-sm font-medium text-[#B8C2B8] mb-2 block">
                   Descrição (Opcional)
                 </Label>
                 <Input
                   placeholder="Descreva sua estratégia..."
                   value={newStrategyDescription}
                   onChange={(e) => setNewStrategyDescription(e.target.value)}
-                  className="bg-slate-950 border-slate-800 text-white placeholder-slate-600"
+                  className="bg-[#050805] border-[#235317]/30 text-white placeholder-[#6B756B]"
                 />
               </div>
             </div>
 
-            <div className="p-6 border-t border-slate-800 flex gap-3">
+            <div className="p-6 border-t border-[#235317]/30 flex gap-3">
               <Button
                 variant="outline"
-                className="flex-1 border-slate-700"
+                className="flex-1 border-[#235317]/45"
                 onClick={() => setShowEditModal(false)}
               >
                 Cancelar
               </Button>
               <Button
-                className="flex-1 bg-green-600 hover:bg-green-700"
+                className="flex-1 bg-[#38A636] hover:bg-[#4CB22F]"
                 onClick={handleEditStrategy}
                 disabled={updateMutation.isPending}
               >

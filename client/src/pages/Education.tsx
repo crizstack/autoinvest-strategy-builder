@@ -28,21 +28,21 @@ export default function Education() {
     : glossaryTerms;
 
   return (
-    <div className="min-h-screen bg-slate-950 text-white">
+    <div className="min-h-screen bg-[#050805] text-white">
       {/* Header */}
-      <div className="bg-gradient-to-r from-blue-900/20 to-purple-900/20 border-b border-slate-800 p-6">
+      <div className="bg-gradient-to-r from-[#235317]/20 to-[#235317]/20 border-b border-[#235317]/30 p-6">
         <div className="max-w-6xl mx-auto">
           <div className="flex items-center gap-3 mb-2">
-            <BookOpen className="w-8 h-8 text-blue-400" />
+            <BookOpen className="w-8 h-8 text-[#76E821]" />
             <h1 className="text-4xl font-bold">Centro de Educação</h1>
           </div>
-          <p className="text-slate-400">Aprenda sobre mercado de ações e análise técnica</p>
+          <p className="text-[#B8C2B8]">Aprenda sobre mercado de ações e análise técnica</p>
         </div>
       </div>
 
       <div className="max-w-6xl mx-auto p-6">
         <Tabs defaultValue="lessons" className="w-full">
-          <TabsList className="grid w-full grid-cols-4 bg-slate-900/50 border border-slate-800">
+          <TabsList className="grid w-full grid-cols-4 bg-[#0B110B]/50 border border-[#235317]/30">
             <TabsTrigger value="lessons" className="flex items-center gap-2">
               <BookOpen className="w-4 h-4" />
               <span className="hidden sm:inline">Aulas</span>
@@ -87,7 +87,7 @@ export default function Education() {
             </div>
 
             {selectedLesson ? (
-              <Card className="p-6 bg-slate-900/50 border-slate-800">
+              <Card className="p-6 bg-[#0B110B]/50 border-[#235317]/30">
                 <div className="space-y-4">
                   <div>
                     <Button
@@ -98,11 +98,11 @@ export default function Education() {
                       ← Voltar
                     </Button>
                     <h2 className="text-3xl font-bold mb-2">{selectedLesson.title}</h2>
-                    <p className="text-slate-400">{selectedLesson.description}</p>
+                    <p className="text-[#B8C2B8]">{selectedLesson.description}</p>
                   </div>
 
                   <div className="prose prose-invert max-w-none">
-                    <div className="whitespace-pre-wrap text-slate-300 font-mono text-sm">
+                    <div className="whitespace-pre-wrap text-[#B8C2B8] font-mono text-sm">
                       {selectedLesson.content}
                     </div>
                   </div>
@@ -122,12 +122,12 @@ export default function Education() {
             <div className="space-y-4">
               <h2 className="text-2xl font-bold">Glossário Financeiro</h2>
               <div className="relative">
-                <Search className="absolute left-3 top-3 w-5 h-5 text-slate-500" />
+                <Search className="absolute left-3 top-3 w-5 h-5 text-[#6B756B]" />
                 <Input
                   placeholder="Buscar termo..."
                   value={searchGlossary}
                   onChange={(e) => setSearchGlossary(e.target.value)}
-                  className="pl-10 bg-slate-900/50 border-slate-800"
+                  className="pl-10 bg-[#0B110B]/50 border-[#235317]/30"
                 />
               </div>
             </div>
@@ -143,7 +143,7 @@ export default function Education() {
           <TabsContent value="paths" className="space-y-6">
             <div>
               <h2 className="text-2xl font-bold mb-2">Trilhas de Aprendizado</h2>
-              <p className="text-slate-400 mb-6">
+              <p className="text-[#B8C2B8] mb-6">
                 Siga um caminho estruturado para aprender sobre investimentos
               </p>
             </div>
@@ -155,7 +155,7 @@ export default function Education() {
             </div>
 
             {selectedPath && (
-              <Card className="p-6 bg-slate-900/50 border-slate-800 mt-6">
+              <Card className="p-6 bg-[#0B110B]/50 border-[#235317]/30 mt-6">
                 <div className="space-y-4">
                   <div>
                     <Button
@@ -166,7 +166,7 @@ export default function Education() {
                       ← Voltar
                     </Button>
                     <h2 className="text-2xl font-bold">{selectedPath.title}</h2>
-                    <p className="text-slate-400 mt-2">{selectedPath.description}</p>
+                    <p className="text-[#B8C2B8] mt-2">{selectedPath.description}</p>
                   </div>
 
                   <div className="space-y-3">
@@ -176,11 +176,11 @@ export default function Education() {
                       .map((lesson) => (
                         <div
                           key={lesson.id}
-                          className="p-3 bg-slate-800/50 rounded-lg border border-slate-700 hover:border-slate-600 cursor-pointer transition-all"
+                          className="p-3 bg-[#141C14]/50 rounded-lg border border-[#235317]/45 hover:border-[#6B756B]/40 cursor-pointer transition-all"
                           onClick={() => setSelectedLesson(lesson)}
                         >
                           <p className="font-medium">{lesson.title}</p>
-                          <p className="text-sm text-slate-400">{lesson.duration} minutos</p>
+                          <p className="text-sm text-[#B8C2B8]">{lesson.duration} minutos</p>
                         </div>
                       ))}
                   </div>
@@ -193,20 +193,20 @@ export default function Education() {
           <TabsContent value="help" className="space-y-6">
             <div>
               <h2 className="text-2xl font-bold mb-2">Tire Suas Dúvidas</h2>
-              <p className="text-slate-400 mb-6">
+              <p className="text-[#B8C2B8] mb-6">
                 Use o assistente IA para responder suas perguntas sobre investimentos
               </p>
             </div>
 
-            <Card className="p-6 bg-slate-900/50 border-slate-800">
+            <Card className="p-6 bg-[#0B110B]/50 border-[#235317]/30">
               <div className="space-y-4">
-                <p className="text-slate-300">
+                <p className="text-[#B8C2B8]">
                   O assistente IA está disponível no ícone de chat 💬 no canto inferior direito.
                 </p>
-                <p className="text-slate-300">
+                <p className="text-[#B8C2B8]">
                   Faça perguntas sobre:
                 </p>
-                <ul className="list-disc list-inside space-y-2 text-slate-300">
+                <ul className="list-disc list-inside space-y-2 text-[#B8C2B8]">
                   <li>Conceitos de mercado de ações</li>
                   <li>Indicadores técnicos</li>
                   <li>Estratégias de investimento</li>

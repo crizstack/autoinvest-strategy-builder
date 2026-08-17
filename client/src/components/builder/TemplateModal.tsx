@@ -11,7 +11,7 @@ interface TemplateModalProps {
 }
 
 const difficultyColors = {
-  beginner: 'text-green-400',
+  beginner: 'text-[#76E821]',
   intermediate: 'text-yellow-400',
   advanced: 'text-red-400',
 };
@@ -32,7 +32,7 @@ export default function TemplateModal({
 
   return (
     <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
-      <Card className="p-8 bg-slate-900 border-slate-800 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+      <Card className="p-8 bg-[#0B110B] border-[#235317]/30 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
         {/* Header */}
         <div className="flex items-start justify-between mb-6">
           <div className="flex-1">
@@ -40,11 +40,11 @@ export default function TemplateModal({
               <span className="text-4xl">{template.icon}</span>
               <h2 className="text-3xl font-bold text-white">{template.name}</h2>
             </div>
-            <p className="text-slate-400">{template.description}</p>
+            <p className="text-[#B8C2B8]">{template.description}</p>
           </div>
           <button
             onClick={onClose}
-            className="text-slate-400 hover:text-white transition-colors"
+            className="text-[#B8C2B8] hover:text-white transition-colors"
           >
             <X className="w-6 h-6" />
           </button>
@@ -52,30 +52,30 @@ export default function TemplateModal({
 
         {/* Stats */}
         <div className="grid grid-cols-3 gap-4 mb-6">
-          <div className="p-4 rounded-lg bg-slate-800/50 border border-slate-700">
-            <p className="text-xs text-slate-400 mb-1">Dificuldade</p>
+          <div className="p-4 rounded-lg bg-[#141C14]/50 border border-[#235317]/45">
+            <p className="text-xs text-[#B8C2B8] mb-1">Dificuldade</p>
             <p className={`font-semibold ${difficultyColors[template.difficulty]}`}>
               {difficultyLabels[template.difficulty]}
             </p>
           </div>
-          <div className="p-4 rounded-lg bg-slate-800/50 border border-slate-700">
-            <p className="text-xs text-slate-400 mb-1">Taxa de Acerto</p>
-            <p className="text-green-400 font-semibold">{template.winRate}%</p>
+          <div className="p-4 rounded-lg bg-[#141C14]/50 border border-[#235317]/45">
+            <p className="text-xs text-[#B8C2B8] mb-1">Taxa de Acerto</p>
+            <p className="text-[#76E821] font-semibold">{template.winRate}%</p>
           </div>
-          <div className="p-4 rounded-lg bg-slate-800/50 border border-slate-700">
-            <p className="text-xs text-slate-400 mb-1">Blocos</p>
-            <p className="text-blue-400 font-semibold">{template.blocks.length}</p>
+          <div className="p-4 rounded-lg bg-[#141C14]/50 border border-[#235317]/45">
+            <p className="text-xs text-[#B8C2B8] mb-1">Blocos</p>
+            <p className="text-[#76E821] font-semibold">{template.blocks.length}</p>
           </div>
         </div>
 
         {/* Tags */}
         <div className="mb-6">
-          <p className="text-sm text-slate-400 mb-2">Tags</p>
+          <p className="text-sm text-[#B8C2B8] mb-2">Tags</p>
           <div className="flex flex-wrap gap-2">
             {template.tags.map((tag) => (
               <span
                 key={tag}
-                className="px-3 py-1 rounded-full bg-blue-600/20 border border-blue-600/50 text-blue-300 text-xs"
+                className="px-3 py-1 rounded-full bg-[#38A636]/20 border border-[#38A636]/50 text-[#76E821] text-xs"
               >
                 {tag}
               </span>
@@ -85,18 +85,18 @@ export default function TemplateModal({
 
         {/* Preview */}
         <div className="mb-6">
-          <p className="text-sm text-slate-400 mb-2">Estrutura</p>
-          <div className="p-4 rounded-lg bg-slate-800/50 border border-slate-700">
+          <p className="text-sm text-[#B8C2B8] mb-2">Estrutura</p>
+          <div className="p-4 rounded-lg bg-[#141C14]/50 border border-[#235317]/45">
             <div className="space-y-2">
               {template.blocks.map((block) => (
                 <div
                   key={block.id}
-                  className="flex items-center gap-2 text-sm text-slate-300"
+                  className="flex items-center gap-2 text-sm text-[#B8C2B8]"
                 >
-                  <span className="w-2 h-2 rounded-full bg-blue-400"></span>
+                  <span className="w-2 h-2 rounded-full bg-[#76E821]"></span>
                   <span className="font-mono">{block.label}</span>
                   {block.data && Object.keys(block.data).length > 0 && (
-                    <span className="text-xs text-slate-500">
+                    <span className="text-xs text-[#6B756B]">
                       ({Object.keys(block.data).length} config)
                     </span>
                   )}
@@ -107,8 +107,8 @@ export default function TemplateModal({
         </div>
 
         {/* Info */}
-        <div className="p-4 rounded-lg bg-blue-600/10 border border-blue-600/30 mb-6">
-          <p className="text-sm text-blue-300">
+        <div className="p-4 rounded-lg bg-[#38A636]/10 border border-[#38A636]/30 mb-6">
+          <p className="text-sm text-[#76E821]">
             💡 Este template é um ponto de partida. Você pode editar todos os blocos e
             parâmetros após importar.
           </p>
@@ -118,13 +118,13 @@ export default function TemplateModal({
         <div className="flex gap-3">
           <Button
             variant="outline"
-            className="flex-1 border-slate-700"
+            className="flex-1 border-[#235317]/45"
             onClick={onClose}
           >
             Cancelar
           </Button>
           <Button
-            className="flex-1 bg-green-600 hover:bg-green-700"
+            className="flex-1 bg-[#38A636] hover:bg-[#4CB22F]"
             onClick={() => {
               onImport(template);
               onClose();

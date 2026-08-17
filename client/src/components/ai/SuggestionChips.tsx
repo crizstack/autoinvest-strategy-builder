@@ -22,7 +22,7 @@ export default function SuggestionChips({
           onClick={() => onSelect(suggestion)}
           disabled={isLoading}
           variant="outline"
-          className="text-xs h-auto px-3 py-2 text-slate-300 border-slate-700 hover:border-slate-600 hover:bg-slate-800/50 transition-all"
+          className="text-xs h-auto px-3 py-2 text-[#B8C2B8] border-[#235317]/45 hover:border-[#6B756B]/40 hover:bg-[#141C14]/50 transition-all"
         >
           {suggestion.icon && <span className="mr-2">{suggestion.icon}</span>}
           {suggestion.text}

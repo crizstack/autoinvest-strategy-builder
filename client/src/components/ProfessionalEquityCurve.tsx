@@ -90,28 +90,28 @@ export function ProfessionalEquityCurve({
   return (
     <div className="space-y-6">
       {/* Main Equity Curve */}
-      <Card className="p-6 bg-slate-900/50 border-slate-800">
+      <Card className="p-6 bg-[#0B110B]/50 border-[#235317]/30">
         <div className="mb-4">
           <h3 className="text-lg font-semibold text-white mb-2">Curva de Equity</h3>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <div>
-              <p className="text-slate-400 text-sm">Capital Inicial</p>
+              <p className="text-[#B8C2B8] text-sm">Capital Inicial</p>
               <p className="text-white font-semibold">R$ {initialCapital.toLocaleString('pt-BR')}</p>
             </div>
             <div>
-              <p className="text-slate-400 text-sm">Valor Final</p>
-              <p className={`font-semibold ${finalValue > initialCapital ? 'text-green-400' : 'text-red-400'}`}>
+              <p className="text-[#B8C2B8] text-sm">Valor Final</p>
+              <p className={`font-semibold ${finalValue > initialCapital ? 'text-[#76E821]' : 'text-red-400'}`}>
                 R$ {finalValue.toLocaleString('pt-BR')}
               </p>
             </div>
             <div>
-              <p className="text-slate-400 text-sm">Retorno Total</p>
-              <p className={`font-semibold ${totalReturn > 0 ? 'text-green-400' : 'text-red-400'}`}>
+              <p className="text-[#B8C2B8] text-sm">Retorno Total</p>
+              <p className={`font-semibold ${totalReturn > 0 ? 'text-[#76E821]' : 'text-red-400'}`}>
                 {totalReturn > 0 ? '+' : ''}{totalReturn.toFixed(2)}%
               </p>
             </div>
             <div>
-              <p className="text-slate-400 text-sm">Drawdown Máx</p>
+              <p className="text-[#B8C2B8] text-sm">Drawdown Máx</p>
               <p className="text-amber-400 font-semibold">{maxDrawdown.toFixed(2)}%</p>
             </div>
           </div>
@@ -121,8 +121,8 @@ export function ProfessionalEquityCurve({
           <AreaChart data={dataWithDrawdown}>
             <defs>
               <linearGradient id="colorValue" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.8} />
-                <stop offset="95%" stopColor="#3b82f6" stopOpacity={0.1} />
+                <stop offset="5%" stopColor="#38A636" stopOpacity={0.8} />
+                <stop offset="95%" stopColor="#38A636" stopOpacity={0.1} />
               </linearGradient>
             </defs>
             <CartesianGrid strokeDasharray="3 3" stroke="#475569" />
@@ -130,7 +130,7 @@ export function ProfessionalEquityCurve({
             <YAxis stroke="#94a3b8" />
             <Tooltip
               contentStyle={{
-                backgroundColor: '#1e293b',
+                backgroundColor: '#141C14',
                 border: '1px solid #475569',
                 borderRadius: '8px',
               }}
@@ -139,7 +139,7 @@ export function ProfessionalEquityCurve({
             <Area
               type="monotone"
               dataKey="value"
-              stroke="#3b82f6"
+              stroke="#38A636"
               fillOpacity={1}
               fill="url(#colorValue)"
               name="Saldo"
@@ -150,7 +150,7 @@ export function ProfessionalEquityCurve({
 
       {/* Drawdown Chart */}
       {showDrawdown && (
-        <Card className="p-6 bg-slate-900/50 border-slate-800">
+        <Card className="p-6 bg-[#0B110B]/50 border-[#235317]/30">
           <h3 className="text-lg font-semibold text-white mb-4">Drawdown ao Longo do Tempo</h3>
           <ResponsiveContainer width="100%" height={250}>
             <AreaChart data={dataWithDrawdown}>
@@ -165,7 +165,7 @@ export function ProfessionalEquityCurve({
               <YAxis stroke="#94a3b8" />
               <Tooltip
                 contentStyle={{
-                  backgroundColor: '#1e293b',
+                  backgroundColor: '#141C14',
                   border: '1px solid #475569',
                   borderRadius: '8px',
                 }}
@@ -186,7 +186,7 @@ export function ProfessionalEquityCurve({
 
       {/* Monthly Returns Heatmap */}
       {showMonthlyReturns && monthlyReturns.length > 0 && (
-        <Card className="p-6 bg-slate-900/50 border-slate-800">
+        <Card className="p-6 bg-[#0B110B]/50 border-[#235317]/30">
           <h3 className="text-lg font-semibold text-white mb-4">Retornos Mensais</h3>
           <ResponsiveContainer width="100%" height={250}>
             <BarChart data={monthlyReturns}>
@@ -195,7 +195,7 @@ export function ProfessionalEquityCurve({
               <YAxis stroke="#94a3b8" />
               <Tooltip
                 contentStyle={{
-                  backgroundColor: '#1e293b',
+                  backgroundColor: '#141C14',
                   border: '1px solid #475569',
                   borderRadius: '8px',
                 }}
@@ -213,28 +213,28 @@ export function ProfessionalEquityCurve({
 
       {/* Statistics Summary */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <Card className="p-6 bg-slate-900/50 border-slate-800">
-          <p className="text-slate-400 text-sm mb-2">Maior Valor Atingido</p>
-          <p className="text-2xl font-bold text-green-400">R$ {maxValue.toLocaleString('pt-BR')}</p>
-          <p className="text-slate-400 text-xs mt-2">
+        <Card className="p-6 bg-[#0B110B]/50 border-[#235317]/30">
+          <p className="text-[#B8C2B8] text-sm mb-2">Maior Valor Atingido</p>
+          <p className="text-2xl font-bold text-[#76E821]">R$ {maxValue.toLocaleString('pt-BR')}</p>
+          <p className="text-[#B8C2B8] text-xs mt-2">
             +{(((maxValue - initialCapital) / initialCapital) * 100).toFixed(2)}% do capital inicial
           </p>
         </Card>
 
-        <Card className="p-6 bg-slate-900/50 border-slate-800">
-          <p className="text-slate-400 text-sm mb-2">Menor Valor Atingido</p>
+        <Card className="p-6 bg-[#0B110B]/50 border-[#235317]/30">
+          <p className="text-[#B8C2B8] text-sm mb-2">Menor Valor Atingido</p>
           <p className="text-2xl font-bold text-red-400">R$ {minValue.toLocaleString('pt-BR')}</p>
-          <p className="text-slate-400 text-xs mt-2">
+          <p className="text-[#B8C2B8] text-xs mt-2">
             {(((minValue - initialCapital) / initialCapital) * 100).toFixed(2)}% do capital inicial
           </p>
         </Card>
 
-        <Card className="p-6 bg-slate-900/50 border-slate-800">
-          <p className="text-slate-400 text-sm mb-2">Variação Total</p>
+        <Card className="p-6 bg-[#0B110B]/50 border-[#235317]/30">
+          <p className="text-[#B8C2B8] text-sm mb-2">Variação Total</p>
           <p className="text-2xl font-bold text-white">
             R$ {(maxValue - minValue).toLocaleString('pt-BR')}
           </p>
-          <p className="text-slate-400 text-xs mt-2">
+          <p className="text-[#B8C2B8] text-xs mt-2">
             {(((maxValue - minValue) / minValue) * 100).toFixed(2)}% de amplitude
           </p>
         </Card>

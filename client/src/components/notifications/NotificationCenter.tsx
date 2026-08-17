@@ -19,17 +19,17 @@ const typeIcons = {
 };
 
 const severityColors = {
-  info: 'border-blue-600/50 bg-blue-600/10',
+  info: 'border-[#38A636]/50 bg-[#38A636]/10',
   warning: 'border-yellow-600/50 bg-yellow-600/10',
   error: 'border-red-600/50 bg-red-600/10',
-  success: 'border-green-600/50 bg-green-600/10',
+  success: 'border-[#38A636]/50 bg-[#38A636]/10',
 };
 
 const severityTextColors = {
-  info: 'text-blue-300',
+  info: 'text-[#76E821]',
   warning: 'text-yellow-300',
   error: 'text-red-300',
-  success: 'text-green-300',
+  success: 'text-[#76E821]',
 };
 
 export default function NotificationCenter({ isOpen, onClose }: NotificationCenterProps) {
@@ -56,11 +56,11 @@ export default function NotificationCenter({ isOpen, onClose }: NotificationCent
 
   return (
     <div className="fixed inset-0 bg-black/60 flex items-end justify-end z-50">
-      <Card className="p-0 bg-slate-900 border-slate-800 w-full max-w-md h-screen max-h-screen flex flex-col rounded-none">
+      <Card className="p-0 bg-[#0B110B] border-[#235317]/30 w-full max-w-md h-screen max-h-screen flex flex-col rounded-none">
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-slate-800">
+        <div className="flex items-center justify-between p-6 border-b border-[#235317]/30">
           <div className="flex items-center gap-3">
-            <Bell className="w-6 h-6 text-blue-400" />
+            <Bell className="w-6 h-6 text-[#76E821]" />
             <h2 className="text-xl font-bold text-white">Notificações</h2>
             {unreadCount > 0 && (
               <span className="px-2 py-1 rounded-full bg-red-600 text-white text-xs font-semibold">
@@ -70,7 +70,7 @@ export default function NotificationCenter({ isOpen, onClose }: NotificationCent
           </div>
           <button
             onClick={onClose}
-            className="text-slate-400 hover:text-white transition-colors"
+            className="text-[#B8C2B8] hover:text-white transition-colors"
           >
             <X className="w-6 h-6" />
           </button>
@@ -78,7 +78,7 @@ export default function NotificationCenter({ isOpen, onClose }: NotificationCent
 
         {/* Actions */}
         {notifications.length > 0 && (
-          <div className="flex gap-2 p-4 border-b border-slate-800">
+          <div className="flex gap-2 p-4 border-b border-[#235317]/30">
             <Button
               size="sm"
               variant="outline"
@@ -103,7 +103,7 @@ export default function NotificationCenter({ isOpen, onClose }: NotificationCent
         {/* Notifications List */}
         <div className="flex-1 overflow-y-auto">
           {notifications.length === 0 ? (
-            <div className="flex items-center justify-center h-full text-slate-400">
+            <div className="flex items-center justify-center h-full text-[#B8C2B8]">
               <div className="text-center">
                 <Bell className="w-12 h-12 mx-auto mb-3 opacity-50" />
                 <p>Nenhuma notificação</p>
@@ -116,7 +116,7 @@ export default function NotificationCenter({ isOpen, onClose }: NotificationCent
                   key={notif.id}
                   className={`p-4 rounded-lg border transition-all ${
                     severityColors[notif.severity as keyof typeof severityColors]
-                  } ${!notif.read ? 'ring-1 ring-blue-500' : ''}`}
+                  } ${!notif.read ? 'ring-1 ring-[#38A636]' : ''}`}
                 >
                   <div className="flex items-start justify-between gap-3">
                     <div className="flex-1">
@@ -124,10 +124,10 @@ export default function NotificationCenter({ isOpen, onClose }: NotificationCent
                         <span className="text-lg">{typeIcons[notif.type as keyof typeof typeIcons]}</span>
                         <h3 className="font-semibold text-white">{notif.title}</h3>
                         {!notif.read && (
-                          <span className="w-2 h-2 rounded-full bg-blue-500 ml-auto"></span>
+                          <span className="w-2 h-2 rounded-full bg-[#4CB22F] ml-auto"></span>
                         )}
                       </div>
-                      <p className="text-sm text-slate-300 mb-2">{notif.message}</p>
+                      <p className="text-sm text-[#B8C2B8] mb-2">{notif.message}</p>
                       <p className={`text-xs ${severityTextColors[notif.severity as keyof typeof severityTextColors]}`}>
                         {formatDistanceToNow(new Date(notif.createdAt), {
                           locale: ptBR,
@@ -137,7 +137,7 @@ export default function NotificationCenter({ isOpen, onClose }: NotificationCent
                     </div>
                     <button
                       onClick={() => deleteMutation.mutate({ id: notif.id })}
-                      className="text-slate-400 hover:text-red-400 transition-colors"
+                      className="text-[#B8C2B8] hover:text-red-400 transition-colors"
                     >
                       <X className="w-4 h-4" />
                     </button>

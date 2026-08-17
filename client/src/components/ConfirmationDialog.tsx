@@ -52,14 +52,14 @@ export function ConfirmationDialog({
   };
 
   const severityStyles = {
-    low: 'border-blue-500/30 bg-blue-500/5',
+    low: 'border-[#4CB22F]/30 bg-[#4CB22F]/5',
     medium: 'border-yellow-500/30 bg-yellow-500/5',
     high: 'border-orange-500/30 bg-orange-500/5',
     critical: 'border-red-500/30 bg-red-500/5',
   };
 
   const severityIconColor = {
-    low: 'text-blue-400',
+    low: 'text-[#76E821]',
     medium: 'text-yellow-400',
     high: 'text-orange-400',
     critical: 'text-red-400',

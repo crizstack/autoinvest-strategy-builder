@@ -1,124 +1,117 @@
 /**
- * Premium Dark Mode Theme - TradingView + Stripe Style
- * Blueprint Architecture Aesthetic
+ * Joven Invest visual tokens.
+ * The object shape is preserved for existing consumers; only visual values are branded.
  */
 
 export const colors = {
-  // Primary Colors - Blueprint Aesthetic
   primary: {
-    50: '#e6f2ff',
-    100: '#cce5ff',
-    200: '#99ccff',
-    300: '#66b2ff',
-    400: '#3399ff',
-    500: '#0066ff', // Main brand blue (royal blue)
-    600: '#0052cc',
-    700: '#003d99',
-    800: '#002966',
-    900: '#001433',
+    50: '#F1FBE8',
+    100: '#E2F7D1',
+    200: '#C5EFA3',
+    300: '#A2E96B',
+    400: '#76E821',
+    500: '#38A636',
+    600: '#2F8F2E',
+    700: '#235317',
+    800: '#1A3E12',
+    900: '#0F250A',
   },
 
-  // Secondary Colors - Technical Grid
   secondary: {
-    50: '#f0f4f8',
-    100: '#e1e8f0',
-    200: '#c3d1e0',
-    300: '#a5bbd0',
-    400: '#8799c0',
-    500: '#6b7fb0', // Grid line color
-    600: '#556a8f',
-    700: '#3f556e',
-    800: '#2a404d',
-    900: '#152b2c',
+    50: '#E8F1E8',
+    100: '#D1E2D1',
+    200: '#AFC8AF',
+    300: '#8EA98E',
+    400: '#6B756B',
+    500: '#596859',
+    600: '#465746',
+    700: '#344634',
+    800: '#253525',
+    900: '#182418',
   },
 
-  // Accent Colors - Trading Status
   success: {
-    50: '#e6ffe6',
-    100: '#ccffcc',
-    200: '#99ff99',
-    300: '#66ff66',
-    400: '#33ff33',
-    500: '#00ff00', // Bright green for gains
-    600: '#00cc00',
-    700: '#009900',
-    800: '#006600',
-    900: '#003300',
+    50: '#F1FBE8',
+    100: '#E2F7D1',
+    200: '#C5EFA3',
+    300: '#A2E96B',
+    400: '#76E821',
+    500: '#38A636',
+    600: '#2F8F2E',
+    700: '#235317',
+    800: '#1A3E12',
+    900: '#0F250A',
   },
 
   danger: {
-    50: '#ffe6e6',
-    100: '#ffcccc',
-    200: '#ff9999',
-    300: '#ff6666',
-    400: '#ff3333',
-    500: '#ff0000', // Bright red for losses
-    600: '#cc0000',
-    700: '#990000',
-    800: '#660000',
-    900: '#330000',
+    50: '#FEF2F2',
+    100: '#FEE2E2',
+    200: '#FECACA',
+    300: '#FCA5A5',
+    400: '#F87171',
+    500: '#EF4444',
+    600: '#DC2626',
+    700: '#B91C1C',
+    800: '#991B1B',
+    900: '#7F1D1D',
   },
 
   warning: {
-    50: '#fff5e6',
-    100: '#ffebcc',
-    200: '#ffd699',
-    300: '#ffc266',
-    400: '#ffad33',
-    500: '#ff9900', // Orange for warnings
-    600: '#cc7700',
-    700: '#995500',
-    800: '#663300',
-    900: '#331100',
+    50: '#FFFBEB',
+    100: '#FEF3C7',
+    200: '#FDE68A',
+    300: '#FCD34D',
+    400: '#FBBF24',
+    500: '#F59E0B',
+    600: '#D97706',
+    700: '#B45309',
+    800: '#92400E',
+    900: '#78350F',
   },
 
-  // Neutral Colors - Dark Mode Base
   neutral: {
     0: '#000000',
-    50: '#0a0e27', // Darkest background
-    100: '#111633', // Dark background
-    150: '#16192f', // Card background
-    200: '#1a1f3a', // Hover background
-    300: '#2a3150', // Border color
-    400: '#3a4260', // Disabled text
-    500: '#6b7280', // Secondary text
-    600: '#9ca3af', // Tertiary text
-    700: '#d1d5db', // Light text
-    800: '#e5e7eb', // Lighter text
-    900: '#f3f4f6', // Lightest text
-    1000: '#ffffff', // White
+    50: '#050805',
+    100: '#0B110B',
+    150: '#101810',
+    200: '#141C14',
+    300: '#235317',
+    400: '#394939',
+    500: '#6B756B',
+    600: '#8B978B',
+    700: '#B8C2B8',
+    800: '#D8E0D8',
+    900: '#F0F5F0',
+    1000: '#FFFFFF',
   },
 
-  // Semantic Colors
   background: {
-    primary: '#0a0e27', // Main background
-    secondary: '#111633', // Secondary background
-    tertiary: '#16192f', // Card background
-    hover: '#1a1f3a', // Hover state
-    border: '#2a3150', // Border color
+    primary: '#050805',
+    secondary: '#0B110B',
+    tertiary: '#101810',
+    hover: '#141C14',
+    border: '#235317',
   },
 
   text: {
-    primary: '#f3f4f6', // Main text
-    secondary: '#d1d5db', // Secondary text
-    tertiary: '#9ca3af', // Tertiary text
-    disabled: '#6b7280', // Disabled text
-    inverse: '#0a0e27', // Inverse text
+    primary: '#FFFFFF',
+    secondary: '#B8C2B8',
+    tertiary: '#8B978B',
+    disabled: '#6B756B',
+    inverse: '#050805',
   },
 
-  // Chart Colors
   chart: {
-    positive: '#00ff00', // Green for gains
-    negative: '#ff0000', // Red for losses
-    neutral: '#0066ff', // Blue for neutral
-    grid: '#2a3150', // Grid lines
-    text: '#d1d5db', // Chart text
+    positive: '#38A636',
+    negative: '#EF4444',
+    neutral: '#6B756B',
+    grid: '#235317',
+    text: '#B8C2B8',
   },
 
-  // UI Elements
   ui: {
-    border: '#2a3150',
-    divider: '#1a1f3a',
+    border: '#235317',
+    divider: '#141C14',
     shadow: 'rgba(0, 0, 0, 0.5)',
     overlay: 'rgba(0, 0, 0, 0.8)',
   },

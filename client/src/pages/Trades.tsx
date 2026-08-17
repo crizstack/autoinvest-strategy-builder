@@ -103,52 +103,52 @@ export default function Trades() {
       {/* Header */}
       <div>
         <h1 className="text-3xl font-bold text-white mb-2">Operações</h1>
-        <p className="text-slate-400">Histórico de todas as operações simuladas</p>
+        <p className="text-[#B8C2B8]">Histórico de todas as operações simuladas</p>
       </div>
 
       {/* Stats */}
       <div className="grid grid-cols-3 gap-4">
-        <Card className="p-4 bg-slate-900/50 border-slate-800">
-          <p className="text-slate-400 text-sm mb-1">Total de Operações</p>
+        <Card className="p-4 bg-[#0B110B]/50 border-[#235317]/30">
+          <p className="text-[#B8C2B8] text-sm mb-1">Total de Operações</p>
           <p className="text-2xl font-bold text-white">{filteredTrades.length}</p>
         </Card>
 
-        <Card className="p-4 bg-slate-900/50 border-slate-800">
-          <p className="text-slate-400 text-sm mb-1">Resultado Total</p>
-          <p className={`text-2xl font-bold ${totalResult > 0 ? 'text-green-400' : 'text-red-400'}`}>
+        <Card className="p-4 bg-[#0B110B]/50 border-[#235317]/30">
+          <p className="text-[#B8C2B8] text-sm mb-1">Resultado Total</p>
+          <p className={`text-2xl font-bold ${totalResult > 0 ? 'text-[#76E821]' : 'text-red-400'}`}>
             {totalResult > 0 ? '+' : ''}R$ {totalResult.toLocaleString('pt-BR')}
           </p>
         </Card>
 
-        <Card className="p-4 bg-slate-900/50 border-slate-800">
-          <p className="text-slate-400 text-sm mb-1">Taxa de Acerto</p>
+        <Card className="p-4 bg-[#0B110B]/50 border-[#235317]/30">
+          <p className="text-[#B8C2B8] text-sm mb-1">Taxa de Acerto</p>
           <p className="text-2xl font-bold text-white">{winRate}%</p>
         </Card>
       </div>
 
       {/* Filters */}
-      <Card className="p-6 bg-slate-900/50 border-slate-800">
+      <Card className="p-6 bg-[#0B110B]/50 border-[#235317]/30">
         <div className="flex items-end gap-4">
           <div className="flex-1">
-            <Label className="text-slate-300 mb-2 block">Buscar</Label>
+            <Label className="text-[#B8C2B8] mb-2 block">Buscar</Label>
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6B756B]" />
               <Input
                 type="text"
                 placeholder="Data, estratégia ou ativo..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10 bg-slate-950 border-slate-800 text-white"
+                className="pl-10 bg-[#050805] border-[#235317]/30 text-white"
               />
             </div>
           </div>
 
           <div>
-            <Label className="text-slate-300 mb-2 block">Ativo</Label>
+            <Label className="text-[#B8C2B8] mb-2 block">Ativo</Label>
             <select
               value={filterAsset}
               onChange={(e) => setFilterAsset(e.target.value)}
-              className="px-4 py-2 bg-slate-950 border border-slate-800 text-white rounded-lg"
+              className="px-4 py-2 bg-[#050805] border border-[#235317]/30 text-white rounded-lg"
             >
               <option value="all">Todos</option>
               {assets.map((asset) => (
@@ -160,11 +160,11 @@ export default function Trades() {
           </div>
 
           <div>
-            <Label className="text-slate-300 mb-2 block">Estratégia</Label>
+            <Label className="text-[#B8C2B8] mb-2 block">Estratégia</Label>
             <select
               value={filterStrategy}
               onChange={(e) => setFilterStrategy(e.target.value)}
-              className="px-4 py-2 bg-slate-950 border border-slate-800 text-white rounded-lg"
+              className="px-4 py-2 bg-[#050805] border border-[#235317]/30 text-white rounded-lg"
             >
               <option value="all">Todas</option>
               {strategies.map((strategy) => (
@@ -176,11 +176,11 @@ export default function Trades() {
           </div>
 
           <div>
-            <Label className="text-slate-300 mb-2 block">Status</Label>
+            <Label className="text-[#B8C2B8] mb-2 block">Status</Label>
             <select
               value={filterStatus}
               onChange={(e) => setFilterStatus(e.target.value)}
-              className="px-4 py-2 bg-slate-950 border border-slate-800 text-white rounded-lg"
+              className="px-4 py-2 bg-[#050805] border border-[#235317]/30 text-white rounded-lg"
             >
               <option value="all">Todos</option>
               <option value="OPEN">Aberto</option>
@@ -192,46 +192,46 @@ export default function Trades() {
 
       {/* Trades Table */}
       {filteredTrades.length === 0 ? (
-        <Card className="p-12 bg-slate-900/50 border-slate-800 text-center">
-          <p className="text-slate-400">Nenhuma operação encontrada com os filtros aplicados</p>
+        <Card className="p-12 bg-[#0B110B]/50 border-[#235317]/30 text-center">
+          <p className="text-[#B8C2B8]">Nenhuma operação encontrada com os filtros aplicados</p>
         </Card>
       ) : (
-        <Card className="p-6 bg-slate-900/50 border-slate-800 overflow-hidden">
+        <Card className="p-6 bg-[#0B110B]/50 border-[#235317]/30 overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="border-b border-slate-800">
-                  <th className="text-left py-4 px-4 text-slate-400 font-medium">Data</th>
-                  <th className="text-left py-4 px-4 text-slate-400 font-medium">Estratégia</th>
-                  <th className="text-left py-4 px-4 text-slate-400 font-medium">Ativo</th>
-                  <th className="text-left py-4 px-4 text-slate-400 font-medium">Tipo</th>
-                  <th className="text-right py-4 px-4 text-slate-400 font-medium">Qtd</th>
-                  <th className="text-right py-4 px-4 text-slate-400 font-medium">Preço</th>
-                  <th className="text-right py-4 px-4 text-slate-400 font-medium">Total</th>
-                  <th className="text-right py-4 px-4 text-slate-400 font-medium">Resultado</th>
-                  <th className="text-left py-4 px-4 text-slate-400 font-medium">Status</th>
+                <tr className="border-b border-[#235317]/30">
+                  <th className="text-left py-4 px-4 text-[#B8C2B8] font-medium">Data</th>
+                  <th className="text-left py-4 px-4 text-[#B8C2B8] font-medium">Estratégia</th>
+                  <th className="text-left py-4 px-4 text-[#B8C2B8] font-medium">Ativo</th>
+                  <th className="text-left py-4 px-4 text-[#B8C2B8] font-medium">Tipo</th>
+                  <th className="text-right py-4 px-4 text-[#B8C2B8] font-medium">Qtd</th>
+                  <th className="text-right py-4 px-4 text-[#B8C2B8] font-medium">Preço</th>
+                  <th className="text-right py-4 px-4 text-[#B8C2B8] font-medium">Total</th>
+                  <th className="text-right py-4 px-4 text-[#B8C2B8] font-medium">Resultado</th>
+                  <th className="text-left py-4 px-4 text-[#B8C2B8] font-medium">Status</th>
                 </tr>
               </thead>
               <tbody>
                 {filteredTrades.map((trade) => (
-                  <tr key={trade.id} className="border-b border-slate-800/50 hover:bg-slate-800/30 transition-colors">
+                  <tr key={trade.id} className="border-b border-[#235317]/25 hover:bg-[#141C14]/30 transition-colors">
                     <td className="py-4 px-4 text-white">{trade.date}</td>
                     <td className="py-4 px-4 text-white">{trade.strategy}</td>
                     <td className="py-4 px-4">
-                      <span className="px-2 py-1 rounded bg-green-600/20 text-green-400 text-xs font-medium">
+                      <span className="px-2 py-1 rounded bg-[#38A636]/20 text-[#76E821] text-xs font-medium">
                         {trade.asset}
                       </span>
                     </td>
                     <td className="py-4 px-4">
                       <div className="flex items-center gap-2">
                         {trade.type === 'BUY' ? (
-                          <TrendingUp className="w-4 h-4 text-green-400" />
+                          <TrendingUp className="w-4 h-4 text-[#76E821]" />
                         ) : (
                           <TrendingDown className="w-4 h-4 text-red-400" />
                         )}
                         <span
                           className={`font-medium ${
-                            trade.type === 'BUY' ? 'text-green-400' : 'text-red-400'
+                            trade.type === 'BUY' ? 'text-[#76E821]' : 'text-red-400'
                           }`}
                         >
                           {trade.type}
@@ -242,7 +242,7 @@ export default function Trades() {
                     <td className="py-4 px-4 text-right text-white">R$ {trade.price.toFixed(2)}</td>
                     <td className="py-4 px-4 text-right text-white">R$ {trade.total.toLocaleString('pt-BR')}</td>
                     <td className="py-4 px-4 text-right">
-                      <div className={`font-semibold ${trade.result > 0 ? 'text-green-400' : 'text-red-400'}`}>
+                      <div className={`font-semibold ${trade.result > 0 ? 'text-[#76E821]' : 'text-red-400'}`}>
                         {trade.result > 0 ? '+' : ''}R$ {trade.result.toLocaleString('pt-BR')}
                         <div className="text-xs opacity-75">
                           {trade.resultPercent > 0 ? '+' : ''}
@@ -251,7 +251,7 @@ export default function Trades() {
                       </div>
                     </td>
                     <td className="py-4 px-4">
-                      <span className="px-2 py-1 rounded bg-green-600/20 text-green-400 text-xs font-medium">
+                      <span className="px-2 py-1 rounded bg-[#38A636]/20 text-[#76E821] text-xs font-medium">
                         {trade.status}
                       </span>
                     </td>

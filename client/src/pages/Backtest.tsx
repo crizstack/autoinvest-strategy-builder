@@ -75,21 +75,21 @@ export default function Backtest() {
       {/* Header */}
       <div>
         <h1 className="text-3xl font-bold text-white mb-2">Backtesting</h1>
-        <p className="text-slate-400">Teste suas estratégias com dados históricos</p>
+        <p className="text-[#B8C2B8]">Teste suas estratégias com dados históricos</p>
       </div>
 
       {/* Configuration Panel */}
-      <Card className="p-6 bg-slate-900/50 border-slate-800">
+      <Card className="p-6 bg-[#0B110B]/50 border-[#235317]/30">
         <h2 className="text-lg font-semibold text-white mb-6">Configurar Backtest</h2>
 
         <div className="grid grid-cols-2 gap-6">
           {/* Strategy Selection */}
           <div>
-            <Label className="text-slate-300 mb-2 block">Estratégia</Label>
+            <Label className="text-[#B8C2B8] mb-2 block">Estratégia</Label>
             <select
               value={selectedStrategy || ''}
               onChange={(e) => setSelectedStrategy(parseInt(e.target.value))}
-              className="w-full px-4 py-2 bg-slate-950 border border-slate-800 text-white rounded-lg"
+              className="w-full px-4 py-2 bg-[#050805] border border-[#235317]/30 text-white rounded-lg"
             >
               <option value="">Selecione uma estratégia</option>
               {strategies.map((s: any) => (
@@ -102,11 +102,11 @@ export default function Backtest() {
 
           {/* Asset Selection */}
           <div>
-            <Label className="text-slate-300 mb-2 block">Ativo</Label>
+            <Label className="text-[#B8C2B8] mb-2 block">Ativo</Label>
             <select
               value={selectedAsset}
               onChange={(e) => setSelectedAsset(e.target.value)}
-              className="w-full px-4 py-2 bg-slate-950 border border-slate-800 text-white rounded-lg"
+              className="w-full px-4 py-2 bg-[#050805] border border-[#235317]/30 text-white rounded-lg"
             >
               {assets.map((asset) => (
                 <option key={asset} value={asset}>
@@ -118,11 +118,11 @@ export default function Backtest() {
 
           {/* Period Selection */}
           <div>
-            <Label className="text-slate-300 mb-2 block">Período</Label>
+            <Label className="text-[#B8C2B8] mb-2 block">Período</Label>
             <select
               value={period}
               onChange={(e) => setPeriod(e.target.value)}
-              className="w-full px-4 py-2 bg-slate-950 border border-slate-800 text-white rounded-lg"
+              className="w-full px-4 py-2 bg-[#050805] border border-[#235317]/30 text-white rounded-lg"
             >
               <option value="7">7 dias</option>
               <option value="30">30 dias</option>
@@ -136,21 +136,21 @@ export default function Backtest() {
           {period === 'custom' && (
             <div className="col-span-2 grid grid-cols-2 gap-4">
               <div>
-                <Label className="text-slate-300 mb-2 block">Data Inicial</Label>
+                <Label className="text-[#B8C2B8] mb-2 block">Data Inicial</Label>
                 <Input
                   type="date"
                   value={customStartDate}
                   onChange={(e) => setCustomStartDate(e.target.value)}
-                  className="bg-slate-950 border-slate-800 text-white"
+                  className="bg-[#050805] border-[#235317]/30 text-white"
                 />
               </div>
               <div>
-                <Label className="text-slate-300 mb-2 block">Data Final</Label>
+                <Label className="text-[#B8C2B8] mb-2 block">Data Final</Label>
                 <Input
                   type="date"
                   value={customEndDate}
                   onChange={(e) => setCustomEndDate(e.target.value)}
-                  className="bg-slate-950 border-slate-800 text-white"
+                  className="bg-[#050805] border-[#235317]/30 text-white"
                 />
               </div>
             </div>
@@ -162,7 +162,7 @@ export default function Backtest() {
           <Button
             onClick={handleRunBacktest}
             disabled={!selectedStrategy || isRunning}
-            className="bg-green-600 hover:bg-green-700 flex items-center gap-2"
+            className="bg-[#38A636] hover:bg-[#4CB22F] flex items-center gap-2"
           >
             <Play className="w-4 h-4" />
             {isRunning ? 'Executando...' : 'Executar Backtest'}
@@ -175,60 +175,60 @@ export default function Backtest() {
         <>
           {/* Metrics Grid */}
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-            <Card className="p-4 bg-slate-900/50 border-slate-800">
+            <Card className="p-4 bg-[#0B110B]/50 border-[#235317]/30">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-slate-400 text-sm">Lucro Total</p>
-                  <p className="text-2xl font-bold text-green-400">R$ {backTestResult.totalProfit.toLocaleString('pt-BR')}</p>
+                  <p className="text-[#B8C2B8] text-sm">Lucro Total</p>
+                  <p className="text-2xl font-bold text-[#76E821]">R$ {backTestResult.totalProfit.toLocaleString('pt-BR')}</p>
                 </div>
-                <TrendingUp className="w-8 h-8 text-green-500 opacity-50" />
+                <TrendingUp className="w-8 h-8 text-[#4CB22F] opacity-50" />
               </div>
             </Card>
 
-            <Card className="p-4 bg-slate-900/50 border-slate-800">
+            <Card className="p-4 bg-[#0B110B]/50 border-[#235317]/30">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-slate-400 text-sm">Taxa de Acerto</p>
-                  <p className="text-2xl font-bold text-green-400">{backTestResult.winRate}%</p>
+                  <p className="text-[#B8C2B8] text-sm">Taxa de Acerto</p>
+                  <p className="text-2xl font-bold text-[#76E821]">{backTestResult.winRate}%</p>
                 </div>
-                <Target className="w-8 h-8 text-green-500 opacity-50" />
+                <Target className="w-8 h-8 text-[#4CB22F] opacity-50" />
               </div>
             </Card>
 
-            <Card className="p-4 bg-slate-900/50 border-slate-800">
+            <Card className="p-4 bg-[#0B110B]/50 border-[#235317]/30">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-slate-400 text-sm">Drawdown Máx</p>
+                  <p className="text-[#B8C2B8] text-sm">Drawdown Máx</p>
                   <p className="text-2xl font-bold text-amber-400">{backTestResult.drawdown}%</p>
                 </div>
                 <TrendingDown className="w-8 h-8 text-amber-500 opacity-50" />
               </div>
             </Card>
 
-            <Card className="p-4 bg-slate-900/50 border-slate-800">
+            <Card className="p-4 bg-[#0B110B]/50 border-[#235317]/30">
               <div>
-                <p className="text-slate-400 text-sm">Total de Trades</p>
+                <p className="text-[#B8C2B8] text-sm">Total de Trades</p>
                 <p className="text-2xl font-bold text-white">{backTestResult.totalTrades}</p>
               </div>
             </Card>
 
-            <Card className="p-4 bg-slate-900/50 border-slate-800">
+            <Card className="p-4 bg-[#0B110B]/50 border-[#235317]/30">
               <div>
-                <p className="text-slate-400 text-sm">Sharpe Ratio</p>
+                <p className="text-[#B8C2B8] text-sm">Sharpe Ratio</p>
                 <p className="text-2xl font-bold text-white">{backTestResult.sharpeRatio}</p>
               </div>
             </Card>
 
-            <Card className="p-4 bg-slate-900/50 border-slate-800">
+            <Card className="p-4 bg-[#0B110B]/50 border-[#235317]/30">
               <div>
-                <p className="text-slate-400 text-sm">Profit Factor</p>
+                <p className="text-[#B8C2B8] text-sm">Profit Factor</p>
                 <p className="text-2xl font-bold text-white">{backTestResult.profitFactor}</p>
               </div>
             </Card>
           </div>
 
           {/* Equity Curve */}
-          <Card className="p-6 bg-slate-900/50 border-slate-800">
+          <Card className="p-6 bg-[#0B110B]/50 border-[#235317]/30">
             <h3 className="text-lg font-semibold text-white mb-4">Curva de Equity</h3>
             <ResponsiveContainer width="100%" height={300}>
               <LineChart data={MOCK_EQUITY_CURVE}>
@@ -237,7 +237,7 @@ export default function Backtest() {
                 <YAxis stroke="#94a3b8" />
                 <Tooltip
                   contentStyle={{
-                    backgroundColor: '#1e293b',
+                    backgroundColor: '#141C14',
                     border: '1px solid #475569',
                     borderRadius: '8px',
                   }}
@@ -246,8 +246,8 @@ export default function Backtest() {
                 <Line
                   type="monotone"
                   dataKey="value"
-                  stroke="#3b82f6"
-                  dot={{ fill: '#3b82f6' }}
+                  stroke="#38A636"
+                  dot={{ fill: '#38A636' }}
                   name="Saldo"
                 />
               </LineChart>
@@ -255,29 +255,29 @@ export default function Backtest() {
           </Card>
 
           {/* Trades Table */}
-          <Card className="p-6 bg-slate-900/50 border-slate-800">
+          <Card className="p-6 bg-[#0B110B]/50 border-[#235317]/30">
             <h3 className="text-lg font-semibold text-white mb-4">Operações Simuladas</h3>
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
-                  <tr className="border-b border-slate-800">
-                    <th className="text-left py-3 px-4 text-slate-400">Data</th>
-                    <th className="text-left py-3 px-4 text-slate-400">Tipo</th>
-                    <th className="text-left py-3 px-4 text-slate-400">Qtd</th>
-                    <th className="text-left py-3 px-4 text-slate-400">Preço</th>
-                    <th className="text-left py-3 px-4 text-slate-400">Resultado</th>
-                    <th className="text-left py-3 px-4 text-slate-400">Status</th>
+                  <tr className="border-b border-[#235317]/30">
+                    <th className="text-left py-3 px-4 text-[#B8C2B8]">Data</th>
+                    <th className="text-left py-3 px-4 text-[#B8C2B8]">Tipo</th>
+                    <th className="text-left py-3 px-4 text-[#B8C2B8]">Qtd</th>
+                    <th className="text-left py-3 px-4 text-[#B8C2B8]">Preço</th>
+                    <th className="text-left py-3 px-4 text-[#B8C2B8]">Resultado</th>
+                    <th className="text-left py-3 px-4 text-[#B8C2B8]">Status</th>
                   </tr>
                 </thead>
                 <tbody>
                   {MOCK_TRADES.map((trade) => (
-                    <tr key={trade.id} className="border-b border-slate-800/50 hover:bg-slate-800/30">
+                    <tr key={trade.id} className="border-b border-[#235317]/25 hover:bg-[#141C14]/30">
                       <td className="py-3 px-4 text-white">{trade.date}</td>
                       <td className="py-3 px-4">
                         <span
                           className={`px-2 py-1 rounded text-xs font-medium ${
                             trade.type === 'BUY'
-                              ? 'bg-green-600/20 text-green-400'
+                              ? 'bg-[#38A636]/20 text-[#76E821]'
                               : 'bg-red-600/20 text-red-400'
                           }`}
                         >
@@ -288,13 +288,13 @@ export default function Backtest() {
                       <td className="py-3 px-4 text-white">R$ {trade.price.toFixed(2)}</td>
                       <td
                         className={`py-3 px-4 font-semibold ${
-                          trade.result > 0 ? 'text-green-400' : 'text-red-400'
+                          trade.result > 0 ? 'text-[#76E821]' : 'text-red-400'
                         }`}
                       >
                         {trade.result > 0 ? '+' : ''}R$ {trade.result.toLocaleString('pt-BR')}
                       </td>
                       <td className="py-3 px-4">
-                        <span className="px-2 py-1 rounded text-xs font-medium bg-green-600/20 text-green-400">
+                        <span className="px-2 py-1 rounded text-xs font-medium bg-[#38A636]/20 text-[#76E821]">
                           {trade.status}
                         </span>
                       </td>
@@ -309,10 +309,10 @@ export default function Backtest() {
 
       {/* Empty State */}
       {!backTestResult && (
-        <Card className="p-12 bg-slate-900/50 border-slate-800 text-center">
-          <Zap className="w-12 h-12 text-slate-600 mx-auto mb-4 opacity-50" />
+        <Card className="p-12 bg-[#0B110B]/50 border-[#235317]/30 text-center">
+          <Zap className="w-12 h-12 text-[#6B756B] mx-auto mb-4 opacity-50" />
           <h3 className="text-lg font-semibold text-white mb-2">Nenhum backtest executado</h3>
-          <p className="text-slate-400">Configure os parâmetros acima e clique em "Executar Backtest"</p>
+          <p className="text-[#B8C2B8]">Configure os parâmetros acima e clique em "Executar Backtest"</p>
         </Card>
       )}
     </div>

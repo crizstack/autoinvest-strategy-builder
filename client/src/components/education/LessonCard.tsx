@@ -10,7 +10,7 @@ interface LessonCardProps {
 }
 
 const difficultyColors = {
-  beginner: 'bg-green-600/20 text-green-300 border-green-600/50',
+  beginner: 'bg-[#38A636]/20 text-[#76E821] border-[#38A636]/50',
   intermediate: 'bg-yellow-600/20 text-yellow-300 border-yellow-600/50',
   advanced: 'bg-red-600/20 text-red-300 border-red-600/50',
 };
@@ -23,26 +23,26 @@ const difficultyLabels = {
 
 export default function LessonCard({ lesson, onSelect }: LessonCardProps) {
   return (
-    <Card className="p-4 bg-slate-900/50 border-slate-800 hover:border-slate-700 transition-all cursor-pointer hover:shadow-lg">
+    <Card className="p-4 bg-[#0B110B]/50 border-[#235317]/30 hover:border-[#235317]/45 transition-all cursor-pointer hover:shadow-lg">
       <div className="space-y-3">
         <div className="flex items-start justify-between gap-3">
           <div className="flex-1">
             <h3 className="font-semibold text-white text-lg mb-1">{lesson.title}</h3>
-            <p className="text-sm text-slate-400">{lesson.description}</p>
+            <p className="text-sm text-[#B8C2B8]">{lesson.description}</p>
           </div>
-          <BookOpen className="w-5 h-5 text-blue-400 flex-shrink-0" />
+          <BookOpen className="w-5 h-5 text-[#76E821] flex-shrink-0" />
         </div>
 
         <div className="flex items-center gap-2 flex-wrap">
           <Badge className={`${difficultyColors[lesson.difficulty]} border`}>
             {difficultyLabels[lesson.difficulty]}
           </Badge>
-          <Badge variant="outline" className="border-slate-700 text-slate-300">
+          <Badge variant="outline" className="border-[#235317]/45 text-[#B8C2B8]">
             {lesson.category}
           </Badge>
         </div>
 
-        <div className="flex items-center gap-4 text-sm text-slate-400">
+        <div className="flex items-center gap-4 text-sm text-[#B8C2B8]">
           <div className="flex items-center gap-1">
             <Clock className="w-4 h-4" />
             {lesson.duration} min
@@ -51,7 +51,7 @@ export default function LessonCard({ lesson, onSelect }: LessonCardProps) {
 
         <Button
           onClick={() => onSelect(lesson)}
-          className="w-full bg-blue-600 hover:bg-blue-700"
+          className="w-full bg-[#38A636] hover:bg-[#4CB22F]"
         >
           Abrir Aula
         </Button>

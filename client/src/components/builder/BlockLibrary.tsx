@@ -16,11 +16,11 @@ export default function BlockLibrary({ onDragStart }: BlockLibraryProps) {
   ];
 
   return (
-    <div className="w-64 bg-slate-900/50 border-r border-slate-800 overflow-y-auto">
+    <div className="w-64 bg-[#0B110B]/50 border-r border-[#235317]/30 overflow-y-auto">
       <div className="p-4 space-y-6">
         {categories.map(({ type, title }) => (
           <div key={type}>
-            <h3 className="text-sm font-semibold text-slate-300 mb-3 px-2">{title}</h3>
+            <h3 className="text-sm font-semibold text-[#B8C2B8] mb-3 px-2">{title}</h3>
             <div className="space-y-2">
               {BLOCK_TEMPLATES[type].map((block) => {
                 const color = BLOCK_COLORS[type];

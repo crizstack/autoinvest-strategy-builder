@@ -68,9 +68,9 @@ export default function Watchlist() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-4xl font-bold text-white">Minha Watchlist</h1>
-          <p className="text-slate-400 mt-2">{watchlistItems.length} ativos monitorados</p>
+          <p className="text-[#B8C2B8] mt-2">{watchlistItems.length} ativos monitorados</p>
         </div>
-        <Button className="bg-green-600 hover:bg-green-700" onClick={() => setShowAddModal(true)}>
+        <Button className="bg-[#38A636] hover:bg-[#4CB22F]" onClick={() => setShowAddModal(true)}>
           <Plus className="w-4 h-4 mr-2" />
           Adicionar Ativo
         </Button>
@@ -79,14 +79,14 @@ export default function Watchlist() {
       {/* Add Modal */}
       {showAddModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 rounded-lg">
-          <Card className="p-6 bg-slate-900 border-slate-800 w-full max-w-md">
+          <Card className="p-6 bg-[#0B110B] border-[#235317]/30 w-full max-w-md">
             <h2 className="text-xl font-bold text-white mb-4">Adicionar Ativo</h2>
             <div className="mb-4">
               <Input
                 placeholder="Buscar ativo..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="bg-slate-800 border-slate-700 text-white"
+                className="bg-[#141C14] border-[#235317]/45 text-white"
               />
             </div>
             <div className="space-y-2 max-h-96 overflow-y-auto mb-4">
@@ -94,21 +94,21 @@ export default function Watchlist() {
                 <button
                   key={asset.id}
                   onClick={() => handleAdd(asset.id)}
-                  className="w-full text-left p-3 rounded-lg bg-slate-800/50 border border-slate-700/50 hover:border-green-600 transition-colors"
+                  className="w-full text-left p-3 rounded-lg bg-[#141C14]/50 border border-[#235317]/35 hover:border-[#38A636] transition-colors"
                 >
                   <div className="flex items-center justify-between">
                     <div>
                       <p className="font-semibold text-white">{asset.symbol}</p>
-                      <p className="text-xs text-slate-400">{asset.name}</p>
+                      <p className="text-xs text-[#B8C2B8]">{asset.name}</p>
                     </div>
-                    <Plus className="w-4 h-4 text-green-400" />
+                    <Plus className="w-4 h-4 text-[#76E821]" />
                   </div>
                 </button>
               ))}
             </div>
             <Button
               variant="outline"
-              className="w-full border-slate-700"
+              className="w-full border-[#235317]/45"
               onClick={() => {
                 setShowAddModal(false);
                 setSearchTerm('');
@@ -122,13 +122,13 @@ export default function Watchlist() {
 
       {/* Watchlist Items */}
       {isLoading ? (
-        <Card className="p-8 bg-slate-900/50 border-slate-800 text-center">
-          <p className="text-slate-400">Carregando...</p>
+        <Card className="p-8 bg-[#0B110B]/50 border-[#235317]/30 text-center">
+          <p className="text-[#B8C2B8]">Carregando...</p>
         </Card>
       ) : watchlistItems.length === 0 ? (
-        <Card className="p-8 bg-slate-900/50 border-slate-800 text-center">
-          <p className="text-slate-400 mb-4">Sua watchlist está vazia</p>
-          <Button className="bg-green-600 hover:bg-green-700" onClick={() => setShowAddModal(true)}>
+        <Card className="p-8 bg-[#0B110B]/50 border-[#235317]/30 text-center">
+          <p className="text-[#B8C2B8] mb-4">Sua watchlist está vazia</p>
+          <Button className="bg-[#38A636] hover:bg-[#4CB22F]" onClick={() => setShowAddModal(true)}>
             <Plus className="w-4 h-4 mr-2" />
             Adicionar Primeiro Ativo
           </Button>
@@ -140,25 +140,25 @@ export default function Watchlist() {
             const isPositive = priceData.changePercent >= 0;
 
             return (
-              <Card key={item.id} className="p-6 bg-slate-900/50 border-slate-800 hover:border-slate-700 transition-colors">
+              <Card key={item.id} className="p-6 bg-[#0B110B]/50 border-[#235317]/30 hover:border-[#235317]/45 transition-colors">
                 <div className="flex items-center justify-between">
                   <div className="flex-1">
                     <div className="flex items-center gap-4 mb-2">
                       <div>
                         <h3 className="text-xl font-bold text-white">{item.symbol}</h3>
-                        <p className="text-sm text-slate-400">{item.name}</p>
+                        <p className="text-sm text-[#B8C2B8]">{item.name}</p>
                       </div>
                       {item.sector && (
-                        <span className="px-3 py-1 rounded-full bg-slate-800 text-xs text-slate-300">
+                        <span className="px-3 py-1 rounded-full bg-[#141C14] text-xs text-[#B8C2B8]">
                           {item.sector}
                         </span>
                       )}
                     </div>
-                    {item.notes && <p className="text-sm text-slate-400 mt-2">Nota: {item.notes}</p>}
+                    {item.notes && <p className="text-sm text-[#B8C2B8] mt-2">Nota: {item.notes}</p>}
                   </div>
                   <div className="text-right mr-6">
                     <p className="text-2xl font-bold text-white mb-1">R$ {priceData.price.toFixed(2)}</p>
-                    <div className={`flex items-center gap-1 justify-end ${isPositive ? 'text-green-400' : 'text-red-400'}`}>
+                    <div className={`flex items-center gap-1 justify-end ${isPositive ? 'text-[#76E821]' : 'text-red-400'}`}>
                       {isPositive ? (
                         <TrendingUp className="w-5 h-5" />
                       ) : (
@@ -171,7 +171,7 @@ export default function Watchlist() {
                   </div>
                   <button
                     onClick={() => handleRemove(item.id)}
-                    className="text-slate-400 hover:text-red-400 transition-colors"
+                    className="text-[#B8C2B8] hover:text-red-400 transition-colors"
                   >
                     <Trash2 className="w-5 h-5" />
                   </button>

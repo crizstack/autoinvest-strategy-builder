@@ -28,9 +28,9 @@ export default function AuthenticatedLayout({ children }: AuthenticatedLayoutPro
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950">
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#050805] via-[#0B110B] to-[#050805]">
         <div className="text-center">
-          <p className="text-slate-400">Carregando...</p>
+          <p className="text-[#B8C2B8]">Carregando...</p>
         </div>
       </div>
     );
@@ -52,15 +52,15 @@ export default function AuthenticatedLayout({ children }: AuthenticatedLayoutPro
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 flex">
+    <div className="min-h-screen bg-gradient-to-br from-[#050805] via-[#0B110B] to-[#050805] flex">
       {/* Sidebar */}
       <aside
-        className={`fixed left-0 top-0 h-screen bg-slate-900/50 border-r border-slate-800 backdrop-blur-sm transition-all duration-300 z-40 ${
+        className={`fixed left-0 top-0 h-screen bg-[#0B110B]/50 border-r border-[#235317]/30 backdrop-blur-sm transition-all duration-300 z-40 ${
           sidebarOpen ? 'w-64' : 'w-20'
         }`}
       >
         {/* Logo */}
-        <div className="h-16 flex items-center justify-between px-4 border-b border-slate-800">
+        <div className="h-16 flex items-center justify-between px-4 border-b border-[#235317]/30">
           {sidebarOpen && (
             <div className="flex items-center gap-2">
               <img src="/manus-storage/joven-invest-logo_07fcc62c.png" alt="Auto Invest" className="w-8 h-8" />
@@ -71,7 +71,7 @@ export default function AuthenticatedLayout({ children }: AuthenticatedLayoutPro
             variant="ghost"
             size="icon"
             onClick={() => setSidebarOpen(!sidebarOpen)}
-            className="text-slate-400 hover:text-white"
+            className="text-[#B8C2B8] hover:text-white"
           >
             {sidebarOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </Button>
@@ -86,7 +86,7 @@ export default function AuthenticatedLayout({ children }: AuthenticatedLayoutPro
               <Link
                 key={item.href}
                 href={item.href}
-                className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${isActive ? 'bg-green-600/20 text-green-400 border-l-2 border-green-500' : 'text-slate-400 hover:text-white hover:bg-slate-800/50'}`}
+                className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${isActive ? 'bg-[#38A636]/20 text-[#76E821] border-l-2 border-[#4CB22F]' : 'text-[#B8C2B8] hover:text-white hover:bg-[#141C14]/50'}`}
                 title={!sidebarOpen ? item.label : undefined}
               >
                 <Icon className="w-5 h-5 flex-shrink-0" />
@@ -100,7 +100,7 @@ export default function AuthenticatedLayout({ children }: AuthenticatedLayoutPro
         <div className="absolute bottom-4 left-4 right-4">
           <Link
             href="/settings"
-            className="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800/50 transition-colors"
+            className="flex items-center gap-3 px-4 py-3 rounded-lg text-[#B8C2B8] hover:text-white hover:bg-[#141C14]/50 transition-colors"
             title={!sidebarOpen ? 'Configurações' : undefined}
           >
             <Settings className="w-5 h-5 flex-shrink-0" />
@@ -112,52 +112,52 @@ export default function AuthenticatedLayout({ children }: AuthenticatedLayoutPro
       {/* Main Content */}
       <div className={`flex-1 transition-all duration-300 ${sidebarOpen ? 'ml-64' : 'ml-20'}`}>
         {/* Top Navbar */}
-        <nav className="h-16 border-b border-slate-800 bg-slate-900/50 backdrop-blur-sm sticky top-0 z-30 flex items-center justify-between px-6">
+        <nav className="h-16 border-b border-[#235317]/30 bg-[#0B110B]/50 backdrop-blur-sm sticky top-0 z-30 flex items-center justify-between px-6">
           <div className="flex-1" />
 
           {/* User Menu */}
           <div className="relative">
             <button
               onClick={() => setShowUserMenu(!showUserMenu)}
-              className="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-800/50 transition-colors"
+              className="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-[#141C14]/50 transition-colors"
             >
               <div className="text-right">
                 <p className="text-sm font-medium text-white">{user?.name || user?.email}</p>
-                <p className="text-xs text-slate-400">{user?.role === 'admin' ? 'Admin' : 'Usuário'}</p>
+                <p className="text-xs text-[#B8C2B8]">{user?.role === 'admin' ? 'Admin' : 'Usuário'}</p>
               </div>
-              <div className="w-8 h-8 rounded-full bg-green-600 flex items-center justify-center text-white font-bold">
+              <div className="w-8 h-8 rounded-full bg-[#38A636] flex items-center justify-center text-white font-bold">
                 {(user?.name || user?.email || 'U')[0].toUpperCase()}
               </div>
-              <ChevronDown className="w-4 h-4 text-slate-400" />
+              <ChevronDown className="w-4 h-4 text-[#B8C2B8]" />
             </button>
 
             {/* User Dropdown */}
             {showUserMenu && (
-              <div className="absolute right-0 mt-2 w-48 bg-slate-900 border border-slate-800 rounded-lg shadow-lg z-50">
+              <div className="absolute right-0 mt-2 w-48 bg-[#0B110B] border border-[#235317]/30 rounded-lg shadow-lg z-50">
                 <Link
                   href="/settings"
-                  className="block px-4 py-2 text-sm text-slate-300 hover:bg-slate-800 hover:text-white first:rounded-t-lg"
+                  className="block px-4 py-2 text-sm text-[#B8C2B8] hover:bg-[#141C14] hover:text-white first:rounded-t-lg"
                   onClick={() => setShowUserMenu(false)}
                 >
                   Configurações
                 </Link>
                 <Link
                   href="/settings/profile"
-                  className="block px-4 py-2 text-sm text-slate-300 hover:bg-slate-800 hover:text-white"
+                  className="block px-4 py-2 text-sm text-[#B8C2B8] hover:bg-[#141C14] hover:text-white"
                   onClick={() => setShowUserMenu(false)}
                 >
                   Perfil
                 </Link>
                 <Link
                   href="/settings/billing"
-                  className="block px-4 py-2 text-sm text-slate-300 hover:bg-slate-800 hover:text-white"
+                  className="block px-4 py-2 text-sm text-[#B8C2B8] hover:bg-[#141C14] hover:text-white"
                   onClick={() => setShowUserMenu(false)}
                 >
                   Plano
                 </Link>
                 <button
                   onClick={handleLogout}
-                  className="w-full text-left px-4 py-2 text-sm text-red-400 hover:bg-slate-800 hover:text-red-300 flex items-center gap-2 last:rounded-b-lg"
+                  className="w-full text-left px-4 py-2 text-sm text-red-400 hover:bg-[#141C14] hover:text-red-300 flex items-center gap-2 last:rounded-b-lg"
                 >
                   <LogOut className="w-4 h-4" />
                   Logout

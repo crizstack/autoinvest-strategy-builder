@@ -93,7 +93,7 @@ export default function BacktestResults() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold text-white mb-2">Resultados do Backtest</h1>
-          <p className="text-slate-400">Análise detalhada da estratégia "Cruzamento de Médias"</p>
+          <p className="text-[#B8C2B8]">Análise detalhada da estratégia "Cruzamento de Médias"</p>
         </div>
         <div className="flex gap-2">
           <Button
@@ -117,31 +117,31 @@ export default function BacktestResults() {
 
       {/* Key Metrics */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <Card className="p-6 bg-gradient-to-br from-green-500/10 to-green-600/5 border-green-500/30">
+        <Card className="p-6 bg-gradient-to-br from-[#38A636]/10 to-[#76E821]/5 border-[#4CB22F]/30">
           <div className="flex items-center justify-between mb-2">
-            <p className="text-green-400 text-sm font-semibold">Lucro Total</p>
-            <TrendingUp className="w-5 h-5 text-green-400" />
+            <p className="text-[#76E821] text-sm font-semibold">Lucro Total</p>
+            <TrendingUp className="w-5 h-5 text-[#76E821]" />
           </div>
           <p className="text-3xl font-bold text-white">R$ 3.800</p>
-          <p className="text-green-400 text-sm mt-2">+38% do capital inicial</p>
+          <p className="text-[#76E821] text-sm mt-2">+38% do capital inicial</p>
         </Card>
 
-        <Card className="p-6 bg-gradient-to-br from-blue-500/10 to-blue-600/5 border-blue-500/30">
+        <Card className="p-6 bg-gradient-to-br from-[#235317]/10 to-[#76E821]/5 border-[#4CB22F]/30">
           <div className="flex items-center justify-between mb-2">
-            <p className="text-blue-400 text-sm font-semibold">Sharpe Ratio</p>
-            <Zap className="w-5 h-5 text-blue-400" />
+            <p className="text-[#76E821] text-sm font-semibold">Sharpe Ratio</p>
+            <Zap className="w-5 h-5 text-[#76E821]" />
           </div>
           <p className="text-3xl font-bold text-white">1.85</p>
-          <p className="text-blue-400 text-sm mt-2">Retorno ajustado ao risco</p>
+          <p className="text-[#76E821] text-sm mt-2">Retorno ajustado ao risco</p>
         </Card>
 
-        <Card className="p-6 bg-gradient-to-br from-purple-500/10 to-purple-600/5 border-purple-500/30">
+        <Card className="p-6 bg-gradient-to-br from-[#38A636]/10 to-[#38A636]/5 border-[#4CB22F]/30">
           <div className="flex items-center justify-between mb-2">
-            <p className="text-purple-400 text-sm font-semibold">Profit Factor</p>
-            <Target className="w-5 h-5 text-purple-400" />
+            <p className="text-[#76E821] text-sm font-semibold">Profit Factor</p>
+            <Target className="w-5 h-5 text-[#76E821]" />
           </div>
           <p className="text-3xl font-bold text-white">2.10</p>
-          <p className="text-purple-400 text-sm mt-2">Lucro / Perda</p>
+          <p className="text-[#76E821] text-sm mt-2">Lucro / Perda</p>
         </Card>
 
         <Card className="p-6 bg-gradient-to-br from-amber-500/10 to-amber-600/5 border-amber-500/30">
@@ -156,7 +156,7 @@ export default function BacktestResults() {
 
       {/* Tabs */}
       <Tabs value={selectedTab} onValueChange={setSelectedTab} className="w-full">
-        <TabsList className="grid w-full grid-cols-5 bg-slate-900/50 border border-slate-800">
+        <TabsList className="grid w-full grid-cols-5 bg-[#0B110B]/50 border border-[#235317]/30">
           <TabsTrigger value="overview">Visão Geral</TabsTrigger>
           <TabsTrigger value="equity">Equity Curve</TabsTrigger>
           <TabsTrigger value="comparison">Comparação</TabsTrigger>
@@ -168,45 +168,45 @@ export default function BacktestResults() {
         <TabsContent value="overview" className="space-y-6">
           {/* Detailed Metrics */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <Card className="p-6 bg-slate-900/50 border-slate-800">
+            <Card className="p-6 bg-[#0B110B]/50 border-[#235317]/30">
               <h3 className="text-lg font-semibold text-white mb-4">Métricas de Risco</h3>
               <div className="space-y-4">
-                <div className="flex items-center justify-between p-3 bg-slate-950 rounded-lg">
-                  <span className="text-slate-400">Drawdown Máximo</span>
+                <div className="flex items-center justify-between p-3 bg-[#050805] rounded-lg">
+                  <span className="text-[#B8C2B8]">Drawdown Máximo</span>
                   <span className="text-white font-semibold">2.5%</span>
                 </div>
-                <div className="flex items-center justify-between p-3 bg-slate-950 rounded-lg">
-                  <span className="text-slate-400">Maior Perda</span>
+                <div className="flex items-center justify-between p-3 bg-[#050805] rounded-lg">
+                  <span className="text-[#B8C2B8]">Maior Perda</span>
                   <span className="text-red-400 font-semibold">-R$ 160</span>
                 </div>
-                <div className="flex items-center justify-between p-3 bg-slate-950 rounded-lg">
-                  <span className="text-slate-400">Perdas Consecutivas</span>
+                <div className="flex items-center justify-between p-3 bg-[#050805] rounded-lg">
+                  <span className="text-[#B8C2B8]">Perdas Consecutivas</span>
                   <span className="text-white font-semibold">1</span>
                 </div>
-                <div className="flex items-center justify-between p-3 bg-slate-950 rounded-lg">
-                  <span className="text-slate-400">Volatilidade</span>
+                <div className="flex items-center justify-between p-3 bg-[#050805] rounded-lg">
+                  <span className="text-[#B8C2B8]">Volatilidade</span>
                   <span className="text-white font-semibold">1.2%</span>
                 </div>
               </div>
             </Card>
 
-            <Card className="p-6 bg-slate-900/50 border-slate-800">
+            <Card className="p-6 bg-[#0B110B]/50 border-[#235317]/30">
               <h3 className="text-lg font-semibold text-white mb-4">Métricas de Performance</h3>
               <div className="space-y-4">
-                <div className="flex items-center justify-between p-3 bg-slate-950 rounded-lg">
-                  <span className="text-slate-400">Total de Trades</span>
+                <div className="flex items-center justify-between p-3 bg-[#050805] rounded-lg">
+                  <span className="text-[#B8C2B8]">Total de Trades</span>
                   <span className="text-white font-semibold">5</span>
                 </div>
-                <div className="flex items-center justify-between p-3 bg-slate-950 rounded-lg">
-                  <span className="text-slate-400">Ganhos Consecutivos</span>
-                  <span className="text-green-400 font-semibold">3</span>
+                <div className="flex items-center justify-between p-3 bg-[#050805] rounded-lg">
+                  <span className="text-[#B8C2B8]">Ganhos Consecutivos</span>
+                  <span className="text-[#76E821] font-semibold">3</span>
                 </div>
-                <div className="flex items-center justify-between p-3 bg-slate-950 rounded-lg">
-                  <span className="text-slate-400">Ganho Médio</span>
-                  <span className="text-green-400 font-semibold">+R$ 950</span>
+                <div className="flex items-center justify-between p-3 bg-[#050805] rounded-lg">
+                  <span className="text-[#B8C2B8]">Ganho Médio</span>
+                  <span className="text-[#76E821] font-semibold">+R$ 950</span>
                 </div>
-                <div className="flex items-center justify-between p-3 bg-slate-950 rounded-lg">
-                  <span className="text-slate-400">Perda Média</span>
+                <div className="flex items-center justify-between p-3 bg-[#050805] rounded-lg">
+                  <span className="text-[#B8C2B8]">Perda Média</span>
                   <span className="text-red-400 font-semibold">-R$ 160</span>
                 </div>
               </div>
@@ -214,25 +214,25 @@ export default function BacktestResults() {
           </div>
 
           {/* Trades Table */}
-          <Card className="p-6 bg-slate-900/50 border-slate-800">
+          <Card className="p-6 bg-[#0B110B]/50 border-[#235317]/30">
             <h3 className="text-lg font-semibold text-white mb-4">Operações Executadas</h3>
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
-                  <tr className="border-b border-slate-800">
-                    <th className="text-left py-3 px-4 text-slate-400">#</th>
-                    <th className="text-left py-3 px-4 text-slate-400">Data</th>
-                    <th className="text-left py-3 px-4 text-slate-400">Tipo</th>
-                    <th className="text-left py-3 px-4 text-slate-400">Qtd</th>
-                    <th className="text-left py-3 px-4 text-slate-400">Preço</th>
-                    <th className="text-left py-3 px-4 text-slate-400">Resultado</th>
+                  <tr className="border-b border-[#235317]/30">
+                    <th className="text-left py-3 px-4 text-[#B8C2B8]">#</th>
+                    <th className="text-left py-3 px-4 text-[#B8C2B8]">Data</th>
+                    <th className="text-left py-3 px-4 text-[#B8C2B8]">Tipo</th>
+                    <th className="text-left py-3 px-4 text-[#B8C2B8]">Qtd</th>
+                    <th className="text-left py-3 px-4 text-[#B8C2B8]">Preço</th>
+                    <th className="text-left py-3 px-4 text-[#B8C2B8]">Resultado</th>
                   </tr>
                 </thead>
                 <tbody>
                   {MOCK_TRADES.map((trade, idx) => (
                     <tr
                       key={trade.id}
-                      className="border-b border-slate-800/50 hover:bg-slate-800/30 cursor-pointer"
+                      className="border-b border-[#235317]/25 hover:bg-[#141C14]/30 cursor-pointer"
                       onClick={() => setSelectedTrade(trade)}
                     >
                       <td className="py-3 px-4 text-white">#{idx + 1}</td>
@@ -241,7 +241,7 @@ export default function BacktestResults() {
                         <span
                           className={`px-2 py-1 rounded text-xs font-medium ${
                             trade.type === 'BUY'
-                              ? 'bg-green-600/20 text-green-400'
+                              ? 'bg-[#38A636]/20 text-[#76E821]'
                               : 'bg-red-600/20 text-red-400'
                           }`}
                         >
@@ -252,7 +252,7 @@ export default function BacktestResults() {
                       <td className="py-3 px-4 text-white">R$ {trade.price.toFixed(2)}</td>
                       <td
                         className={`py-3 px-4 font-semibold ${
-                          trade.result > 0 ? 'text-green-400' : 'text-red-400'
+                          trade.result > 0 ? 'text-[#76E821]' : 'text-red-400'
                         }`}
                       >
                         {trade.result > 0 ? '+' : ''}R$ {trade.result.toLocaleString('pt-BR')}
@@ -303,40 +303,40 @@ export default function BacktestResults() {
 
       {/* Selected Trade Details */}
       {selectedTrade && (
-        <Card className="p-6 bg-slate-900/50 border-slate-800 border-l-4 border-l-blue-500">
+        <Card className="p-6 bg-[#0B110B]/50 border-[#235317]/30 border-l-4 border-l-[#4CB22F]">
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-lg font-semibold text-white">Detalhes da Operação</h3>
             <button
               onClick={() => setSelectedTrade(null)}
-              className="text-slate-400 hover:text-white"
+              className="text-[#B8C2B8] hover:text-white"
             >
               ✕
             </button>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <div>
-              <p className="text-slate-400 text-sm">Data</p>
+              <p className="text-[#B8C2B8] text-sm">Data</p>
               <p className="text-white font-semibold">{selectedTrade.date}</p>
             </div>
             <div>
-              <p className="text-slate-400 text-sm">Tipo</p>
+              <p className="text-[#B8C2B8] text-sm">Tipo</p>
               <p
                 className={`font-semibold ${
-                  selectedTrade.type === 'BUY' ? 'text-green-400' : 'text-red-400'
+                  selectedTrade.type === 'BUY' ? 'text-[#76E821]' : 'text-red-400'
                 }`}
               >
                 {selectedTrade.type}
               </p>
             </div>
             <div>
-              <p className="text-slate-400 text-sm">Preço</p>
+              <p className="text-[#B8C2B8] text-sm">Preço</p>
               <p className="text-white font-semibold">R$ {selectedTrade.price.toFixed(2)}</p>
             </div>
             <div>
-              <p className="text-slate-400 text-sm">Resultado</p>
+              <p className="text-[#B8C2B8] text-sm">Resultado</p>
               <p
                 className={`font-semibold ${
-                  selectedTrade.result > 0 ? 'text-green-400' : 'text-red-400'
+                  selectedTrade.result > 0 ? 'text-[#76E821]' : 'text-red-400'
                 }`}
               >
                 {selectedTrade.result > 0 ? '+' : ''}R$ {selectedTrade.result.toLocaleString('pt-BR')}

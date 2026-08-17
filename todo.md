@@ -288,3 +288,13 @@
 - ✅ Atualização automática em tempo real
 - ✅ Build: 22.22s
 - ✅ Testes: 267/267 passando
+
+## Redesign Visual Joven Invest
+
+- [x] Aplicar identidade visual Joven Invest preto + verde na camada global sem alterar funcionalidade
+- [x] Atualizar layouts de navegação, sidebar e cabeçalho para a nova identidade
+- [x] Revisar páginas públicas e autenticadas para remover predominância azul/roxa
+- [x] Revisar dashboard, gráficos, widgets e estados financeiros com semântica visual consistente
+- [x] Revisar Strategy Builder, formulários, tabelas, modais, dropdowns, tooltips e estados vazios
+- [x] Validar contraste, responsividade, compilação e registrar as 5 falhas preexistentes da suíte de testes
+- [x] Confirmar que nenhuma rota, API, regra de negócio, cálculo ou fluxo funcional foi alterado

@@ -76,42 +76,42 @@ export default function TopStrategiesWidget() {
 
   if (loading) {
     return (
-      <Card className="p-6 bg-slate-900/50 border-slate-800 flex items-center justify-center">
-        <Loader className="w-6 h-6 text-green-400 animate-spin" />
+      <Card className="p-6 bg-[#0B110B]/50 border-[#235317]/30 flex items-center justify-center">
+        <Loader className="w-6 h-6 text-[#76E821] animate-spin" />
       </Card>
     );
   }
 
   if (topStrategies.length === 0) {
     return (
-      <Card className="p-6 bg-slate-900/50 border-slate-800">
+      <Card className="p-6 bg-[#0B110B]/50 border-[#235317]/30">
         <div className="mb-6">
           <h3 className="text-lg font-semibold text-white">Top Estratégias</h3>
-          <p className="text-sm text-slate-400 mt-1">Melhor performance</p>
+          <p className="text-sm text-[#B8C2B8] mt-1">Melhor performance</p>
         </div>
-        <p className="text-slate-400 text-center py-8">Nenhuma estratégia com trades ainda</p>
+        <p className="text-[#B8C2B8] text-center py-8">Nenhuma estratégia com trades ainda</p>
       </Card>
     );
   }
 
   return (
-    <Card className="p-6 bg-slate-900/50 border-slate-800">
+    <Card className="p-6 bg-[#0B110B]/50 border-[#235317]/30">
       <div className="mb-6">
         <h3 className="text-lg font-semibold text-white">Top Estratégias</h3>
-        <p className="text-sm text-slate-400 mt-1">Melhor performance</p>
+        <p className="text-sm text-[#B8C2B8] mt-1">Melhor performance</p>
       </div>
       <div className="space-y-4">
         {topStrategies.map((strategy) => (
           <div
             key={strategy.id}
-            className="p-4 rounded-lg bg-slate-800/50 border border-slate-700/50 hover:border-slate-600 transition-colors cursor-pointer"
+            className="p-4 rounded-lg bg-[#141C14]/50 border border-[#235317]/35 hover:border-[#6B756B]/40 transition-colors cursor-pointer"
           >
             <div className="flex items-start justify-between mb-3">
               <div>
                 <h4 className="text-white font-medium">{strategy.name}</h4>
-                <p className="text-xs text-slate-400 mt-1">{strategy.trades} operações</p>
+                <p className="text-xs text-[#B8C2B8] mt-1">{strategy.trades} operações</p>
               </div>
-              <div className={`flex items-center gap-1 ${strategy.return > 0 ? 'text-green-400' : 'text-red-400'}`}>
+              <div className={`flex items-center gap-1 ${strategy.return > 0 ? 'text-[#76E821]' : 'text-red-400'}`}>
                 {strategy.return > 0 ? (
                   <TrendingUp className="w-4 h-4" />
                 ) : (
@@ -121,15 +121,15 @@ export default function TopStrategiesWidget() {
               </div>
             </div>
             <div className="flex items-center justify-between text-xs">
-              <span className="text-slate-400">Taxa de acerto</span>
+              <span className="text-[#B8C2B8]">Taxa de acerto</span>
               <div className="flex items-center gap-2">
-                <div className="w-16 h-2 rounded-full bg-slate-700">
+                <div className="w-16 h-2 rounded-full bg-[#1D2A1D]">
                   <div
-                    className="h-full rounded-full bg-green-500"
+                    className="h-full rounded-full bg-[#4CB22F]"
                     style={{ width: `${strategy.winRate}%` }}
                   />
                 </div>
-                <span className="text-slate-300 font-medium">{strategy.winRate}%</span>
+                <span className="text-[#B8C2B8] font-medium">{strategy.winRate}%</span>
               </div>
             </div>
           </div>

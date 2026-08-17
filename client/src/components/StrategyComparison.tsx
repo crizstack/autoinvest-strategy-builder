@@ -18,10 +18,10 @@ interface StrategyComparisonProps {
 export function StrategyComparison({ strategies }: StrategyComparisonProps) {
   if (strategies.length === 0) {
     return (
-      <Card className="p-12 bg-slate-900/50 border-slate-800 text-center">
-        <Zap className="w-12 h-12 text-slate-600 mx-auto mb-4 opacity-50" />
+      <Card className="p-12 bg-[#0B110B]/50 border-[#235317]/30 text-center">
+        <Zap className="w-12 h-12 text-[#6B756B] mx-auto mb-4 opacity-50" />
         <h3 className="text-lg font-semibold text-white mb-2">Nenhuma estratégia para comparar</h3>
-        <p className="text-slate-400">Execute backtests de múltiplas estratégias para compará-las</p>
+        <p className="text-[#B8C2B8]">Execute backtests de múltiplas estratégias para compará-las</p>
       </Card>
     );
   }
@@ -55,10 +55,10 @@ export function StrategyComparison({ strategies }: StrategyComparisonProps) {
       <div className="overflow-x-auto">
         <table className="w-full text-sm">
           <thead>
-            <tr className="border-b border-slate-800">
-              <th className="text-left py-3 px-4 text-slate-400">Métrica</th>
+            <tr className="border-b border-[#235317]/30">
+              <th className="text-left py-3 px-4 text-[#B8C2B8]">Métrica</th>
               {strategies.map((strategy) => (
-                <th key={strategy.name} className="text-left py-3 px-4 text-slate-300 font-semibold">
+                <th key={strategy.name} className="text-left py-3 px-4 text-[#B8C2B8] font-semibold">
                   {strategy.name}
                 </th>
               ))}
@@ -66,8 +66,8 @@ export function StrategyComparison({ strategies }: StrategyComparisonProps) {
           </thead>
           <tbody>
             {metrics.map((metric) => (
-              <tr key={metric.key} className="border-b border-slate-800/50 hover:bg-slate-800/30">
-                <td className="py-3 px-4 text-slate-400">{metric.label}</td>
+              <tr key={metric.key} className="border-b border-[#235317]/25 hover:bg-[#141C14]/30">
+                <td className="py-3 px-4 text-[#B8C2B8]">{metric.label}</td>
                 {strategies.map((strategy) => {
                   const value = strategy[metric.key as keyof StrategyMetrics] as number;
                   const best = isBest(metric.key, value);
@@ -77,10 +77,10 @@ export function StrategyComparison({ strategies }: StrategyComparisonProps) {
                       key={`${strategy.name}-${metric.key}`}
                       className={`py-3 px-4 font-semibold ${
                         best
-                          ? 'text-green-400 bg-green-500/10'
+                          ? 'text-[#76E821] bg-[#4CB22F]/10'
                           : metric.key === 'totalProfit'
                             ? value > 0
-                              ? 'text-green-300'
+                              ? 'text-[#76E821]'
                               : 'text-red-300'
                             : 'text-white'
                       }`}
@@ -99,7 +99,7 @@ export function StrategyComparison({ strategies }: StrategyComparisonProps) {
       </div>
 
       {/* Ranking */}
-      <Card className="p-6 bg-slate-900/50 border-slate-800">
+      <Card className="p-6 bg-[#0B110B]/50 border-[#235317]/30">
         <h3 className="text-lg font-semibold text-white mb-4">Ranking Geral</h3>
         <div className="space-y-3">
           {strategies
@@ -116,24 +116,24 @@ export function StrategyComparison({ strategies }: StrategyComparisonProps) {
             .map((strategy, idx) => (
               <div
                 key={strategy.name}
-                className="flex items-center justify-between p-3 bg-slate-950 border border-slate-800 rounded-lg"
+                className="flex items-center justify-between p-3 bg-[#050805] border border-[#235317]/30 rounded-lg"
               >
                 <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center text-white font-bold">
+                  <div className="w-8 h-8 rounded-full bg-[#141C14] flex items-center justify-center text-white font-bold">
                     #{idx + 1}
                   </div>
                   <div>
                     <p className="text-white font-semibold">{strategy.name}</p>
-                    <p className="text-slate-400 text-sm">{strategy.score} métricas vencedoras</p>
+                    <p className="text-[#B8C2B8] text-sm">{strategy.score} métricas vencedoras</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
                   {strategy.totalProfit > 0 ? (
-                    <TrendingUp className="w-5 h-5 text-green-400" />
+                    <TrendingUp className="w-5 h-5 text-[#76E821]" />
                   ) : (
                     <TrendingDown className="w-5 h-5 text-red-400" />
                   )}
-                  <span className={strategy.totalProfit > 0 ? 'text-green-400' : 'text-red-400'}>
+                  <span className={strategy.totalProfit > 0 ? 'text-[#76E821]' : 'text-red-400'}>
                     R$ {strategy.totalProfit.toLocaleString('pt-BR')}
                   </span>
                 </div>

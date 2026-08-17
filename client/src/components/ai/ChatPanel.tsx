@@ -189,15 +189,15 @@ export default function ChatPanel({ isOpen, onClose, pageContext, contextData }:
   if (!isOpen) return null;
 
   return (
-    <div className="fixed bottom-0 right-0 w-96 h-screen max-h-screen bg-slate-900 border-l border-slate-800 flex flex-col shadow-2xl z-50 animate-slideIn">
+    <div className="fixed bottom-0 right-0 w-96 h-screen max-h-screen bg-[#0B110B] border-l border-[#235317]/30 flex flex-col shadow-2xl z-50 animate-slideIn">
       {/* Header */}
-      <div className="bg-gradient-to-r from-purple-600 to-blue-600 p-4 flex items-center justify-between">
+      <div className="bg-gradient-to-r from-[#235317] to-[#76E821] p-4 flex items-center justify-between">
         <div>
           <h2 className="text-white font-semibold flex items-center gap-2">
             <Zap className="w-4 h-4" />
             AutoInvest AI
           </h2>
-          <p className="text-xs text-purple-100">
+          <p className="text-xs text-white">
             {user?.id ? '✓ Análise Contextual' : 'Assistente Geral'}
           </p>
         </div>
@@ -224,12 +224,12 @@ export default function ChatPanel({ isOpen, onClose, pageContext, contextData }:
           <div className="text-center py-8">
             <div className="text-4xl mb-3">🤖</div>
             <h3 className="text-white font-semibold mb-2">Olá! Sou seu assistente IA</h3>
-            <p className="text-slate-400 text-sm mb-4">
+            <p className="text-[#B8C2B8] text-sm mb-4">
               {user?.id 
                 ? 'Tenho acesso ao seu portfolio, trades e estratégias. Posso analisar sua performance e sugerir melhorias.'
                 : 'Posso ajudar com dúvidas sobre a plataforma, indicadores financeiros e estratégias.'}
             </p>
-            <p className="text-slate-500 text-xs">
+            <p className="text-[#6B756B] text-xs">
               ⚠️ Não sou consultor financeiro. Sempre faça sua própria pesquisa.
             </p>
           </div>
@@ -244,7 +244,7 @@ export default function ChatPanel({ isOpen, onClose, pageContext, contextData }:
         {isLoading && (
           <div className="group">
             <div className="flex gap-2 items-end justify-start">
-              <div className="bg-blue-600 rounded-lg px-4 py-2 max-w-xs">
+              <div className="bg-[#38A636] rounded-lg px-4 py-2 max-w-xs">
                 <div className="flex gap-1">
                   <div className="w-2 h-2 bg-white rounded-full animate-bounce"></div>
                   <div className="w-2 h-2 bg-white rounded-full animate-bounce delay-100"></div>
@@ -260,7 +260,7 @@ export default function ChatPanel({ isOpen, onClose, pageContext, contextData }:
 
       {/* Suggestions */}
       {suggestions.length > 0 && messages.length > 0 && (
-        <div className="px-4 py-2 border-t border-slate-800">
+        <div className="px-4 py-2 border-t border-[#235317]/30">
           <SuggestionChips 
             suggestions={suggestions} 
             onSelect={handleSuggestionClick}
@@ -269,20 +269,20 @@ export default function ChatPanel({ isOpen, onClose, pageContext, contextData }:
       )}
 
       {/* Input Area */}
-      <div className="border-t border-slate-800 p-4">
+      <div className="border-t border-[#235317]/30 p-4">
         <div className="flex gap-2">
           <Input
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
             placeholder="Digite sua pergunta..."
-            className="bg-slate-800 border-slate-700 text-white placeholder-slate-500"
+            className="bg-[#141C14] border-[#235317]/45 text-white placeholder-[#6B756B]"
             disabled={isLoading}
           />
           <Button
             onClick={() => handleSendMessage()}
             disabled={isLoading || !input.trim()}
-            className="bg-blue-600 hover:bg-blue-700"
+            className="bg-[#38A636] hover:bg-[#4CB22F]"
             size="sm"
           >
             <Send className="w-4 h-4" />

@@ -62,11 +62,11 @@ export const BLOCK_TEMPLATES = {
 };
 
 export const BLOCK_COLORS = {
-  trigger: '#3b82f6',
-  indicator: '#8b5cf6',
-  operator: '#ec4899',
-  action: '#10b981',
-  risk: '#f59e0b',
+  trigger: '#38A636',
+  indicator: '#76E821',
+  operator: '#6B756B',
+  action: '#4CB22F',
+  risk: '#F59E0B',
 };
 
 export const BLOCK_DESCRIPTIONS = {

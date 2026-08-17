@@ -224,35 +224,35 @@ export default function StrategyBuilder() {
   const validation = validateStrategy();
 
   return (
-    <div className="flex h-screen bg-slate-950">
+    <div className="flex h-screen bg-[#050805]">
       {/* Sidebar - Block Library */}
       <BlockLibrary onDragStart={handleDragStart} />
 
       {/* Main Canvas */}
       <div className="flex-1 flex flex-col">
         {/* Header */}
-        <div className="bg-slate-900/50 border-b border-slate-800 p-4">
+        <div className="bg-[#0B110B]/50 border-b border-[#235317]/30 p-4">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-4">
               <button
                 onClick={() => setLocation('/estrategias')}
-                className="p-2 hover:bg-slate-800 rounded transition-colors"
+                className="p-2 hover:bg-[#141C14] rounded transition-colors"
               >
-                <ArrowLeft className="w-5 h-5 text-slate-400" />
+                <ArrowLeft className="w-5 h-5 text-[#B8C2B8]" />
               </button>
               <div className="flex-1">
                 <Input
                   type="text"
                   value={strategyName}
                   onChange={(e) => setStrategyName(e.target.value)}
-                  className="bg-slate-950 border-slate-800 text-white font-semibold text-lg mb-1"
+                  className="bg-[#050805] border-[#235317]/30 text-white font-semibold text-lg mb-1"
                   placeholder="Nome da estratégia"
                 />
                 <Input
                   type="text"
                   value={strategyDescription}
                   onChange={(e) => setStrategyDescription(e.target.value)}
-                  className="bg-slate-950 border-slate-800 text-slate-400 text-sm"
+                  className="bg-[#050805] border-[#235317]/30 text-[#B8C2B8] text-sm"
                   placeholder="Descrição (opcional)"
                 />
               </div>
@@ -277,7 +277,7 @@ export default function StrategyBuilder() {
               <Button
                 onClick={handleSave}
                 disabled={isSaving || !validation.valid}
-                className="bg-green-600 hover:bg-green-700 flex items-center gap-2"
+                className="bg-[#38A636] hover:bg-[#4CB22F] flex items-center gap-2"
               >
                 <Save className="w-4 h-4" />
                 {isSaving ? 'Salvando...' : 'Salvar'}
@@ -287,14 +287,14 @@ export default function StrategyBuilder() {
 
           {/* Asset Selection */}
           <div className="flex items-center gap-4">
-            <label className="text-sm font-medium text-slate-300">Ativo:</label>
+            <label className="text-sm font-medium text-[#B8C2B8]">Ativo:</label>
             <select
               value={selectedAsset}
               onChange={(e) => setSelectedAsset(e.target.value)}
               className={`px-4 py-2 rounded-lg border text-sm font-medium transition-colors ${
                 selectedAsset
-                  ? 'bg-green-600/20 border-green-600/50 text-green-400'
-                  : 'bg-slate-950 border-slate-800 text-slate-400'
+                  ? 'bg-[#38A636]/20 border-[#38A636]/50 text-[#76E821]'
+                  : 'bg-[#050805] border-[#235317]/30 text-[#B8C2B8]'
               }`}
             >
               <option value="">Selecione um ativo...</option>
@@ -305,7 +305,7 @@ export default function StrategyBuilder() {
               ))}
             </select>
             {selectedAsset && (
-              <div className="flex items-center gap-2 text-green-400 text-sm">
+              <div className="flex items-center gap-2 text-[#76E821] text-sm">
                 <CheckCircle className="w-4 h-4" />
                 {selectedAsset} selecionado
               </div>
@@ -333,13 +333,13 @@ export default function StrategyBuilder() {
               onPaneClick={() => setSelectedNodeId(null)}
               fitView
             >
-              <Background color="#334155" gap={16} />
+              <Background color="#235317" gap={16} />
               <Controls />
               <MiniMap
                 nodeColor={(node) => {
                   switch (node.data?.type) {
                     case 'trigger':
-                      return '#3b82f6';
+                      return '#38A636';
                     case 'indicator':
                       return '#a855f7';
                     case 'action':
@@ -352,7 +352,7 @@ export default function StrategyBuilder() {
                 }}
                 maskColor="rgba(0, 0, 0, 0.3)"
                 style={{
-                  backgroundColor: '#1e293b',
+                  backgroundColor: '#141C14',
                   border: '1px solid #475569',
                 }}
               />
@@ -364,16 +364,16 @@ export default function StrategyBuilder() {
                 <div className="text-center max-w-md">
                   <div className="mb-4 text-6xl">🏗️</div>
                   <h2 className="text-xl font-semibold text-white mb-2">Comece sua estratégia</h2>
-                  <p className="text-slate-400 mb-4">
+                  <p className="text-[#B8C2B8] mb-4">
                     1. Selecione um ativo no topo
                   </p>
-                  <p className="text-slate-400 mb-4">
-                    2. Arraste um <span className="text-blue-400 font-semibold">Trigger</span> para iniciar
+                  <p className="text-[#B8C2B8] mb-4">
+                    2. Arraste um <span className="text-[#76E821] font-semibold">Trigger</span> para iniciar
                   </p>
-                  <p className="text-slate-400 mb-4">
-                    3. Adicione <span className="text-purple-400 font-semibold">Indicadores</span> e <span className="text-green-400 font-semibold">Ações</span>
+                  <p className="text-[#B8C2B8] mb-4">
+                    3. Adicione <span className="text-[#76E821] font-semibold">Indicadores</span> e <span className="text-[#76E821] font-semibold">Ações</span>
                   </p>
-                  <p className="text-slate-500 text-sm italic">
+                  <p className="text-[#6B756B] text-sm italic">
                     Exemplo: Preço acima de X → Comprar
                   </p>
                 </div>
@@ -395,7 +395,7 @@ export default function StrategyBuilder() {
         </div>
 
         {/* Validation Messages */}
-        <div className="bg-slate-900/50 border-t border-slate-800 p-4">
+        <div className="bg-[#0B110B]/50 border-t border-[#235317]/30 p-4">
           <div className="space-y-2">
             {/* Asset validation */}
             {!selectedAsset && (
@@ -439,7 +439,7 @@ export default function StrategyBuilder() {
 
             {/* Success state */}
             {validation.valid && nodes.length > 0 && (
-              <div className="flex items-center gap-2 text-green-400 text-sm">
+              <div className="flex items-center gap-2 text-[#76E821] text-sm">
                 <CheckCircle className="w-4 h-4" />
                 Estratégia válida! Pronto para salvar
               </div>
@@ -447,7 +447,7 @@ export default function StrategyBuilder() {
 
             {/* Stats */}
             {nodes.length > 0 && (
-              <div className="text-slate-400 text-xs mt-2">
+              <div className="text-[#B8C2B8] text-xs mt-2">
                 {nodes.length} bloco{nodes.length !== 1 ? 's' : ''} • {edges.length} conexão{edges.length !== 1 ? 's' : ''}
               </div>
             )}
@@ -458,13 +458,13 @@ export default function StrategyBuilder() {
       {/* Templates Modal */}
       {showTemplates && (
         <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4">
-          <div className="bg-slate-900 border border-slate-800 rounded-lg w-full max-w-4xl max-h-[90vh] overflow-y-auto">
+          <div className="bg-[#0B110B] border border-[#235317]/30 rounded-lg w-full max-w-4xl max-h-[90vh] overflow-y-auto">
             <div className="p-6">
               <div className="flex items-center justify-between mb-6">
                 <h2 className="text-2xl font-bold text-white">Templates de Estratégias</h2>
                 <button
                   onClick={() => setShowTemplates(false)}
-                  className="text-slate-400 hover:text-white"
+                  className="text-[#B8C2B8] hover:text-white"
                 >
                   X
                 </button>

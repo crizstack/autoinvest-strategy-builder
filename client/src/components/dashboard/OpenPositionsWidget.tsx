@@ -70,21 +70,21 @@ export default function OpenPositionsWidget() {
 
   if (!portfolioPnL) {
     return (
-      <Card className="p-6 bg-slate-900/50 border-slate-800 col-span-4">
+      <Card className="p-6 bg-[#0B110B]/50 border-[#235317]/30 col-span-4">
         <div className="flex items-center justify-center h-40">
-          <Loader className="w-6 h-6 text-green-400 animate-spin" />
+          <Loader className="w-6 h-6 text-[#76E821] animate-spin" />
         </div>
       </Card>
     );
   }
 
   return (
-    <Card className="p-6 bg-slate-900/50 border-slate-800 col-span-4">
+    <Card className="p-6 bg-[#0B110B]/50 border-[#235317]/30 col-span-4">
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div>
           <h3 className="text-lg font-semibold text-white">Posições Abertas</h3>
-          <p className="text-sm text-slate-400 mt-1">
+          <p className="text-sm text-[#B8C2B8] mt-1">
             {portfolioPnL.openPositionsCount} posição{portfolioPnL.openPositionsCount !== 1 ? 's' : ''} ativa{portfolioPnL.openPositionsCount !== 1 ? 's' : ''}
           </p>
         </div>
@@ -93,7 +93,7 @@ export default function OpenPositionsWidget() {
           size="sm"
           onClick={handleRefresh}
           disabled={isRefreshing}
-          className="border-slate-700 hover:border-slate-600"
+          className="border-[#235317]/45 hover:border-[#6B756B]/40"
         >
           {isRefreshing ? <Loader className="w-4 h-4 animate-spin" /> : 'Atualizar'}
         </Button>
@@ -101,21 +101,21 @@ export default function OpenPositionsWidget() {
 
       {/* Total PnL Summary */}
       {portfolioPnL.openPositionsCount > 0 && (
-        <div className="mb-6 p-4 bg-slate-800/50 rounded-lg border border-slate-700/50">
+        <div className="mb-6 p-4 bg-[#141C14]/50 rounded-lg border border-[#235317]/35">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-slate-400">PnL Total Não Realizado</p>
-              <p className={`text-2xl font-bold mt-1 ${portfolioPnL.totalUnrealizedPnL > 0 ? 'text-green-400' : 'text-red-400'}`}>
+              <p className="text-sm text-[#B8C2B8]">PnL Total Não Realizado</p>
+              <p className={`text-2xl font-bold mt-1 ${portfolioPnL.totalUnrealizedPnL > 0 ? 'text-[#76E821]' : 'text-red-400'}`}>
                 R$ {portfolioPnL.totalUnrealizedPnL.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
               </p>
             </div>
             <div className="text-right">
-              <p className="text-sm text-slate-400">Retorno %</p>
+              <p className="text-sm text-[#B8C2B8]">Retorno %</p>
               <div className="flex items-center gap-2 mt-1">
                 {portfolioPnL.totalUnrealizedPnLPercent > 0 ? (
                   <>
-                    <TrendingUp className="w-5 h-5 text-green-400" />
-                    <p className="text-2xl font-bold text-green-400">+{portfolioPnL.totalUnrealizedPnLPercent.toFixed(2)}%</p>
+                    <TrendingUp className="w-5 h-5 text-[#76E821]" />
+                    <p className="text-2xl font-bold text-[#76E821]">+{portfolioPnL.totalUnrealizedPnLPercent.toFixed(2)}%</p>
                   </>
                 ) : (
                   <>
@@ -135,20 +135,20 @@ export default function OpenPositionsWidget() {
           {positions.map((position) => (
             <div
               key={position.tradeId}
-              className="p-4 bg-slate-800/30 rounded-lg border border-slate-700/50 hover:border-slate-700 transition-colors"
+              className="p-4 bg-[#141C14]/30 rounded-lg border border-[#235317]/35 hover:border-[#235317]/45 transition-colors"
             >
               <div className="flex items-center justify-between">
                 {/* Left: Asset Info */}
                 <div className="flex-1">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-lg bg-slate-700/50 flex items-center justify-center">
+                    <div className="w-10 h-10 rounded-lg bg-[#1D2A1D]/50 flex items-center justify-center">
                       <span className="text-sm font-semibold text-white">
                         {position.asset.substring(0, 2).toUpperCase()}
                       </span>
                     </div>
                     <div>
                       <p className="font-semibold text-white">{position.asset}</p>
-                      <p className="text-xs text-slate-400">
+                      <p className="text-xs text-[#B8C2B8]">
                         {position.type === 'buy' ? 'Compra' : 'Venda'} • {position.quantity} unidades
                       </p>
                     </div>
@@ -157,21 +157,21 @@ export default function OpenPositionsWidget() {
 
                 {/* Center: Price Info */}
                 <div className="text-right mx-6">
-                  <p className="text-sm text-slate-400">Entrada</p>
+                  <p className="text-sm text-[#B8C2B8]">Entrada</p>
                   <p className="font-semibold text-white">R$ {position.entryPrice.toFixed(2)}</p>
-                  <p className="text-xs text-slate-500 mt-1">Atual: R$ {position.currentPrice.toFixed(2)}</p>
+                  <p className="text-xs text-[#6B756B] mt-1">Atual: R$ {position.currentPrice.toFixed(2)}</p>
                 </div>
 
                 {/* Right: PnL */}
                 <div className="text-right">
-                  <p className={`text-lg font-bold ${position.pnl > 0 ? 'text-green-400' : 'text-red-400'}`}>
+                  <p className={`text-lg font-bold ${position.pnl > 0 ? 'text-[#76E821]' : 'text-red-400'}`}>
                     {position.pnl > 0 ? '+' : ''}R$ {position.pnl.toFixed(2)}
                   </p>
                   <div className="flex items-center justify-end gap-1 mt-1">
                     {position.pnlPercent > 0 ? (
                       <>
-                        <TrendingUp className="w-4 h-4 text-green-400" />
-                        <p className="text-sm font-semibold text-green-400">+{position.pnlPercent.toFixed(2)}%</p>
+                        <TrendingUp className="w-4 h-4 text-[#76E821]" />
+                        <p className="text-sm font-semibold text-[#76E821]">+{position.pnlPercent.toFixed(2)}%</p>
                       </>
                     ) : (
                       <>
@@ -198,8 +198,8 @@ export default function OpenPositionsWidget() {
         </div>
       ) : (
         <div className="text-center py-12">
-          <p className="text-slate-400">Nenhuma posição aberta</p>
-          <p className="text-sm text-slate-500 mt-2">Suas estratégias ativas aparecerão aqui</p>
+          <p className="text-[#B8C2B8]">Nenhuma posição aberta</p>
+          <p className="text-sm text-[#6B756B] mt-2">Suas estratégias ativas aparecerão aqui</p>
         </div>
       )}
     </Card>

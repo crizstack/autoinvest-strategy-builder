@@ -48,7 +48,7 @@ export function SecurityStatus({ userId }: SecurityStatusProps) {
     critical: 'text-red-400 bg-red-500/10 border-red-500/30',
     low: 'text-red-400 bg-red-500/10 border-red-500/30',
     medium: 'text-yellow-400 bg-yellow-500/10 border-yellow-500/30',
-    high: 'text-green-400 bg-green-500/10 border-green-500/30',
+    high: 'text-[#76E821] bg-[#4CB22F]/10 border-[#4CB22F]/30',
   };
 
   const statusIcons = {
@@ -61,12 +61,12 @@ export function SecurityStatus({ userId }: SecurityStatusProps) {
   const StatusIcon = statusIcons[securityScore.status];
 
   return (
-    <Card className="p-6 bg-slate-900/50 border-slate-800">
+    <Card className="p-6 bg-[#0B110B]/50 border-[#235317]/30">
       <div className="space-y-6">
         {/* Header */}
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <Shield className="w-5 h-5 text-blue-400" />
+            <Shield className="w-5 h-5 text-[#76E821]" />
             <h3 className="text-lg font-semibold text-white">Status de Segurança</h3>
           </div>
           <div className={`flex items-center gap-2 px-3 py-1 rounded-full border ${statusColors[securityScore.status]}`}>
@@ -83,25 +83,25 @@ export function SecurityStatus({ userId }: SecurityStatusProps) {
         {/* Score */}
         <div className="space-y-2">
           <div className="flex items-center justify-between">
-            <span className="text-sm text-slate-400">Pontuação de Segurança</span>
+            <span className="text-sm text-[#B8C2B8]">Pontuação de Segurança</span>
             <span className="text-2xl font-bold text-white">{securityScore.score}/100</span>
           </div>
           <Progress value={securityScore.score} className="h-2" />
         </div>
 
         {/* 2FA Status */}
-        <div className="p-4 bg-slate-950 border border-slate-800 rounded-lg">
+        <div className="p-4 bg-[#050805] border border-[#235317]/30 rounded-lg">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <Zap className="w-4 h-4 text-blue-400" />
+              <Zap className="w-4 h-4 text-[#76E821]" />
               <div>
                 <p className="text-sm font-medium text-white">Autenticação de Dois Fatores</p>
-                <p className="text-xs text-slate-400">
+                <p className="text-xs text-[#B8C2B8]">
                   {is2FAEnabled ? 'Ativado' : 'Desativado'}
                 </p>
               </div>
             </div>
-            <div className={`w-2 h-2 rounded-full ${is2FAEnabled ? 'bg-green-400' : 'bg-red-400'}`} />
+            <div className={`w-2 h-2 rounded-full ${is2FAEnabled ? 'bg-[#76E821]' : 'bg-red-400'}`} />
           </div>
         </div>
 
@@ -113,10 +113,10 @@ export function SecurityStatus({ userId }: SecurityStatusProps) {
               {securityScore.recommendations.map((rec, idx) => (
                 <div
                   key={idx}
-                  className="flex items-start gap-3 p-3 bg-slate-950 border border-slate-800 rounded-lg"
+                  className="flex items-start gap-3 p-3 bg-[#050805] border border-[#235317]/30 rounded-lg"
                 >
                   <AlertCircle className="w-4 h-4 text-yellow-400 flex-shrink-0 mt-0.5" />
-                  <p className="text-sm text-slate-300">{rec}</p>
+                  <p className="text-sm text-[#B8C2B8]">{rec}</p>
                 </div>
               ))}
             </div>

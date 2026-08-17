@@ -17,11 +17,11 @@ export default function ValidationPanel({
 }: ValidationPanelProps) {
   if (!validation.errors.length && !validation.warnings.length) {
     return (
-      <div className="p-4 bg-green-600/10 border border-green-600/30 rounded-lg flex items-start gap-3">
-        <CheckCircle className="w-5 h-5 text-green-400 flex-shrink-0 mt-0.5" />
+      <div className="p-4 bg-[#38A636]/10 border border-[#38A636]/30 rounded-lg flex items-start gap-3">
+        <CheckCircle className="w-5 h-5 text-[#76E821] flex-shrink-0 mt-0.5" />
         <div>
-          <p className="text-sm font-semibold text-green-400">Estratégia Válida</p>
-          <p className="text-xs text-green-400/70 mt-1">Pronta para ser salva e executada</p>
+          <p className="text-sm font-semibold text-[#76E821]">Estratégia Válida</p>
+          <p className="text-xs text-[#76E821]/70 mt-1">Pronta para ser salva e executada</p>
         </div>
       </div>
     );
@@ -71,27 +71,27 @@ export default function ValidationPanel({
 
       {/* Sugestões */}
       {validation.errors.length > 0 && (
-        <div className="p-4 bg-blue-600/10 border border-blue-600/30 rounded-lg">
+        <div className="p-4 bg-[#38A636]/10 border border-[#38A636]/30 rounded-lg">
           <div className="flex items-center gap-2 mb-3">
-            <Lightbulb className="w-5 h-5 text-blue-400" />
-            <p className="text-sm font-semibold text-blue-400">Sugestões</p>
+            <Lightbulb className="w-5 h-5 text-[#76E821]" />
+            <p className="text-sm font-semibold text-[#76E821]">Sugestões</p>
           </div>
-          <ul className="space-y-2 text-xs text-blue-400/80">
+          <ul className="space-y-2 text-xs text-[#76E821]/80">
             {validation.errors.some(e => e.includes('Trigger')) && (
               <li className="flex items-start gap-2">
-                <span className="text-blue-400 mt-1">→</span>
+                <span className="text-[#76E821] mt-1">→</span>
                 <span>Comece com um bloco Trigger (Preço, Cruzamento, etc)</span>
               </li>
             )}
             {validation.errors.some(e => e.includes('Ação')) && (
               <li className="flex items-start gap-2">
-                <span className="text-blue-400 mt-1">→</span>
+                <span className="text-[#76E821] mt-1">→</span>
                 <span>Termine com uma Ação (Compra, Venda ou Fechar)</span>
               </li>
             )}
             {validation.orphanedNodeIds.length > 0 && (
               <li className="flex items-start gap-2">
-                <span className="text-blue-400 mt-1">→</span>
+                <span className="text-[#76E821] mt-1">→</span>
                 <span>Conecte todos os blocos ao fluxo principal</span>
               </li>
             )}
@@ -101,9 +101,9 @@ export default function ValidationPanel({
 
       {/* Status de Validação */}
       {isValidating && (
-        <div className="p-3 bg-slate-600/10 border border-slate-600/30 rounded-lg flex items-center gap-2">
-          <div className="w-4 h-4 border-2 border-slate-400 border-t-slate-600 rounded-full animate-spin" />
-          <p className="text-xs text-slate-400">Validando estratégia...</p>
+        <div className="p-3 bg-[#394939]/10 border border-[#6B756B]/30 rounded-lg flex items-center gap-2">
+          <div className="w-4 h-4 border-2 border-[#6B756B] border-t-[#6B756B] rounded-full animate-spin" />
+          <p className="text-xs text-[#B8C2B8]">Validando estratégia...</p>
         </div>
       )}
     </div>

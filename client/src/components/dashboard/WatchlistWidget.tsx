@@ -72,11 +72,11 @@ export default function WatchlistWidget() {
 
   if (isLoading) {
     return (
-      <Card className="p-6 bg-slate-900/50 border-slate-800">
+      <Card className="p-6 bg-[#0B110B]/50 border-[#235317]/30">
         <h3 className="text-lg font-semibold text-white mb-4">Minha Watchlist</h3>
         <div className="flex items-center justify-center py-8">
-          <Loader2 className="w-5 h-5 text-slate-400 animate-spin" />
-          <span className="text-slate-400 text-sm ml-2">Carregando ativos...</span>
+          <Loader2 className="w-5 h-5 text-[#B8C2B8] animate-spin" />
+          <span className="text-[#B8C2B8] text-sm ml-2">Carregando ativos...</span>
         </div>
       </Card>
     );
@@ -85,24 +85,24 @@ export default function WatchlistWidget() {
   const displayItems = items.slice(0, 5);
 
   return (
-    <Card className="p-6 bg-slate-900/50 border-slate-800">
+    <Card className="p-6 bg-[#0B110B]/50 border-[#235317]/30">
       <div className="flex items-center justify-between mb-6">
         <div>
           <h3 className="text-lg font-semibold text-white">Minha Watchlist</h3>
-          <p className="text-sm text-slate-400 mt-1">{items.length} ativos</p>
+          <p className="text-sm text-[#B8C2B8] mt-1">{items.length} ativos</p>
         </div>
         <div className="flex items-center gap-2">
-          {loadingPrices && <Loader2 className="w-4 h-4 text-slate-400 animate-spin" />}
+          {loadingPrices && <Loader2 className="w-4 h-4 text-[#B8C2B8] animate-spin" />}
           <Star className="w-5 h-5 text-amber-400" />
         </div>
       </div>
 
       {items.length === 0 ? (
         <div className="text-center py-6">
-          <p className="text-slate-400 text-sm mb-4">Nenhum ativo na watchlist</p>
+          <p className="text-[#B8C2B8] text-sm mb-4">Nenhum ativo na watchlist</p>
           <Button
             size="sm"
-            className="bg-blue-600 hover:bg-blue-700"
+            className="bg-[#38A636] hover:bg-[#4CB22F]"
             onClick={handleViewAll}
           >
             <Plus className="w-4 h-4 mr-2" />
@@ -119,7 +119,7 @@ export default function WatchlistWidget() {
               return (
                 <div
                   key={item.id}
-                  className="flex items-center justify-between p-3 bg-slate-800/30 rounded-lg hover:bg-slate-800/50 transition-colors"
+                  className="flex items-center justify-between p-3 bg-[#141C14]/30 rounded-lg hover:bg-[#141C14]/50 transition-colors"
                 >
                   <div className="flex-1">
                     <div className="flex items-center gap-2 mb-1">
@@ -127,14 +127,14 @@ export default function WatchlistWidget() {
                       {priceInfo && (
                         <span className={`text-xs px-2 py-1 rounded ${
                           isPositive
-                            ? 'bg-green-500/20 text-green-400'
+                            ? 'bg-[#4CB22F]/20 text-[#76E821]'
                             : 'bg-red-500/20 text-red-400'
                         }`}>
                           {isPositive ? '+' : ''}{priceInfo.changePercent.toFixed(2)}%
                         </span>
                       )}
                     </div>
-                    <p className="text-xs text-slate-400">{item.name}</p>
+                    <p className="text-xs text-[#B8C2B8]">{item.name}</p>
                   </div>
 
                   <div className="text-right mr-4">
@@ -143,14 +143,14 @@ export default function WatchlistWidget() {
                         <p className="font-semibold text-white">
                           R$ {priceInfo.price.toFixed(2)}
                         </p>
-                        <p className={`text-xs ${isPositive ? 'text-green-400' : 'text-red-400'}`}>
+                        <p className={`text-xs ${isPositive ? 'text-[#76E821]' : 'text-red-400'}`}>
                           {isPositive ? <TrendingUp className="w-3 h-3 inline" /> : <TrendingDown className="w-3 h-3 inline" />}
                           {' '}{Math.abs(priceInfo.change).toFixed(2)}
                         </p>
                       </>
                     ) : (
                       <div className="flex items-center justify-center">
-                        <Loader2 className="w-4 h-4 text-slate-400 animate-spin" />
+                        <Loader2 className="w-4 h-4 text-[#B8C2B8] animate-spin" />
                       </div>
                     )}
                   </div>
@@ -159,7 +159,7 @@ export default function WatchlistWidget() {
                     size="sm"
                     variant="ghost"
                     onClick={() => handleRemove(item.id)}
-                    className="text-slate-400 hover:text-red-400"
+                    className="text-[#B8C2B8] hover:text-red-400"
                   >
                     <Trash2 className="w-4 h-4" />
                   </Button>
@@ -171,7 +171,7 @@ export default function WatchlistWidget() {
           {items.length > 5 && (
             <Button
               variant="ghost"
-              className="w-full mt-4 text-slate-400 hover:text-white"
+              className="w-full mt-4 text-[#B8C2B8] hover:text-white"
               onClick={handleViewAll}
             >
               Ver todos ({items.length})

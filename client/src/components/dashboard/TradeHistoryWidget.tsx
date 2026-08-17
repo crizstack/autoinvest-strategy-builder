@@ -108,7 +108,7 @@ export const TradeHistoryWidget: React.FC = () => {
                   </td>
                   <td className="text-right py-2 px-2">
                     {trade.profitLoss !== undefined && trade.profitLoss !== null ? (
-                      <span className={trade.profitLoss > 0 ? 'text-green-600' : 'text-red-600'}>
+                      <span className={trade.profitLoss > 0 ? 'text-[#38A636]' : 'text-red-600'}>
                         {trade.profitLoss > 0 ? '+' : ''}R$ {trade.profitLoss.toFixed(2)}
                         {trade.profitLossPercent !== undefined && trade.profitLossPercent !== null && (
                           <span className="text-xs ml-1">
@@ -139,7 +139,7 @@ export const TradeHistoryWidget: React.FC = () => {
           </div>
           <div>
             <p className="text-xs text-muted-foreground">Operações Lucrativas</p>
-            <p className="text-2xl font-bold text-green-600">
+            <p className="text-2xl font-bold text-[#38A636]">
               {trades.filter((t) => t.profitLoss && t.profitLoss > 0).length}
             </p>
           </div>

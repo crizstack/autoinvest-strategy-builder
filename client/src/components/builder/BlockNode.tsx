@@ -64,7 +64,7 @@ export default function BlockNode({ data, id, isConnecting, selected }: any) {
 
         <div className="flex-1">
           <p className="text-sm font-semibold text-white">{data.label}</p>
-          <p className="text-xs text-slate-400 max-w-xs">
+          <p className="text-xs text-[#B8C2B8] max-w-xs">
             {BLOCK_DESCRIPTIONS[data.subType as keyof typeof BLOCK_DESCRIPTIONS] || ''}
           </p>
         </div>

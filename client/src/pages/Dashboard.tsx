@@ -86,8 +86,8 @@ export default function Dashboard() {
         <h1 className="text-4xl font-bold text-white mb-2">
           Bem-vindo, {user?.name || user?.email}!
         </h1>
-        <p className="text-slate-400">
-          Plano: <span className="text-green-400 font-semibold">{user?.planId ? 'Pro' : 'Free'}</span>
+        <p className="text-[#B8C2B8]">
+          Plano: <span className="text-[#76E821] font-semibold">{user?.planId ? 'Pro' : 'Free'}</span>
         </p>
       </div>
 
@@ -105,16 +105,16 @@ export default function Dashboard() {
       {/* Key Metrics Grid */}
       <div className="grid md:grid-cols-4 gap-6">
         {/* Saldo */}
-        <Card className="p-6 bg-slate-900/50 border-slate-800 hover:border-slate-700 transition-colors relative">
+        <Card className="p-6 bg-[#0B110B]/50 border-[#235317]/30 hover:border-[#235317]/45 transition-colors relative">
           {portfolioLoading && (
-            <div className="absolute inset-0 bg-slate-900/50 rounded-lg flex items-center justify-center">
-              <Loader className="w-5 h-5 text-green-400 animate-spin" />
+            <div className="absolute inset-0 bg-[#0B110B]/50 rounded-lg flex items-center justify-center">
+              <Loader className="w-5 h-5 text-[#76E821] animate-spin" />
             </div>
           )}
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-slate-400 text-sm font-medium">Saldo</h3>
-            <div className="w-10 h-10 rounded-lg bg-green-600/20 flex items-center justify-center">
-              <BarChart3 className="w-5 h-5 text-green-400" />
+            <h3 className="text-[#B8C2B8] text-sm font-medium">Saldo</h3>
+            <div className="w-10 h-10 rounded-lg bg-[#38A636]/20 flex items-center justify-center">
+              <BarChart3 className="w-5 h-5 text-[#76E821]" />
             </div>
           </div>
           <p className="text-3xl font-bold text-white">
@@ -123,8 +123,8 @@ export default function Dashboard() {
           <div className="flex items-center gap-2 mt-3">
             {metrics.totalReturn > 0 ? (
               <>
-                <TrendingUp className="w-4 h-4 text-green-400" />
-                <p className="text-sm text-green-400">+{metrics.totalReturn.toFixed(2)}%</p>
+                <TrendingUp className="w-4 h-4 text-[#76E821]" />
+                <p className="text-sm text-[#76E821]">+{metrics.totalReturn.toFixed(2)}%</p>
               </>
             ) : metrics.totalReturn < 0 ? (
               <>
@@ -132,62 +132,62 @@ export default function Dashboard() {
                 <p className="text-sm text-red-400">{metrics.totalReturn.toFixed(2)}%</p>
               </>
             ) : (
-              <p className="text-sm text-slate-400">0.00%</p>
+              <p className="text-sm text-[#B8C2B8]">0.00%</p>
             )}
           </div>
         </Card>
 
         {/* Rentabilidade */}
-        <Card className="p-6 bg-slate-900/50 border-slate-800 hover:border-slate-700 transition-colors relative">
+        <Card className="p-6 bg-[#0B110B]/50 border-[#235317]/30 hover:border-[#235317]/45 transition-colors relative">
           {tradeStatsLoading && (
-            <div className="absolute inset-0 bg-slate-900/50 rounded-lg flex items-center justify-center">
-              <Loader className="w-5 h-5 text-green-400 animate-spin" />
+            <div className="absolute inset-0 bg-[#0B110B]/50 rounded-lg flex items-center justify-center">
+              <Loader className="w-5 h-5 text-[#76E821] animate-spin" />
             </div>
           )}
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-slate-400 text-sm font-medium">Rentabilidade</h3>
-            <div className="w-10 h-10 rounded-lg bg-green-600/20 flex items-center justify-center">
-              <TrendingUp className="w-5 h-5 text-green-400" />
+            <h3 className="text-[#B8C2B8] text-sm font-medium">Rentabilidade</h3>
+            <div className="w-10 h-10 rounded-lg bg-[#38A636]/20 flex items-center justify-center">
+              <TrendingUp className="w-5 h-5 text-[#76E821]" />
             </div>
           </div>
-          <p className={`text-3xl font-bold ${metrics.totalReturn > 0 ? 'text-green-400' : metrics.totalReturn < 0 ? 'text-red-400' : 'text-slate-400'}`}>
+          <p className={`text-3xl font-bold ${metrics.totalReturn > 0 ? 'text-[#76E821]' : metrics.totalReturn < 0 ? 'text-red-400' : 'text-[#B8C2B8]'}`}>
             {metrics.totalReturn !== 0 ? `${metrics.totalReturn > 0 ? '+' : ''}${metrics.totalReturn.toFixed(2)}%` : '-'}
           </p>
-          <p className="text-xs text-slate-500 mt-3">Desde o início</p>
+          <p className="text-xs text-[#6B756B] mt-3">Desde o início</p>
         </Card>
 
         {/* Estratégias Ativas */}
-        <Card className="p-6 bg-slate-900/50 border-slate-800 hover:border-slate-700 transition-colors relative">
+        <Card className="p-6 bg-[#0B110B]/50 border-[#235317]/30 hover:border-[#235317]/45 transition-colors relative">
           {strategiesLoading && (
-            <div className="absolute inset-0 bg-slate-900/50 rounded-lg flex items-center justify-center">
-              <Loader className="w-5 h-5 text-purple-400 animate-spin" />
+            <div className="absolute inset-0 bg-[#0B110B]/50 rounded-lg flex items-center justify-center">
+              <Loader className="w-5 h-5 text-[#76E821] animate-spin" />
             </div>
           )}
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-slate-400 text-sm font-medium">Estratégias Ativas</h3>
-            <div className="w-10 h-10 rounded-lg bg-purple-600/20 flex items-center justify-center">
-              <Zap className="w-5 h-5 text-purple-400" />
+            <h3 className="text-[#B8C2B8] text-sm font-medium">Estratégias Ativas</h3>
+            <div className="w-10 h-10 rounded-lg bg-[#235317]/20 flex items-center justify-center">
+              <Zap className="w-5 h-5 text-[#76E821]" />
             </div>
           </div>
           <p className="text-3xl font-bold text-white">{metrics.activeStrategies}</p>
-          <p className="text-xs text-slate-500 mt-3">Em execução</p>
+          <p className="text-xs text-[#6B756B] mt-3">Em execução</p>
         </Card>
 
         {/* Taxa de Acerto */}
-        <Card className="p-6 bg-slate-900/50 border-slate-800 hover:border-slate-700 transition-colors relative">
+        <Card className="p-6 bg-[#0B110B]/50 border-[#235317]/30 hover:border-[#235317]/45 transition-colors relative">
           {tradeStatsLoading && (
-            <div className="absolute inset-0 bg-slate-900/50 rounded-lg flex items-center justify-center">
-              <Loader className="w-5 h-5 text-blue-400 animate-spin" />
+            <div className="absolute inset-0 bg-[#0B110B]/50 rounded-lg flex items-center justify-center">
+              <Loader className="w-5 h-5 text-[#76E821] animate-spin" />
             </div>
           )}
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-slate-400 text-sm font-medium">Taxa de Acerto</h3>
-            <div className="w-10 h-10 rounded-lg bg-blue-600/20 flex items-center justify-center">
-              <Target className="w-5 h-5 text-blue-400" />
+            <h3 className="text-[#B8C2B8] text-sm font-medium">Taxa de Acerto</h3>
+            <div className="w-10 h-10 rounded-lg bg-[#38A636]/20 flex items-center justify-center">
+              <Target className="w-5 h-5 text-[#76E821]" />
             </div>
           </div>
-          <p className="text-3xl font-bold text-blue-400">{metrics.totalTrades > 0 ? `${metrics.winRate.toFixed(1)}%` : '-'}</p>
-          <p className="text-xs text-slate-500 mt-3">{metrics.totalTrades} operações</p>
+          <p className="text-3xl font-bold text-[#76E821]">{metrics.totalTrades > 0 ? `${metrics.winRate.toFixed(1)}%` : '-'}</p>
+          <p className="text-xs text-[#6B756B] mt-3">{metrics.totalTrades} operações</p>
         </Card>
       </div>
 
@@ -219,17 +219,17 @@ export default function Dashboard() {
       {/* Quick Actions */}
       <div className="grid md:grid-cols-2 gap-6">
         {/* Create Strategy */}
-        <Card className="p-8 bg-gradient-to-br from-green-600/20 to-green-600/5 border-green-600/30 hover:border-green-600/50 transition-colors cursor-pointer">
+        <Card className="p-8 bg-gradient-to-br from-[#235317]/20 to-[#76E821]/5 border-[#38A636]/30 hover:border-[#38A636]/50 transition-colors cursor-pointer">
           <div className="flex items-center gap-4">
-            <div className="w-12 h-12 rounded-lg bg-green-600/30 flex items-center justify-center">
-              <Zap className="w-6 h-6 text-green-400" />
+            <div className="w-12 h-12 rounded-lg bg-[#38A636]/30 flex items-center justify-center">
+              <Zap className="w-6 h-6 text-[#76E821]" />
             </div>
             <div className="flex-1">
               <h3 className="text-lg font-semibold text-white mb-1">Criar Estratégia</h3>
-              <p className="text-sm text-slate-400">Comece com o builder visual</p>
+              <p className="text-sm text-[#B8C2B8]">Comece com o builder visual</p>
             </div>
             <Button
-              className="bg-green-600 hover:bg-green-700"
+              className="bg-[#38A636] hover:bg-[#4CB22F]"
               onClick={() => setLocation('/estrategias')}
             >
               Criar
@@ -238,18 +238,18 @@ export default function Dashboard() {
         </Card>
 
         {/* View Strategies */}
-        <Card className="p-8 bg-gradient-to-br from-slate-800/50 to-slate-800/20 border-slate-700/50 hover:border-slate-700 transition-colors cursor-pointer">
+        <Card className="p-8 bg-gradient-to-br from-[#141C14]/50 to-[#141C14]/20 border-[#235317]/35 hover:border-[#235317]/45 transition-colors cursor-pointer">
           <div className="flex items-center gap-4">
-            <div className="w-12 h-12 rounded-lg bg-slate-700/30 flex items-center justify-center">
-              <BarChart3 className="w-6 h-6 text-slate-400" />
+            <div className="w-12 h-12 rounded-lg bg-[#1D2A1D]/30 flex items-center justify-center">
+              <BarChart3 className="w-6 h-6 text-[#B8C2B8]" />
             </div>
             <div className="flex-1">
               <h3 className="text-lg font-semibold text-white mb-1">Minhas Estratégias</h3>
-              <p className="text-sm text-slate-400">Gerenciar estratégias existentes</p>
+              <p className="text-sm text-[#B8C2B8]">Gerenciar estratégias existentes</p>
             </div>
             <Button
               variant="outline"
-              className="border-slate-700"
+              className="border-[#235317]/45"
               onClick={() => setLocation('/estrategias')}
             >
               Ver
@@ -268,7 +268,7 @@ export default function Dashboard() {
               </div>
               <div>
                 <h3 className="text-lg font-semibold text-white">Upgrade para Pro</h3>
-                <p className="text-sm text-slate-400">Desbloqueie recursos avançados</p>
+                <p className="text-sm text-[#B8C2B8]">Desbloqueie recursos avançados</p>
               </div>
             </div>
             <Button className="bg-amber-600 hover:bg-amber-700">
