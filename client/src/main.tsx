@@ -6,6 +6,7 @@ import { createRoot } from "react-dom/client";
 import superjson from "superjson";
 import App from "./App";
 import { getLoginUrl } from "./const";
+import { shouldRedirectToLogin } from "./lib/auth-redirect";
 import "./index.css";
 import "./styles/animations.css";
 import "./styles/compact-mode.css";
@@ -18,7 +19,9 @@ const redirectToLoginIfUnauthorized = (error: unknown) => {
 
   const isUnauthorized = error.message === UNAUTHED_ERR_MSG;
 
-  if (!isUnauthorized) return;
+  // auth.me is expected to return UNAUTHORIZED on public pages. Do not
+  // redirect those pages, otherwise the public UI never gets a chance to render.
+  if (!shouldRedirectToLogin(isUnauthorized, window.location.pathname)) return;
 
   window.location.href = getLoginUrl();
 };

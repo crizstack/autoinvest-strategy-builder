@@ -298,3 +298,11 @@
 - [x] Revisar Strategy Builder, formulários, tabelas, modais, dropdowns, tooltips e estados vazios
 - [x] Validar contraste, responsividade, compilação e registrar as 5 falhas preexistentes da suíte de testes
 - [x] Confirmar que nenhuma rota, API, regra de negócio, cálculo ou fluxo funcional foi alterado
+
+## Correção do Redesign Visual Não Refletido
+
+- [x] Diagnosticar por que o preview/tela acessada ainda exibe o visual antigo: redirecionamento global de UNAUTHORIZED em main.tsx
+- [x] Identificar a rota ou layout efetivamente renderizado pelo usuário: rotas públicas eram interrompidas antes de renderizar
+- [ ] Aplicar a identidade Joven Invest na camada visual efetivamente usada
+- [ ] Validar visualmente a correção no preview e registrar limitações de autenticação
+- [ ] Confirmar que os fluxos funcionais não foram alterados
